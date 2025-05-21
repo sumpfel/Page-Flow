@@ -20,7 +20,7 @@
         <Label x:Name="LabelLanguage" Grid.Row="0" Grid.Column="0" Content="Language: " Background="LightGray" BorderBrush="Gray" BorderThickness="2" FontSize="27" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" HorizontalAlignment="Right" Width="190" Height="50"/>
         <Label x:Name="LabelFilePath" Grid.Row="1" Grid.Column="0" Content="File:" Background="LightGray" BorderBrush="Gray" BorderThickness="2" FontSize="27" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" HorizontalAlignment="Right" Width="190" Height="50"/>
         <Label x:Name="LabelGenerate" Grid.Row="0" Grid.Column="2" Content="Generate" Background="White" FontSize="30" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Margin="10"/>
-        <TextBox x:Name="TextBoxPath" Grid.Row="1" Grid.Column="1" Background="White" HorizontalAlignment="Left" Width="390" Height="50"/>
+        <TextBox x:Name="TextBoxPath" Grid.Row="1" Grid.Column="1" Background="White" BorderBrush="LightGray" BorderThickness="2" HorizontalAlignment="Left" Width="390" Height="50"/>
         <Button x:Name="ButtonBrowse" Grid.Row="1" Grid.Column="3" Content="Browse" Background="LightBlue" FontSize="30" Margin="10" BorderBrush="CadetBlue" BorderThickness="2"/>
         <ComboBox x:Name="ComboBoxLanguage" Grid.Row="0" Grid.Column="1" Background="White" BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Left" Width="390" Height="50">
             <ComboBoxItem>English</ComboBoxItem>

@@ -8,12 +8,27 @@
     <Compile Update="AddLanguageControl1.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="OverviewControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="TextInputWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="AddBookWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="AddLanguageControl1.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="AppStyles.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="OverviewControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="TextInputWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
