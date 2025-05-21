@@ -8,7 +8,8 @@
         Title="AddBookWindow" Height="600" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
@@ -21,7 +22,8 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TextBox></TextBox>
+        <TextBox x:Name="TextBoxTitel" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Background="LightGray" Margin="10" FontSize="30" BorderBrush="Gray" BorderThickness="2" HorizontalContentAlignment="Left" VerticalContentAlignment="Center">Krasser Titel</TextBox>
+        <Label x:Name="LabelAuthor" Grid.Row="3" Grid.Column="1" Content="Author:" FontSize="30" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
 
     </Grid>
 </Window>
