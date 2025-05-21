@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using BookLib;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -19,6 +20,11 @@ namespace Page_Flow
         public MainWindow()
         {
             InitializeComponent();
+            MessageBox.Show("start_translation");
+            string TranslatedBook = Translate.TranslateText("私はchrisだ", "japanese", "english").Result;
+            MessageBox.Show($"translation: {TranslatedBook}");
         }
+
+        
     }
 }
