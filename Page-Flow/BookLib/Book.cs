@@ -6,12 +6,12 @@ namespace BookLib
 {
     public enum Languages
             {
-                English,
-                German,
-                Japanese,
-                French,
-                Spanish,
-                Chinese,
+                en,
+                de,
+                ja,
+                fr,
+                sp,
+                ch,
             }
 
     public class Book
@@ -90,7 +90,7 @@ namespace BookLib
                     Translation = sr.ReadToEnd();
                 }
 
-                string TranslatedBook = Translate.TranslateText(Translation,((Languages)Language).ToString(), TargetLanguage).Result;
+                string TranslatedBook = Translate.TranslateText(Translation,((Languages)Language).ToString(), TargetLanguage);
                 //TODO: safe to new files
 
             }

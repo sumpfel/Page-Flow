@@ -1,4 +1,6 @@
 ﻿using BookLib;
+using DeepL;
+using DeepL.Model;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Page_Flow
 {
@@ -20,11 +23,12 @@ namespace Page_Flow
         public MainWindow()
         {
             InitializeComponent();
-            MessageBox.Show("start_translation");
-            string TranslatedBook = Translate.TranslateText("私はchrisだ", "japanese", "english").Result;
+            //MessageBox.Show("start_translation");
+            string TranslatedBook = Translate.TranslateText("私はchristofだ", "ja", "");
+
             MessageBox.Show($"translation: {TranslatedBook}");
+
         }
 
-        
     }
 }
