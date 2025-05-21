@@ -69,7 +69,7 @@ namespace BookLib
             }
         }
 
-        public void TranslateBook(string OriginalBookPath)
+        public void TranslateBook(string OriginalBookPath, string TargetLanguage)
         {
             string[] files = Directory.GetFiles(OriginalBookPath);
             List <string> filePaths = new List<string>();
@@ -90,7 +90,8 @@ namespace BookLib
                     Translation = sr.ReadToEnd();
                 }
 
-
+                string TranslatedBook = Translate.TranslateText(Translation,((Languages)Language).ToString(), TargetLanguage).Result;
+                //TODO: safe to new files
 
             }
         }

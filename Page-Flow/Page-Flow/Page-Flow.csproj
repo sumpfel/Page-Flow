@@ -13,4 +13,8 @@
     <PackageReference Include="DeepL.net" Version="1.15.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BookLib\BookLib.csproj" />
+  </ItemGroup>
+
 </Project>
