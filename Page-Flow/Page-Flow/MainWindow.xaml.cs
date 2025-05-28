@@ -1,6 +1,7 @@
 ﻿using BookLib;
 using DeepL;
 using DeepL.Model;
+using Serilog;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using static System.Net.Mime.MediaTypeNames;
 
+
 namespace Page_Flow
 {
     /// <summary>
@@ -23,10 +25,20 @@ namespace Page_Flow
         public MainWindow()
         {
             InitializeComponent();
-            //MessageBox.Show("start_translation");
-            string TranslatedBook = Translate.TranslateText("私はchristofだ", "ja", "");
 
-            MessageBox.Show($"translation: {TranslatedBook}");
+            Log.Logger = new LoggerConfiguration().MinimumLevel.Verbose().
+                WriteTo.Console().
+                WriteTo.File($".tmp/log.txt", rollingInterval: RollingInterval.Hour).//$".tmp/log_{DateTime.Now.ToString("yyyy-MM-dd_HH")}.txt"
+                CreateLogger();
+
+
+            Log.Logger.Information("MainWindow started ...");
+            Log.Logger.Debug("hello world!");
+            Log.Logger.Error("ahhhhhhhhhhhh");
+
+            //string TranslatedBook = Translate.TranslateText("私はchristofだ", "ja", "");
+
+            //MessageBox.Show($"translation: {TranslatedBook}");
 
         }
 

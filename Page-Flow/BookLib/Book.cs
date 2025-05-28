@@ -4,42 +4,41 @@ using System.IO;
 
 namespace BookLib
 {
-    public enum Languages
-            {
-                en,
-                de,
-                ja,
-                fr,
-                sp,
-                ch,
-            }
 
     public class Book
     {
-        public string[] ChapterSplitter = new string[]{"Kapitel","Chapter"};
+        static public string[] Languages_user = new string[] { "EN-US", "EN-GB", "German", "Japanese", "French", "Italian", "Portuguese (Brazilian)", "Portuguese", "Korean", "Chinese Simplified", "Chinese Traditional" };
+        static public string[] Languages_target = new string[] { "EN-US","EN-GB","DE", "JA", "FR", "IT", "PT-BR", "PT-PT", "KO", "ZH-HANS", "ZH-HANT" };
+        static public string[] Languages_og = new string[] {     "EN",   "EN",   "DE", "JA", "FR", "IT", "PT",    "PT"   , "KO", "ZH"     , "ZH" };
 
-        public int[] Position = new int[2] { 0, 0 };
+        static public string[] ChapterSplitter = new string[]{"Kapitel","Chapter"};
 
-        public Int16 Language;
+        public string Path_ = "";
+
+        public int[] Position = new int[2] { 0, 0 }; //Chapter Seite
+
+        public string Language;
 
         public bool IsPictureBook = false; //nice to have proparbly will never get implemented
 
-        public Book(Int16 La) { Language = La; }
 
-        public String Load(string bookPath)
+
+        public Book(string La,string Path) { Language = La; Path_ = Path; }
+
+        public String Load()
         {
             string BookContent = "";
-            using (StreamReader sr = new StreamReader($"{bookPath}_{Language}"))
+            using (StreamReader sr = new StreamReader($"{Path_}/{Language}/{Position[0]}.txt"))
             {
                 BookContent += sr.ReadToEnd();
             }
             return BookContent;
         }
 
-        public void FormatBook(string filePath, string bookPath, bool Chapters)
+        public void FormatBook(string filePath, bool Chapters=true)
         {
             string BookContent = "";
-            using (StreamReader sr = new StreamReader($"{bookPath}_{Language}"))
+            using (StreamReader sr = new StreamReader($"{filePath}"))
             {
                 BookContent += sr.ReadToEnd();
             }
@@ -56,20 +55,20 @@ namespace BookLib
                 foreach (string Chapter in splittet)
                 {
                     i++;
-                    using(StreamWriter sw = new StreamWriter($"{bookPath}_{Language}/{i}.txt"))
+                    using(StreamWriter sw = new StreamWriter($"{Path_}/{Language}/{i}.txt"))
                     {
                         sw.Write(Chapter);
                     }
                 }
                 return;
             }
-            using (StreamWriter sw = new StreamWriter($"{bookPath}_{Language}/1.txt"))
+            using (StreamWriter sw = new StreamWriter($"{Path_}/{Language}/1.txt"))
             {
                 sw.Write(BookContent);
             }
         }
 
-        public void TranslateBook(string OriginalBookPath, string TargetLanguage)
+        public void TranslateBook(string OriginalBookPath, string LanguageOg)
         {
             string[] files = Directory.GetFiles(OriginalBookPath);
             List <string> filePaths = new List<string>();
@@ -81,6 +80,7 @@ namespace BookLib
                 }
             }
 
+            int x = 0;
             foreach (string File in filePaths)
             {
                 string Translation;
@@ -90,9 +90,14 @@ namespace BookLib
                     Translation = sr.ReadToEnd();
                 }
 
-                string TranslatedBook = Translate.TranslateText(Translation,((Languages)Language).ToString(), TargetLanguage);
-                //TODO: safe to new files
+                string TranslatedChapter = Translate.TranslateText(Translation, LanguageOg, Language);
 
+                using (StreamWriter sw = new StreamWriter($"{Path_}/{Language}/{x}.txt"))
+                {
+                    sw.Write(TranslatedChapter);
+                }
+
+                x++;
             }
         }
 

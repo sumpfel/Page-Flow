@@ -1,5 +1,4 @@
 ﻿using DeepL;
-using DeepL;
 using DeepL.Model;
 using System;
 using System.Collections.Generic;
@@ -22,16 +21,18 @@ namespace BookLib
 
             try
             {
+
+
                 using (StreamReader sr = new StreamReader("encoded_api_key.pff"))//pff page flow file //TODO encode api key
                     {
                         authKey = sr.ReadToEnd();
                     }
             }
-            catch
+            catch(Exception ex)
             {
                 using (StreamWriter sw = new StreamWriter($".tmp/log_{DateTime.Now.ToString("yyyy-MM-dd_HH")}.txt", true))
                 {
-                    sw.Write("\n\rerror: failed reading saved api key");
+                    sw.Write($"\n\rerror: failed reading saved api key :{ex}");
                 }
             }
 
@@ -73,12 +74,12 @@ namespace BookLib
 
                 return translatedText.Text;
             }
-            catch
+            catch(Exception ex)
             {
                 MessageBox.Show("catch");
                 using (StreamWriter sw = new StreamWriter($".tmp/log_{DateTime.Now.ToString("yyyy-MM-dd_HH")}.txt", true))
                 {
-                    sw.Write($"\n\rerror: failed translating text");
+                    sw.Write($"\n\rerror: failed translating text :{ex}");
                 }
                 return "failed translation";
             }
