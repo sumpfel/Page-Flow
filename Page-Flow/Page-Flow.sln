@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Page-Flow", "Page-Flow\Page
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookLib", "BookLib\BookLib.csproj", "{1B67343F-296F-44F9-8D0F-3933B47A6C32}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HTTPClient", "HTTPClient\HTTPClient.csproj", "{108004F6-5BED-43B2-9996-16C4F115BC61}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{1B67343F-296F-44F9-8D0F-3933B47A6C32}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B67343F-296F-44F9-8D0F-3933B47A6C32}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B67343F-296F-44F9-8D0F-3933B47A6C32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{108004F6-5BED-43B2-9996-16C4F115BC61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{108004F6-5BED-43B2-9996-16C4F115BC61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{108004F6-5BED-43B2-9996-16C4F115BC61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{108004F6-5BED-43B2-9996-16C4F115BC61}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
