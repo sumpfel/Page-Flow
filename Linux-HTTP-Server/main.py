@@ -9,7 +9,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-was_changed = True
+was_changed = {}
 books_dir_path = "books"
 users_path = "users.csv"
 log_path = "PageFlow.log"
@@ -34,6 +34,10 @@ def init_files():
 
         logging.basicConfig(filename=log_path, level=logging.INFO)
         logger.info("Logging started")
+
+        for entry in os.listdir(books_dir_path):
+            was_changed[entry] = True
+
 
     except Exception as e:
         print("Something went wrong assigning or creating the directories check if program has permissions")
@@ -92,31 +96,38 @@ def create_preview_file():
 def zip_files_thead(time_):
     def thread_function():
         global was_changed
+
         while True:
-            if was_changed:
+            changed=False
 
-                for entry in os.listdir(download_dir_path):
-                    os.remove(os.path.join(download_dir_path, entry))
+            for key, value in was_changed.items():
+                if value:
+                    changed=True
 
+                    os.remove(os.path.join(download_dir_path, key+".zip"))
+                    zip_files(os.path.join(download_dir_path, key+".zip"), [os.path.join(books_dir_path, key)])
+
+                    was_changed[key] = False
+
+            if changed:
+                os.remove(os.path.join(download_dir_path, "all.zip"))
+                os.remove(os.path.join(download_dir_path, preview_path))
                 create_preview_file()
 
                 all=[]
                 for entry in os.listdir(books_dir_path):
                     full_path = os.path.join(books_dir_path, entry)
                     all.append(full_path)
-                    zip_files(os.path.join(download_dir_path, os.path.basename(entry)+".zip"), [full_path])
-
                 zip_files(os.path.join(download_dir_path, "all.zip"), all)
 
-                was_changed = False
             time.sleep(time_)
 
     thread = threading.Thread(target=thread_function, daemon=True)
     thread.start()
     return thread
 
-def zip_files(zip_path, file_paths):
 
+def zip_files(zip_path, file_paths):
     with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
         for file_path in file_paths:
             # Walk through all subdirs and files inside file_path
@@ -249,7 +260,10 @@ def record_feedback():
     if check_user(user_name, pwd):
         update_ratings(user_name, book_path, like=like, comment=comment)
         global was_changed
-        was_changed = True
+        try:
+            was_changed[os.path.basename(book_path)] = True
+        except Exception as e:
+            logging.error(f"file {book_path} was not updated :{e}")
         return jsonify({"status": "success", "message": "YOUR DATA SOLD WAS TO RUSSIA"})
     else:
         return jsonify({"status": "error", "message": "Invalid username or password"}), 400
@@ -276,6 +290,6 @@ def if_user():
 
 if __name__ == '__main__':
     init_files()
-    zip_files_thead(5000)
+    zip_files_thead(300)
     app.run(host="0.0.0.0", port=5000)
     logging.info("server started")

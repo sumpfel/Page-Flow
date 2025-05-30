@@ -11,8 +11,8 @@ def main():
     user_name = "sumpfel"
     pwd = "12345"
     book_path = "Cool_Book"
-    like = "-2"
-    comment = "boring af and software is buggy too"
+    like = "2"
+    comment = "lol lol"
 
     print("\nSending feedback to the server...")
     try:
