@@ -1,13 +1,15 @@
 import requests
 
-SERVER_URL = "http://192.168.66.18:5000/download/1"  # Replace with your server's address
-DOWNLOAD_PATH = "downloaded_books.zip"  # Path to save the downloaded file
+URL = "http://127.0.0.1:5000"
+#URL = "http://192.168.66.18:5000"  # Replace with your server's address
+PATH = "downloaded_books/"  # Path to save the downloaded file
 
 
-def download_file():
+def download_file(SERVER_URL,DOWNLOAD_PATH):
     """Download the file from the server."""
     print("Connecting to the server to download the ZIP file...")
     try:
+        print(SERVER_URL,DOWNLOAD_PATH)
         response = requests.get(SERVER_URL, stream=True)
         if response.status_code == 200:
             with open(DOWNLOAD_PATH, "wb") as file:
@@ -21,10 +23,10 @@ def download_file():
 
 
 def main():
-    response =requests.get("http://192.168.66.18:5000/list_books")
-    print(response.json())
-    print("Download Test Script")
-    download_file()
+    print("Download Test Start downloading book previews")
+    download_file(URL+"/preview_books",PATH+"preview.csv")
+    print("Download Test Start downloading Cool Book")
+    download_file(URL+"/download/Cool_Book",PATH+"book.zip")
 
 
 if __name__ == "__main__":

@@ -11,43 +11,23 @@ logger = logging.getLogger(__name__)
 
 was_changed = True
 books_dir_path = "books"
-zips_dir_path = "zips"
 users_path = "users.csv"
 log_path = "PageFlow.log"
+download_dir_path = "downloads"
+preview_path = "preview.csv"
 
-# if sys.argv[1]:
-#     books_dir_path = sys.argv[1]
-#     if not os.path.exists(books_dir_path):
-#         print("The books directory doesn't exist")
-#         exit()
-#     if sys.argv[2]:
-#         zips_dir_path = sys.argv[2]
-#         if not os.path.exists(zips_dir_path):
-#             print("The zips directory doesn't exist")
-#             exit()
-#         if sys.argv[3]:
-#             users_path = sys.argv[3]
-#             if not os.path.exists(users_path):
-#                 print("The users file doesn't exist")
-#                 exit()
-#             if sys.argv[4]:
-#                 log_path = sys.argv[4]
-#                 if not os.path.exists(os.path.basename(log_path)):
-#                     if os.path.isfile(log_path):
-#                         print("The log file doesn't exist")
-#                         exit()
-#                     elif os.path.isdir(log_path):
-#                         print("Log file can't be created wrong directory")
-#                 elif os.path.isdir(log_path):
-#                     log_path = os.path.join(log_path, "PageFlow.log")
-#                     print("Log file created inside provided path")
 
 def init_files():
     try:
         if not os.path.exists(books_dir_path):
             os.makedirs(books_dir_path)
-        if not os.path.exists(zips_dir_path):
-            os.makedirs(zips_dir_path)
+
+        if not os.path.exists(os.path.join(download_dir_path, preview_path)):
+            if not os.path.exists(download_dir_path):
+                os.makedirs(download_dir_path)
+            with open(preview_path, mode="w", newline="") as file:
+                file.write("")
+
         if not os.path.exists(users_path):
             with open(users_path, mode="w", newline="") as file:
                 file.write("")
@@ -60,38 +40,80 @@ def init_files():
         logger.error(f"file creation failed: {e}")
         exit()
 
-def create_zip_files(books_per_zip=3):
+def create_preview_file():
     ratings={}
-    for entry in os.listdir(zips_dir_path):
-        os.remove(os.path.join(zips_dir_path, entry))
 
     #prompt:python for every directory in directory
     for entry in os.listdir(books_dir_path):
         full_path = os.path.join(books_dir_path, entry)
         if os.path.isdir(full_path):
 
+            raiting=0
+            settings=[]
+            comments=[]
             try:
-                with open(os.path.join(full_path,"ratings.txt"), mode="r") as file:
-                    ratings[full_path] = int(file.read())
+                with open(os.path.join(full_path,"votes.txt"), mode="r") as file:
+                    raiting = int(file.read())
             except:
-                ratings[full_path] = 0
+                pass
+
+            try:
+                rows = []
+                with open(os.path.join(full_path,"ratings.csv"), mode="r") as file:
+                    rows = list(csv.reader(file))
+                    for row in rows:
+                        if len(row)>=3:
+                            for i in range(2,len(row)):
+                                comments.append(row[i])
+            except:
+                pass
+
+            try:
+                rows=[]
+                with open(os.path.join(full_path,"settings.csv"), mode="r") as file:
+                    rows = list(csv.reader(file))
+                    settings+=rows[0]
+
+                ratings[os.path.basename(full_path)] = [raiting, settings, comments]
+            except:
+                logger.error(f"{full_path} has no settings file so it was skipped")
 
     #prompt: py how can i sort a dictionary by highest value
-    sorted_items = sorted(ratings.items(), key=lambda x: x[1], reverse=True)
+    sorted_items = sorted(ratings.items(), key=lambda x: x[1][0], reverse=True)
 
-    x=0
-    current_zip=[]
-    name=1
+    rows = []
     for key, value in sorted_items:
-        current_zip.append(key)
-        x+=1
-        if x==books_per_zip:
-            zip_files(os.path.join(zips_dir_path,f"books{name}.zip"),current_zip)
-            x=0
-            current_zip=[]
-            name+=1
+        rows.append([key, value[0], value[1], value[2]])
 
-    zip_files(os.path.join(zips_dir_path,f"books{name}.zip"),current_zip)
+    with open(os.path.join(download_dir_path,preview_path), mode="w", newline="") as file:
+        csv.writer(file).writerows(rows)
+
+
+def zip_files_thead(time_):
+    def thread_function():
+        global was_changed
+        while True:
+            if was_changed:
+
+                for entry in os.listdir(download_dir_path):
+                    os.remove(os.path.join(download_dir_path, entry))
+
+                create_preview_file()
+
+                all=[]
+                for entry in os.listdir(books_dir_path):
+                    full_path = os.path.join(books_dir_path, entry)
+                    all.append(full_path)
+                    zip_files(os.path.join(download_dir_path, os.path.basename(entry)+".zip"), [full_path])
+
+                zip_files(os.path.join(download_dir_path, "all.zip"), all)
+
+                was_changed = False
+            time.sleep(time_)
+
+    thread = threading.Thread(target=thread_function, daemon=True)
+    thread.start()
+    return thread
 
 def zip_files(zip_path, file_paths):
 
@@ -110,18 +132,7 @@ def zip_files(zip_path, file_paths):
                     dir_arcname = os.path.relpath(root, os.path.dirname(file_path)) + '/'
                     zipf.write(root, arcname=dir_arcname)
 
-def zip_files_thead(time_):
-    def thread_function():
-        global was_changed
-        while True:
-            if was_changed:
-                create_zip_files(books_per_zip=3)
-                was_changed = False
-            time.sleep(time_)
 
-    thread = threading.Thread(target=thread_function, daemon=True)
-    thread.start()
-    return thread
 
 def update_ratings(user_name, book_path, like=None, comment=None):
     rows=[]
@@ -138,7 +149,7 @@ def update_ratings(user_name, book_path, like=None, comment=None):
             like = str(like_int)
 
     ratings_file=os.path.join(books_dir_path,book_path,"ratings.csv")
-    votes_file=os.path.join(books_dir_path, book_path, "ratings.txt")
+    votes_file=os.path.join(books_dir_path, book_path, "votes.txt")
 
     if os.path.exists(ratings_file) == False:
         with open(ratings_file, "w", newline="") as file:
@@ -204,21 +215,22 @@ def create_user(user_name, pwd):
 
 app = Flask(__name__)
 
-@app.route("/download/<file_number>", methods=['GET'])
-def download_books(file_number):
-    file=os.path.join(zips_dir_path,f"books{file_number}.zip")
+@app.route("/download/<library>", methods=['GET'])
+def download_books(library):
+    file=os.path.join(download_dir_path,f"{library}.zip")
     if os.path.exists(file):
+        print(f"{library}.zip was downloaded")
         logging.info(f"file {file} was downloaded")
         return send_file(file, as_attachment=True)
     return abort(404)
 
-@app.route("/list_books", methods=['GET'])
-def list_books():
-    book_files=[]
-    for entry in os.listdir(zips_dir_path):
-        full_path = os.path.join(zips_dir_path, entry)
-        book_files.append(full_path)
-    return jsonify({"book_files": book_files})
+@app.route("/preview_books", methods=['GET'])
+def preview_books():
+    file = os.path.join(download_dir_path, preview_path)
+    if os.path.exists(file):
+        print(f"file {file} was downloaded")
+        return send_file(file, as_attachment=True)
+    return abort(404)
 
 @app.route("/feedback", methods=['POST'])
 def record_feedback():
