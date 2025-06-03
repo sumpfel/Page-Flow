@@ -2,6 +2,8 @@
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+using System.Linq.Expressions;
 
 namespace HTTPClient
 {
@@ -17,7 +19,7 @@ namespace HTTPClient
             return $"http://{Adress}:{Port}";
         }
 
-        public async Task<bool> UserComands(string username, string password, string url)
+        private async Task<bool> UserComands(string username, string password, string url)
         {
             Dictionary<string, string> payload_dict = new Dictionary<string, string>() { { "user_name", username }, { "pwd",password} };
             using (HttpClient client = new HttpClient())
@@ -27,8 +29,8 @@ namespace HTTPClient
                     string payload = JsonSerializer.Serialize(payload_dict);
                     HttpContent content = new StringContent(payload, Encoding.UTF8, "application/json");
                     HttpResponseMessage response = await client.PostAsync(url, content);
-                    response.EnsureSuccessStatusCode();
-                    return true;
+                    if (response.IsSuccessStatusCode) { return true; }
+                    return false;
                 }
                 catch (Exception ex)
                 {
@@ -52,16 +54,37 @@ namespace HTTPClient
             bool result = await UserComands(Username, Password, GetUrl() + "/check_user");
             return result;
         }
-        /*
-        public async Task<bool> Download()
-        {
-            //TODO
-        }
 
-        public async Task<bool> DownloadPreviewFile()
+        private async Task<bool> Download(string url, string download_path)
         {
-            //TODO
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    HttpResponseMessage response = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        using (Stream contentStream = await response.Content.ReadAsStreamAsync(),
+                                      fileStream = new FileStream(download_path, FileMode.Create, FileAccess.Write, FileShare.None))
+                        {
+                            await contentStream.CopyToAsync(fileStream);
+                        }
+                        return true;
+                    }
+                    else { return false; }
+                }
+            }
+            catch (Exception ex)
+            {
+                //TODO Log
+            }
+            return false;
         }
-        */
+        
+        public async Task<bool> DownloadPreviewFile(string download_path)
+        {
+            return await Download(GetUrl() + "/preview_books", download_path);
+        }
+        
     }
 }
