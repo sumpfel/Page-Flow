@@ -8,8 +8,8 @@
              d:DesignHeight="250" d:DesignWidth="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="0.8*"/>
+            <ColumnDefinition Width="0.8*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
@@ -18,11 +18,22 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="1.5*"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        
+
+        <Label x:Name="TextBoxTitle" Content="Krasser Titel" FontSize="30" VerticalContentAlignment="Center" Grid.Column="2" Grid.ColumnSpan="4" Grid.Row="0" Background="White" Margin="10"/>
+        <Label x:Name="LabelTyp" Content="Typ:" FontSize="20" VerticalContentAlignment="center" Grid.Column="2" Grid.Row="1" Background="White" Height="43" Margin="5"/>
+        <Label x:Name="LabelAuthor" Content="Author:" FontSize="20" VerticalContentAlignment="Center" Grid.Column="2" Grid.Row="2" Background="White" Height="43" Margin="5"/>
+        <Label x:Name="LabelNote" Content="Personal Note:" FontSize="20" VerticalContentAlignment="Center" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4" Background="White" Height="43" Margin="5"/>
+        <Label x:Name="LabelLicense" Content="License:" FontSize="20" VerticalContentAlignment="Center" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" Background="White" Height="43" Margin="5"/>
+        <TextBox x:Name="TextBoxTyp" FontSize="20" VerticalAlignment="Center" Grid.Column="3" Grid.Row="1" Grid.ColumnSpan="2" Background="White" Height="43" Margin="5"/>
+        <TextBox x:Name="TextBoxAuthor" FontSize="20" VerticalAlignment="Center" Grid.Column="3" Grid.Row="2" Grid.ColumnSpan="2" Background="White" Height="43" Margin="5"/>
+        <TextBox x:Name="TextBoxNote" FontSize="20" VerticalAlignment="Center" Grid.Column="2" Grid.Row="4" Grid.ColumnSpan="4" Background="White" Height="43" Margin="5"/>
+        <TextBox x:Name="TextBoxLicense" FontSize="20" VerticalAlignment="Center" Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="4" Background="White" Height="43" Margin="5"/>
         
     </Grid>
 </UserControl>
