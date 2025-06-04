@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HTTPClient;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,7 @@ namespace Page_Flow
     /// </summary>
     public partial class Settings : Window
     {
+        HttpControler Client;
         public Settings()
         {
             InitializeComponent();
@@ -26,7 +28,7 @@ namespace Page_Flow
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Loggin window = new Loggin();
+            Loggin window = new Loggin(Client);
 
             window.Show();
 
