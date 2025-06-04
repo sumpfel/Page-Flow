@@ -8,7 +8,13 @@
     <Compile Update="AddLanguageControl1.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Loggin.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="OverviewControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Settings.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="TextInputWindow.xaml.cs">
