@@ -21,16 +21,17 @@ namespace Page_Flow
     public partial class Settings : Window
     {
         HttpControler Client;
-        public Settings()
+        public Settings(HttpControler client)
         {
             InitializeComponent();
+            Client = client;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Loggin window = new Loggin(Client);
 
-            window.Show();
+            window.ShowDialog();
 
             if (window.DialogResult == true)
             {
