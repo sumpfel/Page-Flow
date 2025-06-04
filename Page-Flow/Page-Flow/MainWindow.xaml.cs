@@ -42,5 +42,17 @@ namespace Page_Flow
 
         }
 
+        private void ButtonSettings_Click(object sender, RoutedEventArgs e)
+        {
+            Settings window = new Settings();
+
+            window.Show();
+
+            if (window.DialogResult == true)
+            {
+
+            }
+
+        }
     }
 }

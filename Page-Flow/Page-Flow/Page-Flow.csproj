@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BookLib\BookLib.csproj" />
+    <ProjectReference Include="..\HTTPClient\HTTPClient.csproj" />
   </ItemGroup>
 
 </Project>
