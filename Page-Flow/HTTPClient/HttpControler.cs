@@ -9,15 +9,19 @@ namespace HTTPClient
 {
     public class HttpControler
     {
-        public string Adress = "192.168.66.18";
+        public string Address = "192.168.66.18";
         public string Port = "5000";
         private string Username;
         private string Password;
 
+        public string GetUserName() { if (Username != null) { return Username; } else { return ""; } }
+        public void LogOut() { Username = null;Password = null; }
         public string GetUrl()
         {
-            return $"http://{Adress}:{Port}";
+            return $"http://{Address}:{Port}";
         }
+
+        public HttpControler(string address, string port) { Address = address;Port = port; }
 
         private async Task<bool> UserComands(string username, string password, string url)
         {
@@ -35,23 +39,31 @@ namespace HTTPClient
                 catch (Exception ex)
                 {
                     //TODO: LOG ex
+                    throw(ex);
                 }
             }
             return true;
         }
         public async Task<bool> CreateUser(string username, string password)//register
         {
-            Username = username;
-            Password = password;
             bool result = await UserComands(username, password, GetUrl() + "/create_user");
+            if (result)
+            {
+                Username = username;
+                Password = password;
+            }
             return result;
         }
 
         public async Task<bool> CheckUser(string username, string password)//login
         {
-            Username = username;
-            Password = password;
-            bool result = await UserComands(Username, Password, GetUrl() + "/check_user");
+            
+            bool result = await UserComands(username, password, GetUrl() + "/check_user");
+            if (result)
+            {
+                Username = username;
+                Password = password;
+            }
             return result;
         }
 

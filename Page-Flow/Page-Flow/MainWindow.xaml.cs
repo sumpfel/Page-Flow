@@ -1,6 +1,7 @@
 ﻿using BookLib;
 using DeepL;
 using DeepL.Model;
+using HTTPClient;
 using Serilog;
 using System.Text;
 using System.Windows;
@@ -22,6 +23,7 @@ namespace Page_Flow
     /// </summary>
     public partial class MainWindow : Window
     {
+        HttpControler Client;
         public MainWindow()
         {
             InitializeComponent();
@@ -33,8 +35,7 @@ namespace Page_Flow
 
 
             Log.Logger.Information("MainWindow started ...");
-            Log.Logger.Debug("hello world!");
-            Log.Logger.Error("ahhhhhhhhhhhh");
+            Client = new HttpControler("127.0.0.1", "5000");
 
             //string TranslatedBook = Translate.TranslateText("私はchristofだ", "ja", "");
 
@@ -44,9 +45,9 @@ namespace Page_Flow
 
         private void ButtonSettings_Click(object sender, RoutedEventArgs e)
         {
-            Settings window = new Settings();
+            Settings window = new Settings(Client);
 
-            window.Show();
+            window.ShowDialog();
 
             if (window.DialogResult == true)
             {

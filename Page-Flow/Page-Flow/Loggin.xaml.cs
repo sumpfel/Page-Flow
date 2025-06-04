@@ -25,11 +25,37 @@ namespace Page_Flow
         {
             InitializeComponent();
             Client = client;
+            user_name.Text = Client.GetUserName();
         }
 
-        private async Task Button_Click(object sender, RoutedEventArgs e)
+        private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            //if(await Client.CreateUser(string))
+            if(await Client.CreateUser(user_name.Text.Trim().Replace(";", ""), password.Text.Trim().Replace(";","")))
+            {
+                DialogResult=true;
+            }
+            else
+            {
+                MessageBox.Show("Creating user Failed... Try diffrent user Name");
+            }
+        }
+
+        private async void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            if (await Client.CheckUser(user_name.Text.Trim().Replace(";", ""), password.Text.Trim().Replace(";", "")))
+            {
+                DialogResult = true;
+            }
+            else
+            {
+                MessageBox.Show("Creating user Failed... Check user name and password");
+            }
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            Client.LogOut();
+            DialogResult = true;
         }
     }
 }
