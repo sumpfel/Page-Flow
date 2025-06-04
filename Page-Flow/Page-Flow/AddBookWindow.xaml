@@ -39,7 +39,7 @@
         <TextBox x:Name="TextBoxLicense" FontSize="20" VerticalAlignment="Center" Grid.Column="2" Grid.Row="4" Grid.ColumnSpan="4" Background="White" BorderBrush="LightGray" BorderThickness="2" Height="30.6"/>
         <local:AddLanguageControl1 x:Name="AddBookLanguage" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="7" Margin="84,0,0,0"></local:AddLanguageControl1>
         <Label x:Name="LabelBlurb" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Content="Blurb:" FontSize="20" Background="LightGray" BorderBrush="Gray" BorderThickness="2" VerticalAlignment="Top"  Height="30.6"/>
-        <TextBox x:Name="TextBoxBlurb" Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="4" FontSize="20" Background="White" BorderBrush="LightGray" BorderThickness="2" Height="90"/>
+        <TextBox x:Name="TextBoxBlurb" Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="4" FontSize="20" Background="White" BorderBrush="LightGray" BorderThickness="2" VerticalAlignment="Top" Height="90"/>
         <Button x:Name="ButtonAccept" Grid.Row="6" Grid.Column="6" Content="✔" FontSize="18" Foreground="CadetBlue" VerticalContentAlignment="Top" Background="LightBlue" BorderBrush="CadetBlue" BorderThickness="2" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="4" Height="30.6" Width="70"/>
         <Button x:Name="ButtonDeny" Grid.Row="6" Grid.Column="7" Content="✖" FontSize="16" Foreground="Goldenrod" Background="Gold" BorderBrush="Goldenrod" BorderThickness="2" VerticalAlignment="Bottom" Margin="4" Height="30.6" Width="70"/>
         <Image Name="ImageThumbnail" Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="10"/>
