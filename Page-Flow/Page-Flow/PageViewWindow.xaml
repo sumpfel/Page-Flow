@@ -1,0 +1,28 @@
+﻿<Window x:Class="Page_Flow.PageViewWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Page_Flow"
+        mc:Ignorable="d"
+        Title="PageViewWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="8*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="8*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <Label x:Name="LabelPath" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" Content="path > path > path > path > path > path > ...." Height="30" VerticalAlignment="Top" Background="WhiteSmoke" Margin="3"/>
+        <Button x:Name="ButtonBack" Grid.Column="0" Grid.Row="2" Content="◄" FontSize="20" VerticalContentAlignment="Top" Foreground="CadetBlue" Background="LightBlue" BorderBrush="CadetBlue" BorderThickness="2" Height="30.6" Width="200" HorizontalAlignment="Right"/>
+        <Button x:Name="ButtonForth" Grid.Column="2" Grid.Row="2" Content="►" FontSize="20" VerticalAlignment="Top" Foreground="CadetBlue" Background="LightBlue" BorderBrush="CadetBlue" BorderThickness="2" Height="30.6" Width="200" HorizontalAlignment="Left"/>
+        <Label x:Name="LabelPageNumber" Grid.Column="1" Grid.Row="2" Content="???" Height="30.6" Width="50" HorizontalContentAlignment="Center"/>
+        <Border Grid.Row="1" Grid.Column="0" BorderBrush="Black" BorderThickness="2" CornerRadius="10" Width="300" HorizontalAlignment="Right"/>
+        <Border Grid.Row="1" Grid.Column="2" BorderBrush="Black" BorderThickness="2" CornerRadius="10" Width="300" HorizontalAlignment="Left"/>
+    </Grid>
+</Window>

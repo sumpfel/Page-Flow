@@ -18,7 +18,7 @@ namespace Page_Flow
     /// <summary>
     /// Interaction logic for Loggin.xaml
     /// </summary>
-    public partial class Loggin : Window
+    public partial class LogginWindow : Window
     {
         HttpControler Client;
         public Loggin(HttpControler client)
