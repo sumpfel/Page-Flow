@@ -17,6 +17,9 @@
     <Compile Update="PageViewWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="ScrollViewWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Settings.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -38,6 +41,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="PageViewWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ScrollViewWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="TextInputWindow.xaml">
