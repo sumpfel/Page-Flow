@@ -63,12 +63,9 @@ def create_preview_file():
 
             try:
                 rows = []
-                with open(os.path.join(full_path,"ratings.csv"), mode="r") as file:
+                with open(os.path.join(full_path,"comments.csv"), mode="r") as file:
                     rows = list(csv.reader(file))
-                    for row in rows:
-                        if len(row)>=3:
-                            for i in range(2,len(row)):
-                                comments.append(row[i])
+                    comments=rows
             except:
                 pass
 
@@ -78,13 +75,18 @@ def create_preview_file():
                     rows = list(csv.reader(file))
                     settings+=rows[0]
 
-                ratings[os.path.basename(full_path)] = [raiting, settings, comments]
-            except:
-                logger.error(f"{full_path} has no settings file so it was skipped")
+                settings_=""
+                for i in settings:
+                    settings_+=i+";"
+                comments_=""
+                for i in comments:
+                    comments_+=f"{i};"
+                ratings[os.path.basename(full_path)] = [raiting, settings_, comments_]
+            except Exception as e:
+                logger.error(f"{full_path} has no settings file so it was skipped {e}")
 
     #prompt: py how can i sort a dictionary by highest value
     sorted_items = sorted(ratings.items(), key=lambda x: x[1][0], reverse=True)
-
     rows = []
     for key, value in sorted_items:
         rows.append([key, value[0], value[1], value[2]])
@@ -110,8 +112,12 @@ def zip_files_thead(time_):
                     was_changed[key] = False
 
             if changed:
-                os.remove(os.path.join(download_dir_path, "all.zip"))
-                os.remove(os.path.join(download_dir_path, preview_path))
+                try:
+                    os.remove(os.path.join(download_dir_path, "all.zip"))
+                except:pass
+                try:
+                    os.remove(os.path.join(download_dir_path, preview_path))
+                except:pass
                 create_preview_file()
 
                 all=[]
@@ -161,6 +167,7 @@ def update_ratings(user_name, book_path, like=None, comment=None):
 
     ratings_file=os.path.join(books_dir_path,book_path,"ratings.csv")
     votes_file=os.path.join(books_dir_path, book_path, "votes.txt")
+    comments_file = os.path.join(books_dir_path, book_path, "comments.csv")
 
     if os.path.exists(ratings_file) == False:
         with open(ratings_file, "w", newline="") as file:
@@ -168,6 +175,9 @@ def update_ratings(user_name, book_path, like=None, comment=None):
     if os.path.exists(votes_file) == False:
         with open(votes_file, "w", newline="") as file:
             file.write("0")
+    if os.path.exists(comments_file) == False:
+        with open(comments_file, "w", newline="") as file:
+            file.write("")
 
     with open(ratings_file, mode="r") as file:
         rows=list(csv.reader(file))
@@ -184,6 +194,12 @@ def update_ratings(user_name, book_path, like=None, comment=None):
             if comment != None:
                 row.append(comment)
 
+                with open(comments_file, mode="r") as file:
+                    rows2 = list(csv.reader(file))
+                rows2.append([user_name,comment])
+                with open(comments_file, mode="w") as file:
+                    csv.writer(file).writerows(rows2)
+
     if user_exists == False:
         row = [user_name, "0"]
         if like != None:
@@ -194,6 +210,13 @@ def update_ratings(user_name, book_path, like=None, comment=None):
             row[1] = like
         if comment != None:
             row.append(comment)
+
+            with open(comments_file, mode="r") as file:
+                rows2 = list(csv.reader(file))
+            rows2.append([user_name, comment])
+            with open(comments_file, mode="w") as file:
+                csv.writer(file).writerows(rows2)
+
         rows.append(row)
 
     with open(ratings_file, mode="w", newline="") as file:
@@ -253,7 +276,7 @@ def record_feedback():
     comment = data.get("comment")
 
     if not user_name:
-        return jsonify({"error": "MAC address is required"}), 400
+        return jsonify({"error": "User name is required"}), 400
     elif not book_path:
         return jsonify({"error": "Book path is required"}), 400
 

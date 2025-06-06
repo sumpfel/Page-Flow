@@ -8,7 +8,7 @@ def send_feedback(SERVER_URL ,user_name, pwd, book_path, like, comment):
 
 
 def main():
-    user_name = "sumpfel"
+    user_name = "sumpfelx"
     pwd = "12345"
     book_path = "Cool_Book"
     like = "2"

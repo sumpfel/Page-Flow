@@ -1,9 +1,11 @@
-﻿using System.Text.Json;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.IO;
 using System.Linq.Expressions;
+using System.Net.Http;
+using System.Reflection.Metadata;
+using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace HTTPClient
 {
@@ -97,6 +99,36 @@ namespace HTTPClient
         {
             return await Download(GetUrl() + "/preview_books", download_path);
         }
-        
+
+        public async Task<bool> DownloadBook(string book_name,string download_path)
+        {
+            return await Download(GetUrl() + "/download/" + book_name, download_path);
+        }
+
+        public async Task<bool> DownloadAll(string download_path)
+        {
+            return await Download(GetUrl() + "/download/all", download_path);
+        }
+
+        public async Task<bool> SendFeedback(string book_path, string likes, string comment)
+        {
+            Dictionary<string, string> payload_dict = new Dictionary<string, string>() { { "user_name", Username }, { "pwd", Password }, { "book_path", book_path }, { "like", likes }, { "comment", comment } };
+            using (HttpClient client = new HttpClient())
+            {
+                try
+                {
+                    string payload = JsonSerializer.Serialize(payload_dict);
+                    HttpContent content = new StringContent(payload, Encoding.UTF8, "application/json");
+                    HttpResponseMessage response = await client.PostAsync(GetUrl() + "/feedback", content);
+                    if (response.IsSuccessStatusCode) { return true; }
+                    return false;
+                }
+                catch (Exception ex)
+                {
+                    //TODO: LOG ex
+                    throw (ex);
+                }
+            }
+        }
     }
 }

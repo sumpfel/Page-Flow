@@ -23,6 +23,7 @@ namespace Page_Flow
     /// </summary>
     public partial class MainWindow : Window
     {
+        LibraryCollection LibraryCollection = new LibraryCollection();
         HttpControler Client;
         public MainWindow()
         {
@@ -53,6 +54,14 @@ namespace Page_Flow
             {
 
             }
+
+        }
+
+        private async void ButtonReload_Click(object sender, RoutedEventArgs e)
+        {
+            await Client.DownloadPreviewFile("books/preview.csv");
+            await Client.DownloadAll("books/all.zip");
+            LibraryCollection.LoadFromPreview("books/preview.csv");
 
         }
     }
