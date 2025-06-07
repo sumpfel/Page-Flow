@@ -8,16 +8,16 @@ def send_feedback(SERVER_URL ,user_name, pwd, book_path, like, comment):
 
 
 def main():
-    user_name = "sumpfelx"
-    pwd = "12345"
+    user_name = "hater2"
+    pwd = "1234"
     book_path = "Cool_Book"
-    like = "2"
-    comment = "lol lol"
+    like = "-1"
+    comment = "wer ließt so was !_! x_x"
 
     print("\nSending feedback to the server...")
     try:
-        response = send_feedback("http://127.0.0.1:5000/feedback", user_name, pwd, book_path, like, comment)
-        print("Response from server:", response)
+        #response = send_feedback("http://127.0.0.1:5000/feedback", user_name, pwd, book_path, like, comment)
+        #print("Response from server:", response)
         response1 = send_feedback("http://127.0.0.1:5000/create_user",user_name, pwd, book_path, like, comment)
         print("Response from server:", response1)
         response = send_feedback("http://127.0.0.1:5000/feedback", user_name, pwd,book_path, like, comment)

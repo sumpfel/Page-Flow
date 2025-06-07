@@ -25,15 +25,17 @@ namespace BookLib
                     string line = sr.ReadLine();
                     string[] values = line.Split(",");
                     string path_ = values[0];
-                    string likes = values[1];
-                    string[] settings = values[2].Split(";");
+                    string sumLikes = values[1];
+                    string likes = values[2];
+                    string disLikes = values[3];
+                    string[] settings = values[4].Split(";");
                     string title = settings[0];
                     string author = settings[1];
                     string license = settings[2];
                     string blurb = settings[3];
                     string note = settings[4];
-                    string[] comments = values[3].Split(";");
-                    libraryList.Add(new Library(title, path, author, license, blurb, note,Convert.ToInt32(likes),comments));
+                    string[] comments = values[5].Split(";");
+                    libraryList.Add(new Library(title, path, author, license, blurb, note,Convert.ToInt32(sumLikes),Convert.ToInt32(likes), Convert.ToInt32(disLikes), comments));
                 }
             }
         }

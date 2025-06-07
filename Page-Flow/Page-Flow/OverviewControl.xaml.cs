@@ -21,7 +21,7 @@ namespace Page_Flow
     /// </summary>
     public partial class OverviewControl : UserControl
     {
-        public OverviewControl(string title,string license,string author,string note,int likes,List<string> languages)
+        public OverviewControl(string title,string license,string author,string note,int sum_likes, int likes, int dis_likes, List<string> languages)
         {
             InitializeComponent();
             LabelTitle.Content = title;
@@ -29,7 +29,9 @@ namespace Page_Flow
             LabelAuthorAngabe.Content = author;
             LabelNoteAngabe.Content = note;
 
-            //TODO likes
+            LabelLikes.Content = $"{Convert.ToInt32(Convert.ToDouble(likes) / (dis_likes + likes)*100)}% 👍";
+            LabelDisLikes.Content = $"{Convert.ToInt32(Convert.ToDouble(dis_likes) /(dis_likes+likes)*100)}% 👎";
+
 
             foreach(string language in languages)
             LabelLanguagesAngabe.Content += language+" ";

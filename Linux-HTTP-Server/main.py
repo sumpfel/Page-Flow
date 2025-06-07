@@ -8,6 +8,7 @@ import sys
 import logging
 
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.FATAL)
 
 was_changed = {}
 books_dir_path = "books"
@@ -19,6 +20,9 @@ preview_path = "preview.csv"
 
 def init_files():
     try:
+        with open(log_path, mode="w", newline="") as file:
+            file.write("")
+
         if not os.path.exists(books_dir_path):
             os.makedirs(books_dir_path)
 
@@ -52,20 +56,21 @@ def create_preview_file():
         full_path = os.path.join(books_dir_path, entry)
         if os.path.isdir(full_path):
 
-            raiting=0
+            rating=[0,0,0]
             settings=[]
             comments=[]
             try:
                 with open(os.path.join(full_path,"votes.txt"), mode="r") as file:
-                    raiting = int(file.read())
+                    rating = list(csv.reader(file))[0]
+                rating = [int(rating[0]),rating[1],rating[2]]
             except:
                 pass
 
             try:
                 rows = []
                 with open(os.path.join(full_path,"comments.csv"), mode="r") as file:
-                    rows = list(csv.reader(file))
-                    comments=rows
+                    comments = list(csv.reader(file))
+
             except:
                 pass
 
@@ -79,9 +84,9 @@ def create_preview_file():
                 for i in settings:
                     settings_+=i+";"
                 comments_=""
-                for i in comments:
-                    comments_+=f"{i};"
-                ratings[os.path.basename(full_path)] = [raiting, settings_, comments_]
+                for comment in comments:
+                    comments_+=f"{comment[0]}§{comment[1]};"
+                ratings[os.path.basename(full_path)] = rating+[settings_, comments_]
             except Exception as e:
                 logger.error(f"{full_path} has no settings file so it was skipped {e}")
 
@@ -89,7 +94,7 @@ def create_preview_file():
     sorted_items = sorted(ratings.items(), key=lambda x: x[1][0], reverse=True)
     rows = []
     for key, value in sorted_items:
-        rows.append([key, value[0], value[1], value[2]])
+        rows.append([key, value[0],value[1],value[2], value[3], value[4]])
 
     with open(os.path.join(download_dir_path,preview_path), mode="w", newline="") as file:
         csv.writer(file).writerows(rows)
@@ -154,7 +159,6 @@ def zip_files(zip_path, file_paths):
 def update_ratings(user_name, book_path, like=None, comment=None):
     rows=[]
     user_exists=False
-    rating=0
     like_int=0
     if like!=None:
         like_int=int(like)
@@ -174,7 +178,7 @@ def update_ratings(user_name, book_path, like=None, comment=None):
             file.write("")
     if os.path.exists(votes_file) == False:
         with open(votes_file, "w", newline="") as file:
-            file.write("0")
+            file.write("0,0,0")
     if os.path.exists(comments_file) == False:
         with open(comments_file, "w", newline="") as file:
             file.write("")
@@ -187,34 +191,57 @@ def update_ratings(user_name, book_path, like=None, comment=None):
             user_exists=True
             if like != None:
                 with open(votes_file, mode="r") as file:
-                    rating = int(file.read())
+                    ratings = list(csv.reader(file))[0]
+                new_ratings=[[0,ratings[1],ratings[2]]]
+                old_vote=int(row[1])
+                new_ratings[0][0]=int(ratings[0]) - old_vote + like_int
+
+                if old_vote<0:
+                    new_ratings[0][2]=int(ratings[2]) + old_vote
+                else:
+                    new_ratings[0][1]=int(ratings[1]) - old_vote
+
+                if like_int<0:
+                    new_ratings[0][2]=int(new_ratings[0][2])- like_int
+                else:
+                    new_ratings[0][1]=int(new_ratings[0][1]) + like_int
+
                 with open(votes_file, mode="w", newline="") as file:
-                    file.write(str(rating - int(row[1]) + like_int))
-                row[1]=like
+                    csv.writer(file).writerows(new_ratings)
+
+                row[1]=like_int
             if comment != None:
                 row.append(comment)
 
                 with open(comments_file, mode="r") as file:
                     rows2 = list(csv.reader(file))
                 rows2.append([user_name,comment])
-                with open(comments_file, mode="w") as file:
+                with open(comments_file, mode="w", newline="") as file:
                     csv.writer(file).writerows(rows2)
 
     if user_exists == False:
         row = [user_name, "0"]
         if like != None:
             with open(votes_file, mode="r") as file:
-                rating = int(file.read())
+                ratings = list(csv.reader(file))[0]
+            new_ratings = [[0, ratings[1], ratings[2]]]
+            new_ratings[0][0] = int(ratings[0]) - int(row[1]) + like_int
+
+            if like_int < 0:
+                new_ratings[0][2] = int(ratings[2]) - like_int
+            else:
+                new_ratings[0][1] = int(ratings[1]) + like_int
+
             with open(votes_file, mode="w", newline="") as file:
-                file.write(str(rating + like_int))
-            row[1] = like
+                csv.writer(file).writerows(new_ratings)
+            row[1] = like_int
         if comment != None:
             row.append(comment)
 
             with open(comments_file, mode="r") as file:
                 rows2 = list(csv.reader(file))
             rows2.append([user_name, comment])
-            with open(comments_file, mode="w") as file:
+            with open(comments_file, mode="w", newline="") as file:
                 csv.writer(file).writerows(rows2)
 
         rows.append(row)

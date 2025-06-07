@@ -37,6 +37,7 @@ namespace Page_Flow
 
             Log.Logger.Information("MainWindow started ...");
             Client = new HttpControler("127.0.0.1", "5000");
+            Client.CheckUser("c#user", "1234");
 
             //string TranslatedBook = Translate.TranslateText("私はchristofだ", "ja", "");
 
@@ -70,7 +71,7 @@ namespace Page_Flow
             View.Children.Clear();
             foreach (Library library in LibraryCollection.libraryList)
             {
-                OverviewControl control = new OverviewControl(library.Titel,library.License,library.Author,library.Note,library.Likes,new List<string> {"en","de","ja"});
+                OverviewControl control = new OverviewControl(library.Titel,library.License,library.Author,library.Note,library.SumLikes,library.Likes,library.DisLikes,new List<string> {"en","de","ja"});
                 View.Children.Add(control);
             }
 
