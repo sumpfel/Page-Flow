@@ -62,6 +62,17 @@ namespace Page_Flow
             await Client.DownloadPreviewFile("books/preview.csv");
             await Client.DownloadAll("books/all.zip");
             LibraryCollection.LoadFromPreview("books/preview.csv");
+            LoadToView();
+        }
+
+        private void LoadToView()
+        {
+            View.Children.Clear();
+            foreach (Library library in LibraryCollection.libraryList)
+            {
+                OverviewControl control = new OverviewControl(library.Titel,library.License,library.Author,library.Note,library.Likes,new List<string> {"en","de","ja"});
+                View.Children.Add(control);
+            }
 
         }
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,9 +21,18 @@ namespace Page_Flow
     /// </summary>
     public partial class OverviewControl : UserControl
     {
-        public OverviewControl()
+        public OverviewControl(string title,string license,string author,string note,int likes,List<string> languages)
         {
             InitializeComponent();
+            LabelTitle.Content = title;
+            LabelLicenseAngabe.Content= license;
+            LabelAuthorAngabe.Content = author;
+            LabelNoteAngabe.Content = note;
+
+            //TODO likes
+
+            foreach(string language in languages)
+            LabelLanguagesAngabe.Content += language+" ";
         }
     }
 }

@@ -5,12 +5,13 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace BookLib
 {
     public class LibraryCollection
     {
-        private List<Library> libraryList = new List<Library> { };
+        public List<Library> libraryList = new List<Library> { };
 
         public LibraryCollection() { }
 
