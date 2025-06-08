@@ -18,15 +18,15 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <Label Content="User Name:" FontSize="30"></Label>
-        <Label Grid.Row="1" Content="Password:" FontSize="30"></Label>
+        <Label Content="User Name:" FontSize="30" Background="LightGray" BorderBrush="Gray" BorderThickness="2" Height="40.6"></Label>
+        <Label Grid.Row="1" Content="Password:" FontSize="30" Background="LightGray" BorderBrush="Gray" BorderThickness="2" Height="40.6"></Label>
 
-        <TextBox x:Name="user_name" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Margin="10"></TextBox>
-        <TextBox x:Name="password" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="10"></TextBox>
+        <TextBox x:Name="user_name" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Left" MinWidth="300" Height="40.6" BorderBrush="LightGray" BorderThickness="2"></TextBox>
+        <TextBox x:Name="password" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Left" MinWidth="300" Height="40.6" BorderBrush="LightGray" BorderThickness="2"></TextBox>
 
-        <Button Grid.Row="2" Grid.Column="0" Margin="10" Content="Sign in" FontSize="30" Click="Button_Click"></Button>
-        <Button Grid.Row="2" Grid.Column="1" Margin="10" Content="Sign up" FontSize="30" Click="Button_Click_1"></Button>
-        <Button Grid.Row="2" Grid.Column="2" Margin="10" Content="Sign out" FontSize="30" Click="Button_Click_2"></Button>
+        <Button Grid.Row="2" Grid.Column="0" Margin="10" Content="Sign in" FontSize="30" Click="Button_Click" Background="LightBlue" BorderBrush="CadetBlue" BorderThickness="2"></Button>
+        <Button Grid.Row="2" Grid.Column="1" Margin="10" Content="Sign up" FontSize="30" Click="Button_Click_1" Background="LightBlue" BorderBrush="CadetBlue" BorderThickness="2"></Button>
+        <Button Grid.Row="2" Grid.Column="2" Margin="10" Content="Sign out" FontSize="30" Click="Button_Click_2" Background="LightBlue" BorderBrush="CadetBlue" BorderThickness="2"></Button>
         
         
     </Grid>
