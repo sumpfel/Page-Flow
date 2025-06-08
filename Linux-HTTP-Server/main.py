@@ -110,8 +110,9 @@ def zip_files_thead(time_):
             for key, value in was_changed.items():
                 if value:
                     changed=True
-
-                    os.remove(os.path.join(download_dir_path, key+".zip"))
+                    try:
+                        os.remove(os.path.join(download_dir_path, key+".zip"))
+                    except:pass
                     zip_files(os.path.join(download_dir_path, key+".zip"), [os.path.join(books_dir_path, key)])
 
                     was_changed[key] = False
