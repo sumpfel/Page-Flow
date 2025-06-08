@@ -8,11 +8,11 @@ def send_feedback(SERVER_URL ,user_name, pwd, book_path, like, comment):
 
 
 def main():
-    user_name = "hater2"
+    user_name = "reader2"
     pwd = "1234"
     book_path = "Cool_Book"
-    like = "-1"
-    comment = "wer ließt so was !_! x_x"
+    like = "2"
+    comment = "krassus buch"
 
     print("\nSending feedback to the server...")
     try:

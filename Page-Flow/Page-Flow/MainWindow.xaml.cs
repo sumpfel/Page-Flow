@@ -37,7 +37,7 @@ namespace Page_Flow
 
             Log.Logger.Information("MainWindow started ...");
             Client = new HttpControler("127.0.0.1", "5000");
-            Client.CheckUser("c#user", "1234");
+            //await Client.CheckUser("c#user", "1234");
 
             //string TranslatedBook = Translate.TranslateText("私はchristofだ", "ja", "");
 
@@ -60,6 +60,8 @@ namespace Page_Flow
 
         private async void ButtonReload_Click(object sender, RoutedEventArgs e)
         {
+            bool login=await Client.CheckUser("c#user", "1234");
+            MessageBox.Show(login.ToString());
             await Client.DownloadPreviewFile("books/preview.csv");
             await Client.DownloadAll("books/all.zip");
             LibraryCollection.LoadFromPreview("books/preview.csv");
@@ -76,5 +78,7 @@ namespace Page_Flow
             }
 
         }
+
+
     }
 }

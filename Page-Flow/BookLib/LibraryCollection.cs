@@ -34,7 +34,7 @@ namespace BookLib
                     string license = settings[2];
                     string blurb = settings[3];
                     string note = settings[4];
-                    string[] comments = values[5].Split(";");
+                    List<string> comments = values[5].Split(";").ToList();
                     libraryList.Add(new Library(title, path_, author, license, blurb, note,Convert.ToInt32(sumLikes),Convert.ToInt32(likes), Convert.ToInt32(disLikes), comments,Library.Type.Server));
                 }
             }

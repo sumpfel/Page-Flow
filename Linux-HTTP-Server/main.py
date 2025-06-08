@@ -85,7 +85,7 @@ def create_preview_file():
                     settings_+=i+";"
                 comments_=""
                 for comment in comments:
-                    comments_+=f"{comment[0]}§{comment[1]};"
+                    comments_+=f"{comment[0]}@@{comment[1]};"
                 ratings[os.path.basename(full_path)] = rating+[settings_, comments_]
             except Exception as e:
                 logger.error(f"{full_path} has no settings file so it was skipped {e}")

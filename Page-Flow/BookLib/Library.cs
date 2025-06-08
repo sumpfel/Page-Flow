@@ -19,7 +19,8 @@ namespace BookLib
         public int SumLikes;
         public int Likes;
         public int DisLikes;
-        public string[] Comments;
+        public int FakeLikes=0;
+        public List<string> Comments;
         public List<string> Languages = new List<string> {"en", "de"};
         public enum Type
         {
@@ -29,7 +30,7 @@ namespace BookLib
         }
         public Type Local= Type.Local;
 
-        public Library(string titel, string path, string author, string license, string blurb, string note,int sum_likes, int likes, int dis_likes, string[] comments,Type type)
+        public Library(string titel, string path, string author, string license, string blurb, string note,int sum_likes, int likes, int dis_likes, List<string> comments,Type type)
         {
             Titel = titel;
             Path = path;

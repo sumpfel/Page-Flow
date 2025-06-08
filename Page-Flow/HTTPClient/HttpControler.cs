@@ -6,6 +6,7 @@ using System.Reflection.Metadata;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace HTTPClient
 {
@@ -110,12 +111,12 @@ namespace HTTPClient
             return await Download(GetUrl() + "/download/all", download_path);
         }
 
-        public async Task<bool> SendFeedback(string book_path, string likes, string comment)
+        private async Task<bool> SendFeedback(Dictionary<string,string> payload_dict)
         {
-            Dictionary<string, string> payload_dict = new Dictionary<string, string>() { { "user_name", Username }, { "pwd", Password }, { "book_path", book_path }, { "like", likes }, { "comment", comment } };
-            using (HttpClient client = new HttpClient())
+            
+            try
             {
-                try
+                using (HttpClient client = new HttpClient())
                 {
                     string payload = JsonSerializer.Serialize(payload_dict);
                     HttpContent content = new StringContent(payload, Encoding.UTF8, "application/json");
@@ -123,12 +124,24 @@ namespace HTTPClient
                     if (response.IsSuccessStatusCode) { return true; }
                     return false;
                 }
-                catch (Exception ex)
-                {
-                    //TODO: LOG ex
-                    throw (ex);
-                }
             }
+            catch (Exception ex)
+            {
+                //TODO: LOG ex
+                throw (ex);
+            }
+            
+        }
+        public async Task<bool> sendLikes(string book_path, string likes)
+        {
+            Dictionary<string, string> payload_dict = new Dictionary<string, string>() { { "user_name", Username }, { "pwd", Password }, { "book_path", book_path }, { "like", likes } };
+            return await SendFeedback(payload_dict);
+        }
+
+        public async Task<bool> sendComment(string book_path,string comment)
+        {
+            Dictionary<string, string> payload_dict = new Dictionary<string, string>() { { "user_name", Username }, { "pwd", Password }, { "book_path", book_path }, { "comment", comment } };
+            return await SendFeedback(payload_dict);
         }
     }
 }

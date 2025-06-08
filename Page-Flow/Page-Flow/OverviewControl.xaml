@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Page_Flow"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              MouseLeftButtonUp="UserControl_MouseLeftButtonUp"
              d:DesignHeight="220" d:DesignWidth="840">
     <Border  BorderBrush="CadetBlue" BorderThickness="5" CornerRadius="10" Margin="3">
@@ -40,7 +40,7 @@
             <Border Grid.Row="1" Grid.Column="5" BorderBrush="CadetBlue" BorderThickness="2" Margin="2" CornerRadius="3"/>
             <Label x:Name="LabelDisLikes" FontSize="15" Grid.Column="6" Grid.Row="1" Background="Transparent" Foreground="Crimson" Margin="5" Content="00% 👎" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
             <Border Grid.Row="1" Grid.Column="6" BorderBrush="Crimson" BorderThickness="2" Margin="2" CornerRadius="3"/>
-            <Label x:Name="LabelCommends" FontSize="15" Grid.Column="6" Grid.Row="2" Background="Transparent" Foreground="Goldenrod" Margin="5" Content="0 🗨" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+            <Label x:Name="LabelComments" MouseLeftButtonDown="Review_MouseLeftButtonDown" FontSize="15" Grid.Column="6" Grid.Row="2" Background="Transparent" Foreground="Goldenrod" Margin="5" Content="0 🗨" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
             <Border Grid.Row="2" Grid.Column="6" BorderBrush="Goldenrod" BorderThickness="2" Margin="2" CornerRadius="3"/>
             
             <Button x:Name="ButtonDownload" FontSize="16" Content="⬇" Grid.Column="4" Grid.Row="3" Height="30.6" Width="50" Foreground="CadetBlue" Background="LightBlue" BorderBrush="CadetBlue" BorderThickness="2" Click="ButtonDownload_Click" />

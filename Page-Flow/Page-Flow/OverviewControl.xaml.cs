@@ -31,25 +31,43 @@ namespace Page_Flow
             InitializeComponent();
             Library = Library_;
             Client = client;
-            LabelTitle.Content = Library_.Titel;
-            LabelLicenseAngabe.Content = Library_.License;
-            LabelAuthorAngabe.Content = Library_.Author;
-            LabelNoteAngabe.Content = Library_.Note;
+            LabelTitle.Content = Library.Titel;
+            LabelLicenseAngabe.Content = Library.License;
+            LabelAuthorAngabe.Content = Library.Author;
+            LabelNoteAngabe.Content = Library.Note;
+            
 
+            UpdateLikes();
+
+            foreach (string language in Library.Languages)
+                LabelLanguagesAngabe.Content += language + " ";
+        }
+
+        private void UpdateLikes()
+        {
+            LabelComments.Content = $"{Library.Comments.Count-1} 🗨";
             try
             {
-                LabelLikes.Content = $"{Convert.ToInt32(Convert.ToDouble(Library_.Likes) / (Library_.DisLikes + Library_.Likes) * 100)}% 👍";
-                LabelDisLikes.Content = $"{Convert.ToInt32(Convert.ToDouble(Library_.DisLikes) / (Library_.DisLikes + Library_.Likes) * 100)}% 👎";
+                int likes;
+                int disLikes;
+                if (Library.FakeLikes < 0)
+                {
+                    likes = Convert.ToInt32(Convert.ToDouble(Library.Likes) / (Library.DisLikes + Library.Likes - Library.FakeLikes) * 100);
+                    disLikes = Convert.ToInt32(Convert.ToDouble(Library.DisLikes - Library.FakeLikes) / (Library.DisLikes + Library.Likes - Library.FakeLikes) * 100);
+                }
+                else
+                {
+                    likes = Convert.ToInt32(Convert.ToDouble(Library.Likes + Library.FakeLikes) / (Library.DisLikes + Library.Likes + Library.FakeLikes) * 100);
+                    disLikes = Convert.ToInt32(Convert.ToDouble(Library.DisLikes) / (Library.DisLikes + Library.Likes + Library.FakeLikes) * 100);
+                }
+                LabelLikes.Content = $"{likes}% 👍";
+                LabelDisLikes.Content = $"{disLikes}% 👎";
             }
             catch
             {
                 LabelLikes.Content = $"--- 👍";
                 LabelDisLikes.Content = $"--- 👎";
             }
-
-            foreach (string language in Library_.Languages)
-                LabelLanguagesAngabe.Content += language + " ";
-            Client = client;
         }
 
         private void UserControl_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -88,6 +106,18 @@ namespace Page_Flow
                 return;
             }
             ZipFile.ExtractToDirectory(path, "books");
+        }
+
+        private void Review_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            ReviewWindow window = new ReviewWindow(Library,Client);
+
+            window.ShowDialog();
+
+            if (window.DialogResult == true)
+            {
+                UpdateLikes();
+            }
         }
     }
 }
