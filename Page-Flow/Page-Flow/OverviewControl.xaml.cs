@@ -36,9 +36,16 @@ namespace Page_Flow
             LabelAuthorAngabe.Content = Library_.Author;
             LabelNoteAngabe.Content = Library_.Note;
 
-            LabelLikes.Content = $"{Convert.ToInt32(Convert.ToDouble(Library_.Likes) / (Library_.DisLikes + Library_.Likes) * 100)}% 👍";
-            LabelDisLikes.Content = $"{Convert.ToInt32(Convert.ToDouble(Library_.DisLikes) / (Library_.DisLikes + Library_.Likes) * 100)}% 👎";
-
+            try
+            {
+                LabelLikes.Content = $"{Convert.ToInt32(Convert.ToDouble(Library_.Likes) / (Library_.DisLikes + Library_.Likes) * 100)}% 👍";
+                LabelDisLikes.Content = $"{Convert.ToInt32(Convert.ToDouble(Library_.DisLikes) / (Library_.DisLikes + Library_.Likes) * 100)}% 👎";
+            }
+            catch
+            {
+                LabelLikes.Content = $"--- 👍";
+                LabelDisLikes.Content = $"--- 👎";
+            }
 
             foreach (string language in Library_.Languages)
                 LabelLanguagesAngabe.Content += language + " ";
