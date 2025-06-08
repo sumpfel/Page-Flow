@@ -36,8 +36,12 @@
             <Label x:Name="LabelNoteAngabe" FontSize="20" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="3" Background="White" BorderBrush="LightGray" BorderThickness="2" Height="30.6" Padding="0" VerticalContentAlignment="Center"/>
 
             <Label x:Name="LabelLanguagesAngabe" FontSize="20" Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="0" Background="White" Height="30.6" Margin="5" Content="en de ja etc.." Padding="0"/>
-            <Label x:Name="LabelLikes" FontSize="15" Grid.Column="5" Grid.Row="1" Background="White" Foreground="CadetBlue" Margin="5" Content="00% 👍" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Right"/>
-            <Label x:Name="LabelDisLikes" FontSize="15" Grid.Column="6" Grid.Row="1" Background="White" Foreground="Crimson" Margin="5" Content="00% 👎" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Right"/>
+            <Label x:Name="LabelLikes" FontSize="15" Grid.Column="5" Grid.Row="1" Background="Transparent" Foreground="CadetBlue" Margin="5" Content="00% 👍" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+            <Border Grid.Row="1" Grid.Column="5" BorderBrush="CadetBlue" BorderThickness="2" Margin="2" CornerRadius="3"/>
+            <Label x:Name="LabelDisLikes" FontSize="15" Grid.Column="6" Grid.Row="1" Background="Transparent" Foreground="Crimson" Margin="5" Content="00% 👎" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+            <Border Grid.Row="1" Grid.Column="6" BorderBrush="Crimson" BorderThickness="2" Margin="2" CornerRadius="3"/>
+            <Label x:Name="LabelCommends" FontSize="15" Grid.Column="6" Grid.Row="2" Background="Transparent" Foreground="Goldenrod" Margin="5" Content="0 🗨" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+            <Border Grid.Row="2" Grid.Column="6" BorderBrush="Goldenrod" BorderThickness="2" Margin="2" CornerRadius="3"/>
             
             <Button x:Name="ButtonDownload" FontSize="16" Content="⬇" Grid.Column="4" Grid.Row="3" Height="30.6" Width="50" Foreground="CadetBlue" Background="LightBlue" BorderBrush="CadetBlue" BorderThickness="2" Click="ButtonDownload_Click"/>
             <Button x:Name="ButtonEdit" FontSize="16" Content="✎" VerticalContentAlignment="top" Foreground="Goldenrod" Grid.Column="5" Grid.Row="3" Height="30.6" Width="50" Background="Gold" BorderBrush="Goldenrod" BorderThickness="2"/>
