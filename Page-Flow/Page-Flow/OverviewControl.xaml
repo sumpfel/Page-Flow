@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Page_Flow"
              mc:Ignorable="d" 
-             d:DesignHeight="200" d:DesignWidth="840">
+             d:DesignHeight="200" d:DesignWidth="700">
     <Border  BorderBrush="CadetBlue" BorderThickness="5" CornerRadius="10">
         <Grid>
             <Grid.ColumnDefinitions>

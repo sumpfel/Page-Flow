@@ -23,20 +23,22 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <Label Content="General Settings" FontSize="40"></Label>
+        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Background="LightBlue"/>
+        <Label Content="General Settings:" FontSize="40"></Label>
         <Label Grid.Row="1" Content="Darkmode:" FontSize="40" HorizontalAlignment="Right"></Label>
         <Label Grid.Row="2" Content="Pages/Scroll:" FontSize="40" HorizontalAlignment="Right"></Label>
         <Label Grid.Row="3" Content="Your Language:" FontSize="40" HorizontalAlignment="Right"></Label>
 
+        <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Background="LightBlue"/>
         <Label Grid.Row="4" Content="Server Settings" FontSize="40"></Label>
         <Label Grid.Row="5" Content="IP:" FontSize="40" HorizontalAlignment="Right"></Label>
         <Label Grid.Row="6" Content="Port:" FontSize="40" HorizontalAlignment="Right"></Label>
         <Label Grid.Row="7" Content="[no user logged in]->" FontSize="40" HorizontalAlignment="Right"></Label>
 
-        <ToggleButton Grid.Column="1" Grid.Row="1" Width="40" Height="40" HorizontalAlignment="Left" Margin="10"></ToggleButton>
-        <ToggleButton Grid.Column="1" Grid.Row="2" Width="40" Height="40" HorizontalAlignment="Left" Margin="10"></ToggleButton>
-        <Button Grid.Column="2" Grid.Row="7" Width="100" Height="45" HorizontalAlignment="Left" Margin="10" Content="change" FontSize="30" Click="Button_Click"></Button>
-        <Button Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="2" Width="100" Height="45" HorizontalAlignment="Center" Margin="10" Content="apply" FontSize="30"></Button>
+        <ToggleButton Grid.Column="1" Grid.Row="1" Width="40" Height="40" HorizontalAlignment="Left" Margin="10" Background="LightBlue" BorderBrush="CadetBlue" BorderThickness="2"></ToggleButton>
+        <ToggleButton Grid.Column="1" Grid.Row="2" Width="40" Height="40" HorizontalAlignment="Left" Margin="10" Background="LightBlue" BorderBrush="CadetBlue" BorderThickness="2"></ToggleButton>
+        <Button Grid.Column="2" Grid.Row="7" Width="100" Height="45" HorizontalAlignment="Left" Margin="10" Content="change" FontSize="30" Click="Button_Click" Background="LightBlue" BorderBrush="CadetBlue" BorderThickness="2"></Button>
+        <Button Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="2" Width="100" Height="45" HorizontalAlignment="Center" Margin="10" Content="apply" FontSize="30" Background="LightBlue" BorderBrush="CadetBlue" BorderThickness="2"></Button>
         <TextBox Grid.Column="2" Grid.Row="5" Margin="10" FontSize="35" Text="cooler_server.com"></TextBox>
         <TextBox Grid.Column="2" Grid.Row="6" Margin="10" FontSize="35" Text="80"></TextBox>
         <ComboBox x:Name="ComboBoxLanguage" Grid.Row="3" Grid.Column="1" Background="White" BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Left" Width="350" Height="45" Margin="10">
