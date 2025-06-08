@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Page_Flow"
              mc:Ignorable="d" 
+             MouseLeftButtonUp="UserControl_MouseLeftButtonUp"
              d:DesignHeight="200" d:DesignWidth="840">
     <Border  BorderBrush="CadetBlue" BorderThickness="5" CornerRadius="10">
         <Grid>
@@ -38,7 +39,7 @@
             <Label x:Name="LabelLikes" FontSize="15" Grid.Column="5" Grid.Row="1" Background="White" Foreground="CadetBlue" Margin="5" Content="00% 👍" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Right"/>
             <Label x:Name="LabelDisLikes" FontSize="15" Grid.Column="6" Grid.Row="1" Background="White" Foreground="Crimson" Margin="5" Content="00% 👎" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Right"/>
             
-            <Button x:Name="ButtonDownload" FontSize="16" Content="⬇" Grid.Column="4" Grid.Row="3" Height="30.6" Width="50" Foreground="CadetBlue" Background="LightBlue" BorderBrush="CadetBlue" BorderThickness="2"/>
+            <Button x:Name="ButtonDownload" FontSize="16" Content="⬇" Grid.Column="4" Grid.Row="3" Height="30.6" Width="50" Foreground="CadetBlue" Background="LightBlue" BorderBrush="CadetBlue" BorderThickness="2" Click="ButtonDownload_Click"/>
             <Button x:Name="ButtonEdit" FontSize="16" Content="✎" VerticalContentAlignment="top" Foreground="Goldenrod" Grid.Column="5" Grid.Row="3" Height="30.6" Width="50" Background="Gold" BorderBrush="Goldenrod" BorderThickness="2"/>
             <Button x:Name="ButtonDelete" FontSize="16" Content="?" Foreground="Crimson" Grid.Column="6" Grid.Row="3" Height="30.6" Width="50" Background="LightCoral" BorderBrush="Crimson" BorderThickness="2"/>
         </Grid>
