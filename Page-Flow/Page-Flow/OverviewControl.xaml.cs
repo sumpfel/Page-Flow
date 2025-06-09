@@ -3,6 +3,7 @@ using DeepL.Model;
 using HTTPClient;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
@@ -28,6 +29,10 @@ namespace Page_Flow
         public Library Library;
         public HttpControler Client;
         public event EventHandler LibraryClicked;
+        public event EventHandler LibraryDeleted;
+
+        private bool CanDownload;
+        private bool CanDelete;
         public OverviewControl(Library Library_, HttpControler client)
         {
             InitializeComponent();
@@ -46,12 +51,30 @@ namespace Page_Flow
             {
                 LabelLanguagesAngabe.Content += language + " ";
             }
-                
+
+            if (Library.Local == Library.Type.Local)
+            {
+                ButtonDownload.Visibility = Visibility.Hidden;
+                Grid.SetColumnSpan(LabelNoteAngabe, 4);
+                CanDownload = false;
+                CanDelete = true;
+            }
+            else if (Library.Local == Library.Type.Downloaded)
+            {
+                HideDownloadButton();
+                CanDelete = true;
+            }
+            else
+            {
+                HideDeleteButton();
+                CanDownload = true;
+            }
+            
         }
 
         private void UpdateLikes()
         {
-            LabelComments.Content = $"{Library.Comments.Count-1} 🗨";
+            LabelComments.Content = $"{Library.Comments.Count} 🗨";
             try
             {
                 int likes;
@@ -104,6 +127,7 @@ namespace Page_Flow
             DownloadLib();
             Library.Local = Library.Type.Downloaded;
             HideDownloadButton();
+            ShowDeleteButton();
         }
 
         private void HideDownloadButton()
@@ -111,19 +135,41 @@ namespace Page_Flow
             ButtonDownload.Background = Brushes.LightGray;
             ButtonDownload.Foreground = Brushes.DarkGray;
             ButtonDownload.BorderBrush = Brushes.DarkGray;
+            CanDownload = false;
+        }
+
+        private void HideDeleteButton()
+        {
+            ButtonDelete.Background = Brushes.LightGray;
+            ButtonDelete.Foreground = Brushes.DarkGray;
+            ButtonDelete.BorderBrush = Brushes.DarkGray;
+            CanDelete = false;
+        }
+
+        private void ShowDeleteButton()
+        {
+            ButtonDelete.Background = Brushes.LightCoral;
+            ButtonDelete.Foreground = Brushes.Crimson;
+            ButtonDelete.BorderBrush = Brushes.Crimson;
+            CanDelete = true;
         }
 
         private async void DownloadLib()
         {
-            string path = "books/" + Library.Path+ ".zip";
-            bool Succes= await Client.DownloadBook(Library.Path, path);
-            if (Succes==false)
+            if (CanDownload)
             {
-                MessageBox.Show("Error 404: Failed downloading book.");
-                return;
+                string path = "books/" + Library.Path+ ".zip";
+                bool Succes= await Client.DownloadBook(Library.Path, path);
+                if (Succes==false)
+                {
+                    MessageBox.Show("Error 404: Failed downloading book.");
+                    return;
+                }
+                ZipFile.ExtractToDirectory(path, "books");
+                File.Delete(path);
             }
-            ZipFile.ExtractToDirectory(path, "books");
         }
+            
 
         private void Review_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -134,6 +180,16 @@ namespace Page_Flow
             if (window.DialogResult == true)
             {
                 UpdateLikes();
+            }
+        }
+
+        private void ButtonDelete_Click(object sender, RoutedEventArgs e)
+        {
+            if (CanDelete)
+            {
+                Directory.Delete("books/" + Library.Path, true);
+                CanDelete = false;
+                LibraryDeleted?.Invoke(this, EventArgs.Empty);
             }
         }
     }

@@ -44,6 +44,8 @@ namespace Page_Flow
 
             //MessageBox.Show($"translation: {TranslatedBook}");
 
+            LibraryCollection.LoadFromLocal();
+            LoadToView();
         }
 
         private void ButtonSettings_Click(object sender, RoutedEventArgs e)
@@ -74,12 +76,21 @@ namespace Page_Flow
             {
                 OverviewControl control = new OverviewControl(library,Client);
                 control.LibraryClicked += Control_LibraryClicked;
+                control.LibraryDeleted += Control_LibraryDeleted;
                 View.Children.Add(control);
             }
 
         }
 
-        private void Control_LibraryClicked(object sender, EventArgs e)
+        private void Control_LibraryDeleted(object? sender, EventArgs e)
+        {
+            LibraryCollection.libraryList.Clear();
+            LibraryCollection.LoadFromLocal();
+            LibraryCollection.LoadFromPreview("books/preview.csv");
+            LoadToView();
+        }
+
+        private void Control_LibraryClicked(object? sender, EventArgs e)
         {
             if (sender is OverviewControl Control)
             {
@@ -95,7 +106,7 @@ namespace Page_Flow
             }
         }
 
-        private void Control_BookCollectionClicked(object sender, EventArgs e)
+        private void Control_BookCollectionClicked(object? sender, EventArgs e)
         {
             if (sender is OverviewBookControl Control)
             {
