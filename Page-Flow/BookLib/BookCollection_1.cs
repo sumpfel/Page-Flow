@@ -33,7 +33,7 @@ namespace BookLib
         }
         public Type Local= Type.Local;
 
-        public Library(string titel, string path, string author, string license, string blurb, string note,int sum_likes, int likes, int dis_likes, List<string> comments,Type type)
+        public Library(string titel, string path, string author, string license, string blurb, string note,int sum_likes, int likes, int dis_likes, List<string> comments,Type type,List<string> languages)
         {
             Titel = titel;
             Path = path;
@@ -46,6 +46,7 @@ namespace BookLib
             DisLikes = dis_likes;
             Comments= comments;
             Local= type;
+            Languages= languages;
         }
 
         public void LoadBooks()
@@ -96,7 +97,7 @@ namespace BookLib
                             }
                             if (File.Exists(votesFilePath))
                             {
-                                using (StreamReader sr = new StreamReader(commentsFilePath))
+                                using (StreamReader sr = new StreamReader(votesFilePath))
                                 {
                                     string Ratings = sr.ReadToEnd().Trim();
                                     string[] votes = Ratings.Split(",");

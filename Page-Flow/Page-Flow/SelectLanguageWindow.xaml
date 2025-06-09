@@ -1,0 +1,22 @@
+﻿<Window x:Class="Page_Flow.SelectLanguageWindow"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:Page_Flow"
+    mc:Ignorable="d"
+    Title="ScrollViewWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="37.5"/>
+            <RowDefinition Height="37.5"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Label x:Name="LabelÜberschrift" Grid.Row="0" Content="Language Select" FontSize="20" Background="LightBlue" BorderBrush="CadetBlue" BorderThickness="2"/>
+        <Label x:Name="LabelPath" Grid.Row="1" Content="path > path > path > path > path > path > ...." Height="30" VerticalAlignment="Top" Background="WhiteSmoke" Margin="3"/>
+        <ScrollViewer x:Name="MyScrollViewer" VerticalScrollBarVisibility="Hidden" Grid.Row="2">
+            <StackPanel x:Name="View" Grid.Row="2" Margin="5"></StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Window>

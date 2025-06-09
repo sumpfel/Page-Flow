@@ -1,7 +1,9 @@
 ﻿using BookLib;
+using DeepL.Model;
 using HTTPClient;
 using System;
 using System.Collections.Generic;
+using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -15,7 +17,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.IO.Compression;
 
 namespace Page_Flow
 {
@@ -40,8 +41,12 @@ namespace Page_Flow
 
             UpdateLikes();
 
+            LabelLanguagesAngabe.Content = "";
             foreach (string language in Library.Languages)
+            {
                 LabelLanguagesAngabe.Content += language + " ";
+            }
+                
         }
 
         private void UpdateLikes()

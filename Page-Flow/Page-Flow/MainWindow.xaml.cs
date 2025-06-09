@@ -3,6 +3,7 @@ using DeepL;
 using DeepL.Model;
 using HTTPClient;
 using Serilog;
+using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -80,16 +81,41 @@ namespace Page_Flow
 
         private void Control_LibraryClicked(object sender, EventArgs e)
         {
-            View.Children.Clear();
             if (sender is OverviewControl Control)
             {
+                View.Children.Clear();
                 Control.Library.LoadBooks();
                 foreach (BookCollection bookCollection in Control.Library.bookCollections)
                 {
                     OverviewBookControl overviewBookControl = new OverviewBookControl(bookCollection,Control.Client);
+                    overviewBookControl.BookCollectionClicked += Control_BookCollectionClicked;
                     View.Children.Add(overviewBookControl);
                 }
 
+            }
+        }
+
+        private void Control_BookCollectionClicked(object sender, EventArgs e)
+        {
+            if (sender is OverviewBookControl Control)
+            {
+                MessageBox.Show(Control.BookCollection.Path);
+                SelectLanguageWindow window = new SelectLanguageWindow(Control.BookCollection);
+
+                window.ShowDialog();
+
+                if (window.DialogResult == true)
+                {
+                    string[] SubDirs = Directory.GetDirectories("books\\"+Control.BookCollection.Path);
+                    foreach (string dir in SubDirs)
+                    {
+                        if(dir.Replace("books\\" + Control.BookCollection.Path +"\\"+ Control.BookCollection.Path.Split("\\")[1], "").ToUpper()==window.Language.ToUpper())
+                        {
+                            
+                        }
+                    }
+                    
+                }
             }
         }
 

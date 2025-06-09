@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace BookLib
@@ -34,12 +35,17 @@ namespace BookLib
                     string license = settings[2];
                     string blurb = settings[3];
                     string note = settings[4];
+                    List<string> languages = settings[5].Split("%").ToList();
                     List<string> comments = values[5].Split(";").ToList();
                     if (comments.Count > 0)
                     {
                         comments.RemoveAt(comments.Count - 1);
                     }
-                    libraryList.Add(new Library(title, path_, author, license, blurb, note,Convert.ToInt32(sumLikes),Convert.ToInt32(likes), Convert.ToInt32(disLikes), comments,Library.Type.Server));
+                    if (languages.Count > 0)
+                    {
+                        languages.RemoveAt(languages.Count - 1);
+                    }
+                    libraryList.Add(new Library(title, path_, author, license, blurb, note,Convert.ToInt32(sumLikes),Convert.ToInt32(likes), Convert.ToInt32(disLikes), comments,Library.Type.Server,languages));
                 }
             }
         }

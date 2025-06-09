@@ -17,7 +17,7 @@
             <Label x:Name="LabelÜberschrift" Grid.Row="0" Content="Krasser Titel-Kasses Kapitel(maybe)" FontSize="20" Background="LightBlue" BorderBrush="CadetBlue" BorderThickness="2"/>
             <Label x:Name="LabelPath" Grid.Row="1" Content="path > path > path > path > path > path > ...." Height="30" VerticalAlignment="Top" Background="WhiteSmoke" Margin="3"/>
             <ScrollViewer x:Name="MyScrollViewer" VerticalScrollBarVisibility="Hidden" Grid.Row="2">
-                <StackPanel x:Name="ScrollView" Grid.Row="2" Margin="5"></StackPanel>
+                <TextBlock Margin="10" TextWrapping="Wrap" FontSize="20" Text="Krasses Buch&#x0a;zweite zeile"></TextBlock>
             </ScrollViewer>
         </Grid>
     </Grid>
