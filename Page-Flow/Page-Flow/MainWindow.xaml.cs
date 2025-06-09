@@ -134,5 +134,31 @@ namespace Page_Flow
             }
         }
 
+        private void ButtonUpload_Click(object sender, RoutedEventArgs e)
+        {
+            CreateBookOrLibrary window = new CreateBookOrLibrary();
+            window.ShowDialog();
+            if(window.DialogResult == true)
+            {
+                if (window.Create == 1)
+                {
+                    AddLibrary addLibrary = new AddLibrary();
+                    addLibrary.ShowDialog();
+                    if(addLibrary.DialogResult == true)
+                    {
+
+                    }
+                }
+                else if(window.Create == 2)
+                {
+                    AddBookWindow addBookWindow = new AddBookWindow();
+                    addBookWindow.ShowDialog();
+                    if (addBookWindow.DialogResult == true)
+                    {
+
+                    }
+                }
+            }
+        }
     }
 }

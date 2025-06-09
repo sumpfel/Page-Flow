@@ -1,12 +1,11 @@
-﻿<Window x:Class="Page_Flow.AddBookWindow"
+﻿<Window x:Class="Page_Flow.AddLibrary"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Page_Flow"
         mc:Ignorable="d"
-        Title="AddBook" 
-        Height="500" Width="800">
+        Title="AddLibrary" Height="450" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="150" />
@@ -16,14 +15,14 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
-            
+
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
             <RowDefinition Height="75" />
             <RowDefinition Height="75" />
             <RowDefinition Height="55" />
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="0"/>
             <RowDefinition Height="55" />
             <RowDefinition Height="55" />
             <RowDefinition Height="55" />
@@ -42,20 +41,10 @@
         <TextBox x:Name="TextBoxLicense" FontSize="20" VerticalAlignment="Center" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="6" Background="White" BorderBrush="LightGray" BorderThickness="2" Height="30.6" />
         <TextBox x:Name="TextBoxBlurb" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="4" FontSize="20" Background="White" BorderBrush="LightGray" BorderThickness="2" Height="30.6" />
 
-        <ScrollViewer Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="6" Grid.RowSpan="3">
-            <StackPanel>
-                <local:AddLanguageControl1 x:Name="AddBookLanguage"/>
-                <Button Content="AddLanguage"/>
-            </StackPanel>
-        </ScrollViewer>
-       
-        
-        
         <Button x:Name="ButtonAccept" Grid.Row="7" Grid.Column="6" Content="✔" FontSize="18" Foreground="CadetBlue" VerticalContentAlignment="Top" Background="LightBlue" BorderBrush="CadetBlue" BorderThickness="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="4" Height="30.6" Width="70" />
         <Button x:Name="ButtonDeny" Grid.Row="7" Grid.Column="5" Content="✖" FontSize="16" Foreground="Goldenrod" Background="Gold" BorderBrush="Goldenrod" BorderThickness="2" VerticalAlignment="Center" Margin="4" Height="30.6" Width="70" />
-        
+
         <Border Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"  Margin="10" BorderThickness="2" BorderBrush="CadetBlue" />
         <Button x:Name="ButtonThumbnail" Content="Browse Thumbnail" FontSize="20" Grid.Row="2" Grid.Column="0" Background="LightBlue" BorderBrush="CadetBlue" BorderThickness="2" Margin="5" />
     </Grid>
 </Window>
-    
