@@ -13,18 +13,17 @@ namespace BookLib
 
         static public string[] ChapterSplitter = new string[]{"Kapitel","Chapter"};
 
-        public string Path_ = "";
-
-        public int[] Position = new int[2] { 0, 0 }; //Chapter Seite
+        public string Path = "";
+        public string Title;
+        public int[] Position = new int[2] { 1, 0 }; //Chapter Page
 
         public string Language;
 
-        public bool IsPictureBook = false; //nice to have proparbly will never get implemented
 
 
+        public Book(string title,string La,string Path_) {Title=title; Language = La; Path = Path_; }
 
-        public Book(string La,string Path) { Language = La; Path_ = Path; }
-
+        /*
         public String Load()
         {
             string BookContent = "";
@@ -99,7 +98,7 @@ namespace BookLib
 
                 x++;
             }
-        }
+        }*/
 
     }
 

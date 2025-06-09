@@ -106,12 +106,16 @@ namespace Page_Flow
 
                 if (window.DialogResult == true)
                 {
-                    string[] SubDirs = Directory.GetDirectories("books\\"+Control.BookCollection.Path);
-                    foreach (string dir in SubDirs)
+                    foreach (Book book in Control.BookCollection.Books)
                     {
-                        if(dir.Replace("books\\" + Control.BookCollection.Path +"\\"+ Control.BookCollection.Path.Split("\\")[1], "").ToUpper()==window.Language.ToUpper())
+                        if(book.Language==window.Language.ToUpper())
                         {
-                            
+                            ScrollViewWindow scrollViewWindow = new ScrollViewWindow(book);
+                            scrollViewWindow.ShowDialog();
+                            if(scrollViewWindow.DialogResult == true)
+                            {
+                                
+                            }
                         }
                     }
                     

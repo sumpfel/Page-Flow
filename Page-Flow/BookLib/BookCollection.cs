@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace BookLib
 {
     public class BookCollection : IReviewable
     {
-        //TODO all
         public List<string> Comments { get; set; } = new List<string>();
         public int SumLikes;
         public int Likes { get; set; }
@@ -23,18 +25,39 @@ namespace BookLib
         public string Note;
         public List<string> Languages = new List<string> { "en", "de" };
 
-        public string Path_ = "";
 
-        private List<Book> Books = new List<Book> { };
+        public List<Book> Books = new List<Book> { };
 
-        public BookCollection() { }
+        public BookCollection()
+        {
+            
+        }
 
+        public void LoadBooks()
+        {
+            string[] SubDirs = Directory.GetDirectories("books\\" + Path);
+            foreach (string dir in SubDirs)
+            {
+                string Language = dir.Replace("books\\" + Path + "\\" + Path.Split("\\")[1], "").ToUpper();
+                Book book = new Book(Titel,Language, dir);
+                Books.Add(book);
+                try
+                {
+                    using(StreamReader sr = new StreamReader(dir+"\\position.csv"))
+                    {
+                        string[] pos = sr.ReadToEnd().Trim().Split(",");
+                        book.Position = new int[2] { Convert.ToInt32(pos[0]), Convert.ToInt32(pos[1]) };
+                    }
+                }
+                catch { }
+            }
+        }
 
-        public void Add_Language(string language,string filepath, bool generate)
+        /*public void Add_Language(string language,string filepath, bool generate)
         {
             if (!generate)
             {
-                Book book = new Book(language,Path_);
+                Book book = new Book(language,Path);
                 book.FormatBook(filepath);
                 Books.Add(book);
             }
@@ -64,6 +87,6 @@ namespace BookLib
             {
                 //TODO:save settings of book
             }
-        }
+        }*/
     }
 }

@@ -1,5 +1,7 @@
-﻿using System;
+﻿using BookLib;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,9 +21,20 @@ namespace Page_Flow
     /// </summary>
     public partial class ScrollViewWindow : Window
     {
-        public ScrollViewWindow()
+        Book Book;
+        public ScrollViewWindow(Book book)
         {
             InitializeComponent();
+            Book = book;
+
+            LabelTitle.Content=Book.Title;
+
+            using(StreamReader sr = new StreamReader(Book.Path +"\\"+ Book.Position[0]+".txt"))
+            {
+                BookText.Text=sr.ReadToEnd();
+            }
+            
+
         }
     }
 }

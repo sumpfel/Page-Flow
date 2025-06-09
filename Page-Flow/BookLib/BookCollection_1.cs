@@ -106,6 +106,7 @@ namespace BookLib
                                     bookCollection.DisLikes = Convert.ToInt32(votes[2]);
                                 }
                             }
+                            bookCollection.LoadBooks();
                         }
 
                     }
