@@ -40,6 +40,7 @@ namespace Page_Flow
 
             UpdateLikes();
 
+            LabelLanguagesAngabe.Content = "";
             foreach (string language in BookCollection.Languages)
                 LabelLanguagesAngabe.Content += language + " ";
         }
