@@ -67,11 +67,10 @@ def create_preview_file():
                 pass
 
             try:
-                rows = []
                 with open(os.path.join(full_path,"comments.csv"), mode="r") as file:
-                    comments = list(csv.reader(file))
+                    comments = list(csv.reader(file,delimiter="*"))
 
-            except:
+            except Exception as e:
                 pass
 
             try:
@@ -215,10 +214,10 @@ def update_ratings(user_name, book_path, like=None, comment=None):
                 row.append(comment)
 
                 with open(comments_file, mode="r") as file:
-                    rows2 = list(csv.reader(file))
+                    rows2 = list(csv.reader(file,delimiter="*"))
                 rows2.append([user_name,comment])
                 with open(comments_file, mode="w", newline="") as file:
-                    csv.writer(file).writerows(rows2)
+                    csv.writer(file,delimiter="*").writerows(rows2)
 
     if user_exists == False:
         row = [user_name, "0"]

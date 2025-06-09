@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="Page_Flow.OverviewBookControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Page_Flow"
+             mc:Ignorable="d"
+             MouseLeftButtonUp="UserControl_MouseLeftButtonUp"
+             d:DesignHeight="220" d:DesignWidth="840">
+    <Border  BorderBrush="CadetBlue" BorderThickness="5" CornerRadius="10" Margin="3">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="0.5*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Label x:Name="LabelTitle" Content="Krasser Titel" FontSize="20" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="4" Background="LightGray" BorderBrush="Gray" BorderThickness="2" Margin="5"/>
+            <Image x:Name="ImageThumbnail" Grid.Row="0" Grid.RowSpan="3" Grid.Column="0"/>
+            <Border Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" BorderBrush="CadetBlue" BorderThickness="4" Margin="5" CornerRadius="10"/>
+            <Label x:Name="LabelLicense" Content="License:" FontSize="20" Grid.Column="1" Grid.Row="1" Background="LightGray" BorderBrush="Gray" BorderThickness="2" Height="30.6" Width="150" HorizontalAlignment="Right"  Padding="0" VerticalContentAlignment="Center"/>
+            <Label x:Name="LabelAuthor" Content="Author:" FontSize="20" Grid.Column="1" Grid.Row="2" Background="LightGray" BorderBrush="Gray" BorderThickness="2" Height="30.6" Width="150" HorizontalAlignment="Right"  Padding="0" VerticalContentAlignment="Center"/>
+            <Label x:Name="LabelLicenseAngabe" FontSize="20" Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="1" Background="White" BorderBrush="LightGray" BorderThickness="2" Height="30.6" Padding="0" VerticalContentAlignment="Center"/>
+            <Label x:Name="LabelAuthorAngabe" FontSize="20" Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="2" Background="White" BorderBrush="LightGray" BorderThickness="2" Height="30.6" Padding="0" VerticalContentAlignment="Center"/>
+            <Label x:Name="LabelNote" Content="Personal Note:" FontSize="20" Grid.Column="0" Grid.Row="3" Background="LightGray" BorderBrush="Gray" BorderThickness="2" Height="30.6" Padding="0" VerticalContentAlignment="Center"/>
+            <Label x:Name="LabelNoteAngabe" FontSize="20" Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="3" Background="White" BorderBrush="LightGray" BorderThickness="2" Height="30.6" Padding="0" VerticalContentAlignment="Center"/>
+
+            <Label x:Name="LabelLanguagesAngabe" FontSize="20" Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="0" Background="White" Height="30.6" Margin="5" Content="en de ja etc.." Padding="0"/>
+            <Label x:Name="LabelLikes" FontSize="15" Grid.Column="5" Grid.Row="1" Background="Transparent" Foreground="CadetBlue" Margin="5" Content="00% 👍" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+            <Border Grid.Row="1" Grid.Column="5" BorderBrush="CadetBlue" BorderThickness="2" Margin="2" CornerRadius="3"/>
+            <Label x:Name="LabelDisLikes" FontSize="15" Grid.Column="6" Grid.Row="1" Background="Transparent" Foreground="Crimson" Margin="5" Content="00% 👎" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+            <Border Grid.Row="1" Grid.Column="6" BorderBrush="Crimson" BorderThickness="2" Margin="2" CornerRadius="3"/>
+            <Label x:Name="LabelComments" MouseLeftButtonDown="Review_MouseLeftButtonDown" FontSize="15" Grid.Column="6" Grid.Row="2" Background="Transparent" Foreground="Goldenrod" Margin="5" Content="0 🗨" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+            <Border Grid.Row="2" Grid.Column="6" BorderBrush="Goldenrod" BorderThickness="2" Margin="2" CornerRadius="3"/>
+            
+            <Button x:Name="ButtonEdit" FontSize="16" Content="✎" VerticalContentAlignment="top" Foreground="Goldenrod" Grid.Column="5" Grid.Row="3" Height="30.6" Width="50" Background="Gold" BorderBrush="Goldenrod" BorderThickness="2"/>
+            <Button x:Name="ButtonDelete" FontSize="16" Content="?" Foreground="Crimson" Grid.Column="6" Grid.Row="3" Height="30.6" Width="50" Background="LightCoral" BorderBrush="Crimson" BorderThickness="2"/>
+        </Grid>
+    </Border>
+</UserControl>

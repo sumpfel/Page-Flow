@@ -24,8 +24,9 @@ namespace Page_Flow
     /// </summary>
     public partial class OverviewControl : UserControl
     {
-        Library Library;
-        HttpControler Client;
+        public Library Library;
+        public HttpControler Client;
+        public event EventHandler LibraryClicked;
         public OverviewControl(Library Library_, HttpControler client)
         {
             InitializeComponent();
@@ -77,9 +78,12 @@ namespace Page_Flow
                     if(MessageBox.Show("You haven't downloaded this Library yet. Do you want to download it?", "Download?", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                     {
                         DownloadLib();
+                        Library.Local = Library.Type.Downloaded;
+                        LibraryClicked?.Invoke(this, EventArgs.Empty);
                     }
                     else
                     {
+                        LibraryClicked?.Invoke(this, EventArgs.Empty);
                         break;
                     }
                         break;
@@ -93,11 +97,19 @@ namespace Page_Flow
         private void ButtonDownload_Click(object sender, RoutedEventArgs e)
         {
             DownloadLib();
+            Library.Local = Library.Type.Downloaded;
+            HideDownloadButton();
+        }
+
+        private void HideDownloadButton()
+        {
+            ButtonDownload.Background = Brushes.LightGray;
+            ButtonDownload.Foreground = Brushes.DarkGray;
+            ButtonDownload.BorderBrush = Brushes.DarkGray;
         }
 
         private async void DownloadLib()
         {
-            MessageBox.Show(Library.Path);
             string path = "books/" + Library.Path+ ".zip";
             bool Succes= await Client.DownloadBook(Library.Path, path);
             if (Succes==false)

@@ -7,15 +7,21 @@ using System.Threading.Tasks;
 
 namespace BookLib
 {
-    internal class BookCollection
+    public class BookCollection : IReviewable
     {
         //TODO all
-
-        public Dictionary<string,string> Data = new Dictionary<string, string>{ 
-            {"Titel","" },
-            { "Author", "" },
-            { "Note", "" },
-            { "Blurb", "" } };
+        public List<string> Comments { get; set; } = new List<string>();
+        public int SumLikes;
+        public int Likes { get; set; }
+        public int DisLikes { get; set; }
+        public int FakeLikes { get; set; } = 0;
+        public string Titel;
+        public string Path { get; set; }
+        public string Author;
+        public string License;
+        public string Blurb;
+        public string Note;
+        public List<string> Languages = new List<string> { "en", "de" };
 
         public string Path_ = "";
 

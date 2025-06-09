@@ -21,16 +21,16 @@ namespace Page_Flow
     /// </summary>
     public partial class ReviewWindow : Window
     {
-        Library Library;
+        IReviewable Reviewable;
         HttpControler Client;
-        public ReviewWindow(Library library, HttpControler Client_)
+        public ReviewWindow(IReviewable Reviewable_, HttpControler Client_)
         {
             InitializeComponent();
-            Library = library;
+            Reviewable=Reviewable_;
             Client = Client_;
             UpdateLikes();
             UpdateComments();
-            LabelComments.Content = $"{Library.Comments.Count-1} 🗨";
+            LabelComments.Content = $"{Reviewable.Comments.Count-1} 🗨";
         }
 
         private void UpdateLikes()
@@ -39,15 +39,15 @@ namespace Page_Flow
             {
                 int likes;
                 int disLikes;
-                if (Library.FakeLikes < 0)
+                if (Reviewable.FakeLikes < 0)
                 {
-                    likes = Convert.ToInt32(Convert.ToDouble(Library.Likes) / (Library.DisLikes + Library.Likes - Library.FakeLikes) * 100);
-                    disLikes = Convert.ToInt32(Convert.ToDouble(Library.DisLikes - Library.FakeLikes) / (Library.DisLikes + Library.Likes - Library.FakeLikes) * 100);
+                    likes = Convert.ToInt32(Convert.ToDouble(Reviewable.Likes) / (Reviewable.DisLikes + Reviewable.Likes - Reviewable.FakeLikes) * 100);
+                    disLikes = Convert.ToInt32(Convert.ToDouble(Reviewable.DisLikes - Reviewable.FakeLikes) / (Reviewable.DisLikes + Reviewable.Likes - Reviewable.FakeLikes) * 100);
                 }
                 else
                 {
-                    likes = Convert.ToInt32(Convert.ToDouble(Library.Likes + Library.FakeLikes) / (Library.DisLikes + Library.Likes + Library.FakeLikes) * 100);
-                    disLikes = Convert.ToInt32(Convert.ToDouble(Library.DisLikes) / (Library.DisLikes + Library.Likes + Library.FakeLikes) * 100);
+                    likes = Convert.ToInt32(Convert.ToDouble(Reviewable.Likes + Reviewable.FakeLikes) / (Reviewable.DisLikes + Reviewable.Likes + Reviewable.FakeLikes) * 100);
+                    disLikes = Convert.ToInt32(Convert.ToDouble(Reviewable.DisLikes) / (Reviewable.DisLikes + Reviewable.Likes + Reviewable.FakeLikes) * 100);
                 }
                 LabelLikes.Content = $"{likes}% 👍";
                 LabelDisLikes.Content = $"{disLikes}% 👎";
@@ -62,7 +62,7 @@ namespace Page_Flow
         private void UpdateComments()
         {
             CommentView.Children.Clear();
-            foreach (string comment_ in Library.Comments)
+            foreach (string comment_ in Reviewable.Comments)
             {
                 try
                 {
@@ -96,14 +96,14 @@ namespace Page_Flow
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(Client.GetUserName());
+            MessageBox.Show(Reviewable.Path);
             if (CommentTextBox.Text != "")
             {
-                bool succes=await Client.sendComment(Library.Path, CommentTextBox.Text);
+                bool succes=await Client.sendComment(Reviewable.Path, CommentTextBox.Text);
                 if (succes)
                 {
-                    Library.Comments.Add($"{Client.GetUserName()}@@{CommentTextBox.Text}");
-                    LabelComments.Content = $"{Library.Comments.Count - 1} 🗨";
+                    Reviewable.Comments.Add($"{Client.GetUserName()}@@{CommentTextBox.Text}");
+                    LabelComments.Content = $"{Reviewable.Comments.Count - 1} 🗨";
                     UpdateComments();
                 }
                 else { MessageBox.Show("Error: Comment couldn't be sent try again later"); }
@@ -139,10 +139,10 @@ namespace Page_Flow
                         likes = 0;
                         break;
                 }
-                succes=await Client.sendLikes(Library.Path,likes.ToString());
+                succes=await Client.sendLikes(Reviewable.Path,likes.ToString());
                 if (succes)
                 {
-                    Library.FakeLikes = likes;
+                    Reviewable.FakeLikes = likes;
                     UpdateLikes();
                 }
                 else

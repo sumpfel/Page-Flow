@@ -60,8 +60,6 @@ namespace Page_Flow
 
         private async void ButtonReload_Click(object sender, RoutedEventArgs e)
         {
-            bool login=await Client.CheckUser("c#user", "1234");
-            MessageBox.Show(login.ToString());
             await Client.DownloadPreviewFile("books/preview.csv");
             await Client.DownloadAll("books/all.zip");
             LibraryCollection.LoadFromPreview("books/preview.csv");
@@ -74,11 +72,26 @@ namespace Page_Flow
             foreach (Library library in LibraryCollection.libraryList)
             {
                 OverviewControl control = new OverviewControl(library,Client);
+                control.LibraryClicked += Control_LibraryClicked;
                 View.Children.Add(control);
             }
 
         }
 
+        private void Control_LibraryClicked(object sender, EventArgs e)
+        {
+            View.Children.Clear();
+            if (sender is OverviewControl Control)
+            {
+                Control.Library.LoadBooks();
+                foreach (BookCollection bookCollection in Control.Library.bookCollections)
+                {
+                    OverviewBookControl overviewBookControl = new OverviewBookControl(bookCollection,Control.Client);
+                    View.Children.Add(overviewBookControl);
+                }
+
+            }
+        }
 
     }
 }
