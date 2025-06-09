@@ -20,7 +20,7 @@ namespace BookLib
         public void AddVocab(string language, string word)
         {
             word = word.Replace(":","");
-            Vocabulary[language].Add(word, Translate.TranslateText(word, language, NativeLanguage));
+            Vocabulary[language].Add(word, Translate.TranslateText(word, NativeLanguage));
         }
 
         public void save()

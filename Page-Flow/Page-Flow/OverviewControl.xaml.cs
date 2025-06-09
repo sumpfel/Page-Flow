@@ -108,15 +108,10 @@ namespace Page_Flow
                         DownloadLib();
                         Library.Local = Library.Type.Downloaded;
                         LibraryClicked?.Invoke(this, EventArgs.Empty);
-                    }
-                    else
-                    {
-                        LibraryClicked?.Invoke(this, EventArgs.Empty);
-                        break;
-                    }
-                        break;
+                    }                    
+                    break;
                 default:
-                    
+                    LibraryClicked?.Invoke(this, EventArgs.Empty);
                     break;
             }
                 

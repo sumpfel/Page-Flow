@@ -29,6 +29,9 @@
     <Compile Update="TextInputWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="TranslationPopUp.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="AddBookWindow.xaml">

@@ -31,10 +31,41 @@ namespace Page_Flow
 
             using(StreamReader sr = new StreamReader(Book.Path +"\\"+ Book.Position[0]+".txt"))
             {
-                BookText.Text=sr.ReadToEnd();
+                AddClickableWords(sr.ReadToEnd());
             }
             
 
         }
+
+        private void AddClickableWords(string text)
+        {
+            BookText.Text = "";
+            string[] words = text.Split(' ');
+
+            foreach (string word in words)
+            {
+                Run run = new Run(word);
+                run.Cursor = Cursors.Hand;
+
+                run.MouseLeftButtonDown += Run_MouseLeftButtonDown;
+                BookText.Inlines.Add(run);
+                BookText.Inlines.Add(new Run(" "));
+            }
+        }
+
+        private void Run_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is Run clickedRun)
+            {
+                Point relativePosition = Mouse.GetPosition(this);
+                Point screenPosition = PointToScreen(relativePosition);
+                string translation = Translate.TranslateText(clickedRun.Text, "EN-US");
+                TranslationPopUp PopUp = new TranslationPopUp("tranlation:\n"+ translation);
+                PopUp.Left = screenPosition.X/1.75;
+                PopUp.Top = screenPosition.Y/1.75;
+                PopUp.ShowDialog();
+            }
+        }
+
     }
 }

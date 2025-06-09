@@ -53,7 +53,7 @@ namespace BookLib
         {
             bookCollections.Clear();
             string Path_ = "books\\" + Path;
-            MessageBox.Show(Path_);
+            //MessageBox.Show(Path_);
             if(Local==Type.Local || Local== Type.Downloaded){
                 if (Directory.Exists(Path_))
                 {

@@ -110,7 +110,7 @@ namespace Page_Flow
         {
             if (sender is OverviewBookControl Control)
             {
-                MessageBox.Show(Control.BookCollection.Path);
+                //MessageBox.Show(Control.BookCollection.Path);
                 SelectLanguageWindow window = new SelectLanguageWindow(Control.BookCollection);
 
                 window.ShowDialog();
