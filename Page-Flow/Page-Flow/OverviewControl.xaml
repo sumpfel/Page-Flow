@@ -45,7 +45,7 @@
             
             <Button x:Name="ButtonDownload" FontSize="16" Content="⬇" Grid.Column="4" Grid.Row="3" Height="30.6" Width="50" Foreground="CadetBlue" Background="LightBlue" BorderBrush="CadetBlue" BorderThickness="2" Click="ButtonDownload_Click" />
             <Button x:Name="ButtonEdit" FontSize="16" Content="✎" VerticalContentAlignment="top" Foreground="Goldenrod" Grid.Column="5" Grid.Row="3" Height="30.6" Width="50" Background="Gold" BorderBrush="Goldenrod" BorderThickness="2"/>
-            <Button x:Name="ButtonDelete" FontSize="16" Content="🗑️" Foreground="Crimson" Grid.Column="6" Grid.Row="3" Height="30.6" Width="50" Background="LightCoral" BorderBrush="Crimson" BorderThickness="2" Click="ButtonDelete_Click"/>
+            <Button x:Name="ButtonDelete" FontSize="14" Content="🗑️" Foreground="Crimson" Grid.Column="6" Grid.Row="3" Height="30.6" Width="50" Background="LightCoral" BorderBrush="Crimson" BorderThickness="2" Click="ButtonDelete_Click"/>
         </Grid>
     </Border>
 </UserControl>

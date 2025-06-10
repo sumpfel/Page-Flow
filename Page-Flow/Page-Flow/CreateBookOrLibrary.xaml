@@ -17,8 +17,8 @@
         <Label x:Name="LabelPath" Grid.Row="1" Content="path > path > path > path > path > path > ...." Height="30" VerticalAlignment="Top" Background="WhiteSmoke" Margin="3"/>
         
         <StackPanel x:Name="View" Grid.Row="2">
-            <Button Content="Create Library" Margin="10" Height="50" Click="Button_Click_1"></Button>
-            <Button Content="Create Book" Margin="10" Height="50" Click="Button_Click"></Button>
+            <Button Content="Create Library" Margin="10" Height="50" Click="Button_Click_1" Background="LightBlue" BorderBrush="CadetBlue" BorderThickness="2"></Button>
+            <Button Content="Create Book" Margin="10" Height="50" Click="Button_Click" Background="LightBlue" BorderBrush="CadetBlue" BorderThickness="2"></Button>
         </StackPanel>
     </Grid>
 </Window>

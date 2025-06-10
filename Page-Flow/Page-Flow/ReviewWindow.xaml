@@ -26,11 +26,11 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="MuchBad" Grid.Column="0" Content="🤬" FontSize="50" Padding="0" Foreground="Crimson" Background="DarkRed" Margin="2" Click="MuchBad_Click"></Button>
-            <Button x:Name="Bad" Grid.Column="1" Content="😖" FontSize="50" Padding="0" Foreground="OrangeRed" Background="LightCoral" Margin="2" Click="MuchBad_Click"></Button>
-            <Button x:Name="Neutral" Grid.Column="2" Content="🤨" FontSize="50" Padding="0" Foreground="Yellow" Background="LightGray" Margin="2" Click="MuchBad_Click"></Button>
-            <Button x:Name="Good" Grid.Column="3" Content="🙂" FontSize="50" Padding="0" Foreground="ForestGreen" Background="LightGreen" Margin="2" Click="MuchBad_Click"></Button>
-            <Button x:Name="MuchGood" Grid.Column="4" Content="😍" FontSize="50" Padding="0" Foreground="Green" Background="LawnGreen" Margin="2" Click="MuchBad_Click"></Button>
+            <Button x:Name="MuchBad" Grid.Column="0" Content="🤬" FontSize="45" Padding="0" Foreground="DarkRed" Background="Crimson" BorderBrush="DarkRed" BorderThickness="2"  Margin="2" Click="MuchBad_Click"></Button>
+            <Button x:Name="Bad" Grid.Column="1" Content="😖" FontSize="45" Padding="0" Foreground="IndianRed" Background="LightCoral" BorderBrush="IndianRed" BorderThickness="2" Margin="2" Click="MuchBad_Click"></Button>
+            <Button x:Name="Neutral" Grid.Column="2" Content="🤨" FontSize="45" Padding="0" Foreground="Goldenrod" Background="Khaki" BorderBrush="Goldenrod" BorderThickness="2" Margin="2" Click="MuchBad_Click"></Button>
+            <Button x:Name="Good" Grid.Column="3" Content="🙂" FontSize="45" Padding="0" Foreground="LimeGreen" Background="LawnGreen" BorderBrush="LimeGreen" BorderThickness="2" Margin="2" Click="MuchBad_Click"></Button>
+            <Button x:Name="MuchGood" Grid.Column="4" Content="😍" FontSize="45" Padding="0" Foreground="DarkGreen" Background="ForestGreen" BorderBrush="DarkGreen" BorderThickness="2" Margin="2" Click="MuchBad_Click"></Button>
         </Grid>
 
         <Grid Grid.Row="1" Margin="5">
