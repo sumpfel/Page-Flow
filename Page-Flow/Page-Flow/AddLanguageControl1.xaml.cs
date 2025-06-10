@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BookLib;
+using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,23 @@ namespace Page_Flow
         public AddLanguageControl1()
         {
             InitializeComponent();
+            Translate.UpdateCombobox(ComboBoxLanguage);
+        }
+
+        private void ButtonBrowse_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*",
+                Title = "Select a Text File"
+            };
+
+            bool? result = openFileDialog.ShowDialog();
+
+            if (result == true)
+            {
+                TextBoxPath.Text = openFileDialog.FileName;
+            }
         }
     }
 }

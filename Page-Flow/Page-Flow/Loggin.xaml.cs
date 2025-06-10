@@ -55,7 +55,7 @@ namespace Page_Flow
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
             Client.LogOut();
-            DialogResult = true;
+            DialogResult = false;
         }
     }
 }
