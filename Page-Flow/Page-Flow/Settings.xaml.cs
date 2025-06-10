@@ -55,16 +55,17 @@ namespace Page_Flow
 
             if (ToggleButtonDarkmode.IsChecked == true) { SettingsValues.DoScrollPage=true; }
 
+            /*ResourceDictionary dict = new ResourceDictionary();
             if (ToggleButtonDarkmode.IsChecked == true)
             {
-                Application.Current.Resources.MergedDictionaries.Clear();
-                Application.Current.Resources.MergedDictionaries.Add(new Uri("Themes/DarkTheme.xaml", UriKind.Relative));
+                dict.Source = new Uri("Themes/DarkTheme.xaml", UriKind.Relative);
             }
             else
             {
-                Application.Current.Resources.MergedDictionaries.Clear();
-                Application.Current.Resources.MergedDictionaries.Add(new Uri("Themes/LightTheme.xaml", UriKind.Relative));
+                dict.Source = new Uri("Themes/LightTheme.xaml", UriKind.Relative);
             }
+            Application.Current.Resources.MergedDictionaries.Clear();
+            Application.Current.Resources.MergedDictionaries.Add(dict);*/
 
         }
     }
