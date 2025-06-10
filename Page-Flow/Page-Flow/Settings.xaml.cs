@@ -1,4 +1,5 @@
-﻿using HTTPClient;
+﻿using BookLib;
+using HTTPClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,8 @@ namespace Page_Flow
         {
             InitializeComponent();
             Client = client;
+            Translate.UpdateCombobox(ComboBoxLanguage);
+            ComboBoxLanguage.SelectedIndex = 0;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -35,8 +38,32 @@ namespace Page_Flow
 
             if (window.DialogResult == true)
             {
-
+                LabelUser.Content = "[ " + Client.GetUserName() + " ]";
             }
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            SettingsValues.SetFirstLanguage(Translate.Languages_target[ComboBoxLanguage.SelectedIndex]);
+
+            Client.Address=TextBoxIP.Text;
+            Client.Port=TextBoxPort.Text;
+            //TODO:Check Client Conection show message if wrong adress and or port
+
+            SettingsValues.SetAPIKey(TextBoxAPIKey.Text);
+            //TODO:Check if API key is working if not -> messagebox
+
+            if (ToggleButtonDarkmode.IsChecked == true) { SettingsValues.DoScrollPage=true; }
+
+            if (ToggleButtonDarkmode.IsChecked == true)
+            {
+                //TODO:Load dark theme
+            }
+            else
+            {
+                //TODO:Load light theme
+            }
+
         }
     }
 }

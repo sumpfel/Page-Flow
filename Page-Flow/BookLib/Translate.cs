@@ -32,32 +32,7 @@ namespace BookLib
 
         public  static string TranslateText(string Text,string TranslateLanguage)
         {
-            string authKey = "6ab2d2c4-fffd-4216-a2f4-96f615bcbb53:fx";//
-
-            try
-            {
-
-
-                using (StreamReader sr = new StreamReader("encoded_api_key.pff"))//pff page flow file //TODO encode api key
-                    {
-                        authKey = sr.ReadToEnd();
-                    }
-            }
-            catch(Exception ex)
-            {
-                
-            }
-
-            if (authKey == "")
-            {
-                authKey = "6ab2d2c4-fffd-4216-a2f4-96f615bcbb53:fx"; // TODO: pop up window for user to enter key
-
-                using (StreamWriter sw = new StreamWriter($"encoded_api_key.pff")) //TODO decode API key only if encoded to
-                {
-                    sw.Write(authKey);
-                }
-
-            }
+            string authKey = SettingsValues.GetAPIKey();
             
             try
             {

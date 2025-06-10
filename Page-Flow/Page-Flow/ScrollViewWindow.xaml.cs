@@ -59,7 +59,7 @@ namespace Page_Flow
             {
                 Point relativePosition = Mouse.GetPosition(this);
                 Point screenPosition = PointToScreen(relativePosition);
-                string translation = Translate.TranslateText(clickedRun.Text, "EN-US");
+                string translation = Translate.TranslateText(clickedRun.Text, SettingsValues.GetFirstLanguage());
                 TranslationPopUp PopUp = new TranslationPopUp("tranlation:\n"+ translation);
                 PopUp.Left = screenPosition.X/1.75;
                 PopUp.Top = screenPosition.Y/1.75;
