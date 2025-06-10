@@ -7,4 +7,12 @@
             </Style>
         </Style.Resources>
     </Style>
+
+    <Style TargetType="ToggleButton">
+        <Style.Resources>
+            <Style TargetType="Border">
+                <Setter Property="CornerRadius" Value="5"/>
+            </Style>
+        </Style.Resources>
+    </Style>
 </ResourceDictionary>
