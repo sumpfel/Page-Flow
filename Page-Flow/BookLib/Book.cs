@@ -7,9 +7,7 @@ namespace BookLib
 
     public class Book
     {
-        static public string[] Languages_user = new string[] { "EN-US", "EN-GB", "German", "Japanese", "French", "Italian", "Portuguese (Brazilian)", "Portuguese", "Korean", "Chinese Simplified", "Chinese Traditional" };
-        static public string[] Languages_target = new string[] { "EN-US","EN-GB","DE", "JA", "FR", "IT", "PT-BR", "PT-PT", "KO", "ZH-HANS", "ZH-HANT" };
-        static public string[] Languages_og = new string[] {     "EN",   "EN",   "DE", "JA", "FR", "IT", "PT",    "PT"   , "KO", "ZH"     , "ZH" };
+        
 
         static public string[] ChapterSplitter = new string[]{"Kapitel","Chapter"};
 

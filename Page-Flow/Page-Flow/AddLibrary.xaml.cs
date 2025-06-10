@@ -45,7 +45,20 @@ namespace Page_Flow
 
         private bool IsFilledOut()
         {
-            return true;
+            if (TextBoxTitle.Text.Replace(" ", "").Length > 2)
+            {
+                if (TextBoxAuthor.Text.Replace(" ", "").Length > 2)
+                {
+                    if (TextBoxLicense.Text.Trim().Length > 0)
+                    {
+                        return true;
+                    }
+                    else { MessageBox.Show("Select a License first."); }
+                }
+                else { MessageBox.Show("Author hast to be at least 2 characters without spaces."); }
+            }
+            else { MessageBox.Show("Title hast to be at least 2 characters without spaces."); }
+            return false;
         }
     }
 }

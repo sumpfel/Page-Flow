@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BookLib;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -21,10 +22,33 @@ namespace Page_Flow
     public partial class AddBookWindow : Window
     {
         List<string> librarys = new List<string>();
+        List<AddLanguageControl1> addLanguageControls = new List<AddLanguageControl1>() {};
         public AddBookWindow()
         {
             InitializeComponent();
+            ComboboxLibrarysUpdate();
+            AddLanguageControl();
+            
+        }
 
+        private void AddLanguageControl()
+        {
+            AddLanguageControl1 addLanguageControl = new AddLanguageControl1();
+            addLanguageControls.Add(addLanguageControl);
+            LanguageStackPanel.Children.Insert(LanguageStackPanel.Children.Count-1, addLanguageControl);
+        }
+        private void RemoveLanguageControl()
+        {
+            if (addLanguageControls.Count > 0)
+            {
+                addLanguageControls.RemoveAt(addLanguageControls.Count-1);
+                LanguageStackPanel.Children.RemoveAt(LanguageStackPanel.Children.Count - 2);
+            }
+            
+        }
+
+        private void ComboboxLibrarysUpdate()
+        {
             string[] SubDirs = Directory.GetDirectories("books");
             int x = 0;
             foreach (string dir in SubDirs)
@@ -47,7 +71,44 @@ namespace Page_Flow
 
         private bool IsFilledOut()
         {
-            return true;
+            if (TextBoxTitle.Text.Replace(" ", "").Length>2)
+            {
+                if (ComboBoxLibrary.SelectedIndex>=0)
+                {
+                    if (TextBoxAuthor.Text.Replace(" ", "").Length > 2)
+                    {
+                        if (TextBoxLicense.Text.Trim().Length > 0)
+                        {
+                            if(addLanguageControls.Count > 0)
+                            {
+                                foreach(AddLanguageControl1 addLanguageControl in addLanguageControls)
+                                {
+                                    if(addLanguageControl.TextBoxPath.Text.Trim().Length > 0)
+                                    {
+                                        if (File.Exists(addLanguageControl.TextBoxPath.Text.Trim()) && System.IO.Path.GetExtension(addLanguageControl.TextBoxPath.Text) == ".txt")
+                                        {
+                                            if (addLanguageControl.ComboBoxLanguage.SelectedIndex >= 0)
+                                            {
+
+                                            }
+                                            else { MessageBox.Show("Select Language(s) first."); return false; }
+                                        }
+                                        else { MessageBox.Show("Path for file(s) doesn't exist."); return false; }
+                                    }
+                                    else { MessageBox.Show("Add a path"); return false; }
+                                }
+                                return true;
+                            }
+                            else { MessageBox.Show("Add a Language first."); }
+                        }
+                        else { MessageBox.Show("Select a License first."); }
+                    }
+                    else{MessageBox.Show("Author hast to be at least 2 characters without spaces."); }
+                }
+                else{MessageBox.Show("Select a Library first"); }
+            }
+            else{MessageBox.Show("Title hast to be at least 2 characters without spaces."); }
+            return false;
         }
 
         private void ButtonDeny_Click(object sender, RoutedEventArgs e)
@@ -65,7 +126,47 @@ namespace Page_Flow
                 {
                     sw.WriteLine($"{TextBoxTitle.Text},{TextBoxAuthor.Text},{TextBoxLicense.Text},{TextBoxBlurb.Text},{TextBoxNote.Text},");
                 }
+                
+                foreach (AddLanguageControl1 LanguageControl in addLanguageControls)
+                {
+                    string Path2 = path+ "\\" + TextBoxTitle.Text.Trim().Replace(" ", "_")+ Translate.Languages_og[LanguageControl.ComboBoxLanguage.SelectedIndex];
+                    Directory.CreateDirectory(Path2);
+                    if (LanguageControl.ButtonGenerate.IsChecked == true)
+                    {
+                        foreach (AddLanguageControl1 LanguageControl2 in addLanguageControls)
+                        {
+                            if (!(LanguageControl.ButtonGenerate.IsChecked == true))
+                            {
+                                string text = "";
+                                using(StreamReader sr = new StreamReader(LanguageControl2.TextBoxPath.Text))
+                                {
+                                    text=sr.ReadToEnd();
+                                }
+                                text=Translate.TranslateText(text, Translate.Languages_target[LanguageControl.ComboBoxLanguage.SelectedIndex]);
+                                using(StreamWriter sw = new StreamWriter(Path2 + "\\1.txt"))
+                                {
+                                    sw.Write(text);
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        File.Copy(LanguageControl.TextBoxPath.Text, Path2+"\\1.txt");
+                    }
+                    
+                }
             }
+        }
+
+        private void AddLanguageButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddLanguageControl();
+        }
+
+        private void RemoveLanguageButton_Click(object sender, RoutedEventArgs e)
+        {
+            RemoveLanguageControl();
         }
     }
 }

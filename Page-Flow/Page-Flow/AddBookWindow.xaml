@@ -45,10 +45,12 @@
         <TextBox x:Name="TextBoxBlurb" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="4" FontSize="20" Background="White" BorderBrush="LightGray" BorderThickness="2" Height="30.6" />
 
         <ScrollViewer Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="6" Grid.RowSpan="2">
-            <StackPanel>
-                <local:AddLanguageControl1 x:Name="AddBookLanguage"/>
-                <Button Content="AddLanguage"/>
-            </StackPanel>
+            <StackPanel x:Name="LanguageStackPanel">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button x:Name="AddLanguageButton" Content="Add Language" Click="AddLanguageButton_Click"/>
+                    <Button x:Name="RemoveLanguageButton" Content="Remove Language" Click="RemoveLanguageButton_Click"></Button>
+                    </StackPanel>
+                </StackPanel>
         </ScrollViewer>
 
 

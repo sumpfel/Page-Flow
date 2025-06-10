@@ -17,10 +17,10 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Label x:Name="LabelLanguage" Padding="0" Grid.Row="0" Grid.Column="0" Content="Language: " Background="LightGray" BorderBrush="Gray" BorderThickness="2" FontSize="20" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" HorizontalAlignment="Right" MinWidth="100" MaxWidth="150" Height="30.6"/>
+        <Label x:Name="LabelLanguage" Padding="0" Grid.Row="0" Grid.Column="0" Content="Language: " Background="LightGray" BorderBrush="Gray" BorderThickness="2" FontSize="20" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" HorizontalAlignment="Right" MinWidth="111" MaxWidth="150" Height="30.6"/>
         <Label x:Name="LabelFilePath" Padding="0" Grid.Row="1" Grid.Column="0" Content="File:" Background="LightGray" BorderBrush="Gray" BorderThickness="2" FontSize="20" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" HorizontalAlignment="Right" MinWidth="111" MaxWidth="150" Height="30.6"/>
         <TextBox x:Name="TextBoxPath" Padding="0" Grid.Row="1" Grid.Column="1" Background="White" BorderBrush="LightGray" BorderThickness="2" HorizontalAlignment="Left" MinWidth="390" MaxWidth="400" Height="30.6"/>
-        <Button x:Name="ButtonBrowse" Padding="0" Grid.Row="1" Grid.Column="3" Content="Browse" Background="LightBlue" FontSize="20" Margin="5" BorderBrush="CadetBlue" BorderThickness="2" Height="30.6"/>
+        <Button x:Name="ButtonBrowse" Padding="0" Grid.Row="1" Grid.Column="3" Content="Browse" Background="LightBlue" FontSize="20" Margin="5" BorderBrush="CadetBlue" BorderThickness="2" Height="30.6" Click="ButtonBrowse_Click"/>
         <ComboBox x:Name="ComboBoxLanguage" Padding="0" Grid.Row="0" Grid.Column="1" Background="White" BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Left"  MinWidth="390" MaxWidth="400" Height="30.6">
             <ComboBoxItem>English</ComboBoxItem>
             <ComboBoxItem>German</ComboBoxItem>
@@ -29,6 +29,6 @@
             <ComboBoxItem>Spanish</ComboBoxItem>
             <ComboBoxItem>Chinese</ComboBoxItem>
         </ComboBox>
-        <Button x:Name="ButtonGenerate" Grid.Column="3" Grid.Row="0" Content="Generate" FontSize="20" Margin="5" Background="LightBlue" BorderBrush="CadetBlue" BorderThickness="2" Height="30.6"/>
+        <ToggleButton x:Name="ButtonGenerate" Grid.Column="3" Grid.Row="0" Content="Generate" FontSize="20" Margin="5" Background="LightBlue" BorderBrush="CadetBlue" BorderThickness="2" Height="30.6"/>
     </Grid>
 </UserControl>
