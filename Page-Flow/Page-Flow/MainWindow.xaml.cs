@@ -2,8 +2,13 @@
 using DeepL;
 using DeepL.Model;
 using HTTPClient;
+using Microsoft.Win32;
 using Serilog;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,8 +20,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using static System.Net.Mime.MediaTypeNames;
-using System.Linq;
-using System.Collections.Generic;
 
 
 namespace Page_Flow
@@ -65,8 +68,10 @@ namespace Page_Flow
 
         private async void ButtonReload_Click(object sender, RoutedEventArgs e)
         {
+            LibraryCollection.libraryList.Clear();
             await Client.DownloadPreviewFile("books/preview.csv");
-            await Client.DownloadAll("books/all.zip");
+            //await Client.DownloadAll("books/all.zip");
+            LibraryCollection.LoadFromLocal();
             LibraryCollection.LoadFromPreview("books/preview.csv");
             LoadToView();
         }
@@ -181,6 +186,32 @@ namespace Page_Flow
         private void Label_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             SearchForLibrary(TextBoxSearch.Text.Trim());
+        }
+
+        private void ButtonImport_Click(object sender, RoutedEventArgs e)
+        {
+            string downloadsPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Documents");
+            OpenFileDialog saveFileDialog = new OpenFileDialog
+            {
+                Title = "Import Library from Page Flow File.",
+                Filter = "PFF Files (*.PFF)|*.PFF|All Files (*.*)|*.*",
+                InitialDirectory = downloadsPath
+            };
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                if (File.Exists(saveFileDialog.FileName))
+                {
+                    string DirName = System.IO.Path.GetFileNameWithoutExtension(saveFileDialog.FileName);
+                    Directory.CreateDirectory("books\\"+DirName);
+
+                    ZipFile.ExtractToDirectory(saveFileDialog.FileName, "books\\" + DirName);
+                    LibraryCollection.libraryList.Clear();
+                    LibraryCollection.LoadFromLocal();
+                    LibraryCollection.LoadFromPreview("books/preview.csv");
+                    LoadToView();
+                }
+            }
         }
     }
 }

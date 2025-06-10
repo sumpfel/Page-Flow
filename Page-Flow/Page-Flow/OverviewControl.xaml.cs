@@ -1,6 +1,7 @@
 ﻿using BookLib;
 using DeepL.Model;
 using HTTPClient;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -56,7 +57,7 @@ namespace Page_Flow
             if (Library.Local == Library.Type.Local)
             {
                 ButtonDownload.Visibility = Visibility.Hidden;
-                Grid.SetColumnSpan(LabelNoteAngabe, 4);
+                Grid.SetColumnSpan(LabelNoteAngabe, 3);
                 CanDownload = false;
                 CanDelete = true;
             }
@@ -173,6 +174,10 @@ namespace Page_Flow
             ButtonDelete.Foreground = Brushes.DarkGray;
             ButtonDelete.BorderBrush = Brushes.DarkGray;
             CanDelete = false;
+
+            ButtonExport.Background = Brushes.LightGray;
+            ButtonExport.Foreground = Brushes.DarkGray;
+            ButtonExport.BorderBrush = Brushes.DarkGray;
         }
 
         private void ShowDeleteButton()
@@ -181,6 +186,10 @@ namespace Page_Flow
             ButtonDelete.Foreground = Brushes.Crimson;
             ButtonDelete.BorderBrush = Brushes.Crimson;
             CanDelete = true;
+
+            ButtonExport.Background = Brushes.LawnGreen;
+            ButtonExport.Foreground = Brushes.ForestGreen;
+            ButtonExport.BorderBrush = Brushes.ForestGreen;
         }
 
         private async void DownloadLib()
@@ -231,6 +240,34 @@ namespace Page_Flow
                 Directory.Delete("books/" + Library.Path, true);
                 CanDelete = false;
                 LibraryDeleted?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        private void ButtonExport_Click(object sender, RoutedEventArgs e)
+        {
+            if (CanDelete)
+            {
+                string downloadsPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
+                SaveFileDialog saveFileDialog = new SaveFileDialog
+                {
+                    Title = "Export Library as Page Flow File.",
+                    Filter = "PFF Files (*.PFF)|*.PFF|All Files (*.*)|*.*",
+                    FileName = Library.Titel.Replace(" ", "_") + ".PFF",
+                    InitialDirectory = downloadsPath
+                };
+
+                if (saveFileDialog.ShowDialog() == true)
+                {
+                    try
+                    {
+                        MessageBox.Show("books\\" + Library.Path);
+                        ZipFile.CreateFromDirectory("books\\"+Library.Path, saveFileDialog.FileName);
+                    }
+                    catch (Exception ex)
+                    {
+                        //TODO:log
+                    }
+                }
             }
         }
     }
