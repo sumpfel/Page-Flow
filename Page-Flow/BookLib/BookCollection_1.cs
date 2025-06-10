@@ -19,6 +19,7 @@ namespace BookLib
         public string Blurb;
         public string Note;
         public int SumLikes;
+        public string ImagePath;
         public int Likes { get; set; }
         public int DisLikes { get; set; }
         public int FakeLikes { get; set; } = 0;

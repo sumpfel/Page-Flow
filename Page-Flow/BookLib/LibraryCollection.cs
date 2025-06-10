@@ -73,55 +73,73 @@ namespace BookLib
             string[] SubDirs = Directory.GetDirectories("books");
             foreach (string dir in SubDirs)
             {
-                Library Library;
-                using(StreamReader sr = new StreamReader(dir+"\\settings.csv"))
+                try
                 {
-                    string[] settings = sr.ReadToEnd().Trim().Split(",");
-                    string title = settings[0];
-                    string author = settings[1];
-                    string license = settings[2];
-                    string blurb = settings[3];
-                    string note = settings[4];
-                    List<string> languages = settings[5].Split("%").ToList();
-                    if (languages.Count > 0)
+                    Library Library;
+                    using (StreamReader sr = new StreamReader(dir + "\\settings.csv"))
                     {
-                        languages.RemoveAt(languages.Count - 1);
-                    }
-                    Library = new Library(title, dir.Replace("books\\", ""), author, license, blurb, note, 0, 0, 0, new List<string> { }, Library.Type.Local, languages);
-                    libraryList.Add(Library);
-                }
-                if (File.Exists(dir + "\\downloaded.txt"))
-                {
-                    Library.Local=Library.Type.Downloaded;
-                    string commentsFilePath = dir + "\\comments.csv";
-                    string votesFilePath = dir + "\\votes.txt";
-                    if (File.Exists(commentsFilePath))
-                    {
-                        using (StreamReader sr = new StreamReader(commentsFilePath))
+                        string[] settings = sr.ReadToEnd().Trim().Split(",");
+                        string title = settings[0];
+                        string author = settings[1];
+                        string license = settings[2];
+                        string blurb = settings[3];
+                        string note = settings[4];
+                        List<string> languages = settings[5].Split("%").ToList();
+                        if (languages.Count > 0)
                         {
-                            while (!sr.EndOfStream)
-                            {
-                                string comment = sr.ReadLine();
-                                if (comment != null)
-                                {
-                                    Library.Comments.Add(comment.Replace("*", "@@"));
-                                }
+                            languages.RemoveAt(languages.Count - 1);
+                        }
+                        Library = new Library(title, dir.Replace("books\\", ""), author, license, blurb, note, 0, 0, 0, new List<string> { }, Library.Type.Local, languages);
+                        libraryList.Add(Library);
+                    }
+                    if (File.Exists(dir + "\\thumbnail.jpg"))
+                    {
+                        Library.ImagePath = dir + "\\thumbnail.jpg";
+                    }
+                    else if (File.Exists(dir + "\\thumbnail.png"))
+                    {
+                        Library.ImagePath = dir + "\\thumbnail.png";
+                    }
+                    else { Library.ImagePath = "FALSE"; }
 
+                    if (File.Exists(dir + "\\downloaded.txt"))
+                    {
+                        Library.Local = Library.Type.Downloaded;
+                        string commentsFilePath = dir + "\\comments.csv";
+                        string votesFilePath = dir + "\\votes.txt";
+                        if (File.Exists(commentsFilePath))
+                        {
+                            using (StreamReader sr = new StreamReader(commentsFilePath))
+                            {
+                                while (!sr.EndOfStream)
+                                {
+                                    string comment = sr.ReadLine();
+                                    if (comment != null)
+                                    {
+                                        Library.Comments.Add(comment.Replace("*", "@@"));
+                                    }
+
+                                }
+                            }
+                        }
+                        if (File.Exists(votesFilePath))
+                        {
+                            using (StreamReader sr = new StreamReader(votesFilePath))
+                            {
+                                string Ratings = sr.ReadToEnd().Trim();
+                                string[] votes = Ratings.Split(",");
+                                Library.SumLikes = Convert.ToInt32(votes[0]);
+                                Library.Likes = Convert.ToInt32(votes[1]);
+                                Library.DisLikes = Convert.ToInt32(votes[2]);
                             }
                         }
                     }
-                    if (File.Exists(votesFilePath))
-                    {
-                        using (StreamReader sr = new StreamReader(votesFilePath))
-                        {
-                            string Ratings = sr.ReadToEnd().Trim();
-                            string[] votes = Ratings.Split(",");
-                            Library.SumLikes = Convert.ToInt32(votes[0]);
-                            Library.Likes = Convert.ToInt32(votes[1]);
-                            Library.DisLikes = Convert.ToInt32(votes[2]);
-                        }
-                    }
                 }
+                catch(Exception e)
+                {
+                    //TODO: Log
+                }
+                
             }
         }
     }

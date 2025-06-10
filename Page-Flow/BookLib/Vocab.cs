@@ -8,54 +8,71 @@ using System.Threading.Tasks;
 
 namespace BookLib
 {
-    internal class Vocab
+    public class Vocab
     {
-        public string Path_ = "";
-        public string NativeLanguage = "English";
 
-        //TODO for each language a file
-
-        public Dictionary<string, Dictionary<string, string>> Vocabulary = new Dictionary<string, Dictionary<string, string>>{ };
-
-        public void AddVocab(string language, string word)
-        {
-            word = word.Replace(":","");
-            Vocabulary[language].Add(word, Translate.TranslateText(word, NativeLanguage));
-        }
-
-        public void save()
-        {
-            using(StreamWriter sw = new StreamWriter(Path_))
-            {
-                foreach (var language in Vocabulary.Keys)
-                {
-                    sw.WriteLine(language);
-                    foreach (var word in Vocabulary[language])
-                    {
-                        sw.WriteLine($"{language}:{word.Key}:{word.Value}");
-                    }
-                    
-                }
-            }
-        }
-
-        public void load()
+        public static void AddVocab(int language1, string word1, int language2, string word2, string path)
         {
             try
             {
-                using (StreamReader sr = new StreamReader(Path_))
+                if (!File.Exists(path))
                 {
-                    while (!sr.EndOfStream)
+                    using(StreamWriter sw = new StreamWriter(path))
                     {
-                        string[] vocabs = sr.ReadLine().Split(":");
-                        Dictionary <string, string> vocabs_dict = new Dictionary<string, string>();
-                        for (int i = 1; i < vocabs.Length; i+=2)
+                        foreach(string language in Translate.Languages_user)
                         {
-                            vocabs_dict.Add(vocabs[i], vocabs[i+1]);
+                            sw.Write(language+",");
                         }
-
-                        Vocabulary.Add(vocabs[0], vocabs_dict);
+                        sw.WriteLine();
                     }
+                }
+                using (StreamWriter sw = new StreamWriter(path,true))
+                {
+                    for(int i=0; i<Translate.Languages_target.Count(); i++)
+                    {
+                        if (language1 == i)
+                        {
+                            sw.Write(word1 + ",");
+                        }
+                        else if (language2 == i)
+                        {
+                            sw.Write(word2 + ",");
+                        }
+                        else
+                        {
+                            sw.Write(",");
+                        }
+                    }
+                    sw.WriteLine();
+                }
+                
+            }catch (Exception ex)
+            {
+                //TODO:log to file
+            }
+            
+        }
+
+        public void DownloadVocab(string path,List<int> languages, string target_path)
+        {
+            languages.Add(Array.IndexOf(Translate.Languages_target, SettingsValues.GetFirstLanguage()));
+            try
+            {
+                using (StreamReader sr = new StreamReader(path))
+                {
+                    using(StreamWriter sw = new StreamWriter(target_path))
+                    {
+                        while (!sr.EndOfStream)
+                        {
+                            string[] vocabs = sr.ReadLine().Split(",");
+                            foreach (int i in languages)
+                            {
+                                sw.Write(vocabs[i] + ",");
+                            }
+                            sw.WriteLine();
+                        }
+                    }
+                    
                 }
             }
             catch (Exception ex)

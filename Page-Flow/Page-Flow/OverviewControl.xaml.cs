@@ -43,6 +43,7 @@ namespace Page_Flow
             LabelAuthorAngabe.Content = Library.Author;
             LabelNoteAngabe.Content = Library.Note;
             
+            
 
             UpdateLikes();
 
@@ -68,6 +69,35 @@ namespace Page_Flow
             {
                 HideDeleteButton();
                 CanDownload = true;
+            }
+            LoadThumbnail();
+        }
+
+        private void LoadThumbnail()
+        {
+            BitmapImage bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.CacheOption = BitmapCacheOption.OnLoad;
+            if (Library.ImagePath != null)
+            {
+                if (File.Exists(Library.ImagePath))
+                {
+                    bitmap.UriSource = new Uri(System.IO.Path.GetFullPath(Library.ImagePath), UriKind.RelativeOrAbsolute);
+                    bitmap.EndInit();
+                    ImageThumbnail.Source = bitmap;
+                }
+            }
+            else if (Library.ImagePath == "FALSE")
+            {
+                bitmap.UriSource = new Uri(System.IO.Path.GetFullPath("resources\\default_book.png"), UriKind.RelativeOrAbsolute);
+                bitmap.EndInit();
+                ImageThumbnail.Source = bitmap;
+            }
+            else
+            {
+                bitmap.UriSource = new Uri(System.IO.Path.GetFullPath("resources\\not_found.jpg"), UriKind.RelativeOrAbsolute);
+                bitmap.EndInit();
+                ImageThumbnail.Source = bitmap;
             }
             
         }
@@ -119,10 +149,14 @@ namespace Page_Flow
 
         private void ButtonDownload_Click(object sender, RoutedEventArgs e)
         {
-            DownloadLib();
-            Library.Local = Library.Type.Downloaded;
-            HideDownloadButton();
-            ShowDeleteButton();
+            if (CanDownload)
+            {
+                DownloadLib();
+                Library.Local = Library.Type.Downloaded;
+                HideDownloadButton();
+                ShowDeleteButton();
+            }
+            
         }
 
         private void HideDownloadButton()
@@ -151,18 +185,29 @@ namespace Page_Flow
 
         private async void DownloadLib()
         {
-            if (CanDownload)
+            string path = "books/" + Library.Path+ ".zip";
+            bool Succes= await Client.DownloadBook(Library.Path, path);
+            if (Succes==false)
             {
-                string path = "books/" + Library.Path+ ".zip";
-                bool Succes= await Client.DownloadBook(Library.Path, path);
-                if (Succes==false)
-                {
-                    MessageBox.Show("Error 404: Failed downloading book.");
-                    return;
-                }
-                ZipFile.ExtractToDirectory(path, "books");
-                File.Delete(path);
+                MessageBox.Show("Error 404: Failed downloading book.");
+                return;
             }
+            ZipFile.ExtractToDirectory(path, "books");
+            File.Delete(path);
+
+
+            if (File.Exists("books\\" + Library.Path + "\\thumbnail.jpg"))
+            {
+                Library.ImagePath = "books\\" + Library.Path + "\\thumbnail.jpg";
+            }
+            else if (File.Exists("books\\" + Library.Path + "\\thumbnail.png"))
+            {
+                Library.ImagePath = "books\\"+Library.Path + "\\thumbnail.png";
+            }
+            else { Library.ImagePath = "FALSE"; }
+
+            LoadThumbnail();
+
         }
             
 
@@ -182,6 +227,7 @@ namespace Page_Flow
         {
             if (CanDelete)
             {
+                ImageThumbnail.Source = null; 
                 Directory.Delete("books/" + Library.Path, true);
                 CanDelete = false;
                 LibraryDeleted?.Invoke(this, EventArgs.Empty);
