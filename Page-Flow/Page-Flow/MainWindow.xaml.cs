@@ -15,6 +15,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using static System.Net.Mime.MediaTypeNames;
+using System.Linq;
+using System.Collections.Generic;
 
 
 namespace Page_Flow
@@ -159,6 +161,26 @@ namespace Page_Flow
                     }
                 }
             }
+        }
+
+        private void SearchForLibrary(string libraryTitle)
+        {
+            //Prompt: c# sort a LibraryCollection.libraryList for a search term matching Library.Title keep it simple
+            LibraryCollection.libraryList = LibraryCollection.libraryList.OrderByDescending(library => library.Titel.Contains(libraryTitle, StringComparison.OrdinalIgnoreCase)).ToList();
+            LoadToView();
+        }
+
+        private void TextBoxSearch_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                SearchForLibrary(TextBoxSearch.Text.Trim());
+            }
+        }
+
+        private void Label_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            SearchForLibrary(TextBoxSearch.Text.Trim());
         }
     }
 }

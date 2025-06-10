@@ -8,21 +8,22 @@
         Title="Page-Flow" Height="800" Width="900" MinHeight="700" MinWidth="800">
     <Grid>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="8*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="100"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="0.5*"/>
-            <RowDefinition Height="9*"/>
         </Grid.RowDefinitions>
         <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Background="LightBlue" BorderBrush="CadetBlue" BorderThickness="2"/>
         <Button x:Name="ButtonUpload" Grid.Column="0" Grid.Row="0" Content="⮸" FontSize="30" Background="Transparent" BorderBrush="Transparent" Foreground="CadetBlue" VerticalContentAlignment="Center" Margin="5" Click="ButtonUpload_Click"/>
         <Button x:Name="ButtonReload" Grid.Column="2" Grid.Row="0" Content="⭮" FontSize="30" Background="LightBlue" BorderBrush="Transparent" Foreground="CadetBlue" VerticalContentAlignment="Center" Margin="5" Click="ButtonReload_Click"/>
         <Button x:Name="ButtonSettings" Grid.Column="3" Grid.Row="0" Content="⛭" FontSize="30" Background="Transparent" BorderBrush="Transparent" Foreground="CadetBlue" VerticalAlignment="Center" Margin="5" Click="ButtonSettings_Click"/>
-        <TextBox x:Name="TextBoxSearch" Grid.Column="1" Grid.Row="0" Background="LightCyan" BorderBrush="CadetBlue" BorderThickness="2" Margin="19" FontSize="20"/>
+        <TextBox x:Name="TextBoxSearch" Grid.Column="1" Grid.Row="0" Background="LightCyan" BorderBrush="CadetBlue" BorderThickness="2" Margin="19" FontSize="20" KeyDown="TextBoxSearch_KeyDown"/>
+        <Label Grid.Column="1" Grid.Row="0" Background="LightCyan" BorderThickness="2" Margin="19" FontSize="20" HorizontalAlignment="Right" Content="🔎" Foreground="CadetBlue" MouseLeftButtonDown="Label_MouseLeftButtonDown"></Label>
         <Label x:Name="LabelPath" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" Content="path > path > path > path > path > path > ...." Height="30" VerticalAlignment="Top" Background="WhiteSmoke" Margin="3"/>
         <ScrollViewer VerticalScrollBarVisibility="Visible" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4">
             <StackPanel x:Name="View" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3"></StackPanel>

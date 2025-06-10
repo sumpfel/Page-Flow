@@ -23,7 +23,7 @@ namespace BookLib
         public string License;
         public string Blurb;
         public string Note;
-        public List<string> Languages = new List<string> { "en", "de" };
+        public List<string> Languages = new List<string> {};
 
 
         public List<Book> Books = new List<Book> { };

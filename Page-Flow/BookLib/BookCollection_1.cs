@@ -79,6 +79,12 @@ namespace BookLib
                                 bookCollection.License = settings[2];
                                 bookCollection.Blurb = settings[3];
                                 bookCollection.Note = settings[4];
+                                List<string> languages = settings[5].Split("%").ToList();
+                                if (languages.Count > 0)
+                                {
+                                    languages.RemoveAt(languages.Count - 1);
+                                }
+                                bookCollection.Languages = languages;
                                 bookCollections.Add(bookCollection);
                             }
                             if (File.Exists(commentsFilePath))

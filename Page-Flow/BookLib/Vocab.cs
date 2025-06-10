@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace BookLib
 {
@@ -53,9 +54,10 @@ namespace BookLib
             
         }
 
-        public void DownloadVocab(string path,List<int> languages, string target_path)
+        public static void DownloadVocab(string path,List<int> languages, string target_path)
         {
             languages.Add(Array.IndexOf(Translate.Languages_target, SettingsValues.GetFirstLanguage()));
+            languages=languages.Distinct().ToList();
             try
             {
                 using (StreamReader sr = new StreamReader(path))
