@@ -57,11 +57,13 @@ namespace Page_Flow
 
             if (ToggleButtonDarkmode.IsChecked == true)
             {
-                //TODO:Load dark theme
+                Application.Current.Resources.MergedDictionaries.Clear();
+                Application.Current.Resources.MergedDictionaries.Add(new Uri("Themes/DarkTheme.xaml", UriKind.Relative));
             }
             else
             {
-                //TODO:Load light theme
+                Application.Current.Resources.MergedDictionaries.Clear();
+                Application.Current.Resources.MergedDictionaries.Add(new Uri("Themes/LightTheme.xaml", UriKind.Relative));
             }
 
         }
