@@ -83,19 +83,32 @@ namespace Page_Flow
                             {
                                 foreach(AddLanguageControl1 addLanguageControl in addLanguageControls)
                                 {
-                                    if(addLanguageControl.TextBoxPath.Text.Trim().Length > 0)
-                                    {
-                                        if (File.Exists(addLanguageControl.TextBoxPath.Text.Trim()) && System.IO.Path.GetExtension(addLanguageControl.TextBoxPath.Text) == ".txt")
-                                        {
-                                            if (addLanguageControl.ComboBoxLanguage.SelectedIndex >= 0)
-                                            {
 
-                                            }
-                                            else { MessageBox.Show("Select Language(s) first."); return false; }
+                                    if (addLanguageControl.ButtonGenerate.IsChecked == true)
+                                    {
+                                        if (addLanguageControl.ComboBoxLanguage.SelectedIndex >= 0)
+                                        {
+
                                         }
-                                        else { MessageBox.Show("Path for file(s) doesn't exist."); return false; }
+                                        else { MessageBox.Show("Select Language(s) first."); return false; }
                                     }
-                                    else { MessageBox.Show("Add a path"); return false; }
+                                    else
+                                    {
+                                        if(addLanguageControl.TextBoxPath.Text.Trim().Length > 0)
+                                        {
+                                            if (File.Exists(addLanguageControl.TextBoxPath.Text.Trim()) && System.IO.Path.GetExtension(addLanguageControl.TextBoxPath.Text) == ".txt")
+                                            {
+                                                if (addLanguageControl.ComboBoxLanguage.SelectedIndex >= 0)
+                                                {
+
+                                                }
+                                                else { MessageBox.Show("Select Language(s) first."); return false; }
+                                            }
+                                            else { MessageBox.Show("Path for file(s) doesn't exist."); return false; }
+                                        }
+                                        else { MessageBox.Show("Add a path"); return false; }
+                                    }
+                                    
                                 }
                                 return true;
                             }
@@ -122,32 +135,37 @@ namespace Page_Flow
             {
                 string path = librarys[ComboBoxLibrary.SelectedIndex]+ "\\" + TextBoxTitle.Text.Trim().Replace(" ", "_");
                 Directory.CreateDirectory(path);
-                using (StreamWriter sw = new StreamWriter(path + "\\settings.csv"))
-                {
-                    sw.WriteLine($"{TextBoxTitle.Text},{TextBoxAuthor.Text},{TextBoxLicense.Text},{TextBoxBlurb.Text},{TextBoxNote.Text},");
-                }
+                string Languages = "";
                 
                 foreach (AddLanguageControl1 LanguageControl in addLanguageControls)
                 {
                     string Path2 = path+ "\\" + TextBoxTitle.Text.Trim().Replace(" ", "_")+ Translate.Languages_og[LanguageControl.ComboBoxLanguage.SelectedIndex];
                     Directory.CreateDirectory(Path2);
+                    Languages += Translate.Languages_og[LanguageControl.ComboBoxLanguage.SelectedIndex]+"%";
+
                     if (LanguageControl.ButtonGenerate.IsChecked == true)
                     {
-                        foreach (AddLanguageControl1 LanguageControl2 in addLanguageControls)
+                        string existing_path = "no path";
+                        foreach(AddLanguageControl1 LanguageControl2 in addLanguageControls)
                         {
-                            if (!(LanguageControl.ButtonGenerate.IsChecked == true))
+                            if (!string.IsNullOrEmpty(LanguageControl2.TextBoxPath.Text))
                             {
-                                string text = "";
-                                using(StreamReader sr = new StreamReader(LanguageControl2.TextBoxPath.Text))
-                                {
-                                    text=sr.ReadToEnd();
-                                }
-                                text=Translate.TranslateText(text, Translate.Languages_target[LanguageControl.ComboBoxLanguage.SelectedIndex]);
-                                using(StreamWriter sw = new StreamWriter(Path2 + "\\1.txt"))
-                                {
-                                    sw.Write(text);
-                                }
+                                existing_path = LanguageControl2.TextBoxPath.Text;
                             }
+                        }
+                        if (!File.Exists(existing_path))
+                        {
+                            continue;
+                        }
+                        string text = "";
+                        using (StreamReader sr = new StreamReader(existing_path))
+                        {
+                            text = sr.ReadToEnd();
+                        }
+                        text = Translate.TranslateText(text, Translate.Languages_target[LanguageControl.ComboBoxLanguage.SelectedIndex]);
+                        using (StreamWriter sw = new StreamWriter(Path2 + "\\1.txt"))
+                        {
+                            sw.Write(text);
                         }
                     }
                     else
@@ -155,6 +173,10 @@ namespace Page_Flow
                         File.Copy(LanguageControl.TextBoxPath.Text, Path2+"\\1.txt");
                     }
                     
+                }
+                using (StreamWriter sw = new StreamWriter(path + "\\settings.csv"))
+                {
+                    sw.WriteLine($"{TextBoxTitle.Text},{TextBoxAuthor.Text},{TextBoxLicense.Text},{TextBoxBlurb.Text},{TextBoxNote.Text},{Languages}");
                 }
             }
         }
