@@ -10,14 +10,4 @@
         <Setter Property="Background" Value="{StaticResource BackgroundBrush}" />
         <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
     </Style>
-
-    <Style TargetType="Label">
-        <Setter Property="Background" Value="#FF4A4A4A"/>
-        <Setter Property="BorderBrush" Value="#FF2a2a2a"/>
-    </Style>
-
-    <Style TargetType="TextBox">
-        <Setter Property="Background" Value="#FF6A6A6A"/>
-        <Setter Property="BorderBrush" Value="#FF4A4A4A"/>
-    </Style>
 </ResourceDictionary>

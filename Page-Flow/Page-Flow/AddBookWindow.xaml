@@ -44,14 +44,16 @@
         <TextBox x:Name="TextBoxLicense" FontSize="20" VerticalAlignment="Center" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="6" Background="White" BorderBrush="LightGray" BorderThickness="2" Height="30.6" />
         <TextBox x:Name="TextBoxBlurb" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="4" FontSize="20" Background="White" BorderBrush="LightGray" BorderThickness="2" Height="30.6" />
 
-        <ScrollViewer Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="6" Grid.RowSpan="2">
-            <StackPanel x:Name="LanguageStackPanel">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button x:Name="AddLanguageButton" Content="Add Language" Click="AddLanguageButton_Click"/>
-                    <Button x:Name="RemoveLanguageButton" Content="Remove Language" Click="RemoveLanguageButton_Click"></Button>
+        <Border Grid.Row="1" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="6" BorderBrush="CadetBlue" BorderThickness="2" CornerRadius="10" Padding="5">
+            <ScrollViewer Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="6" Grid.RowSpan="2">
+                <StackPanel x:Name="LanguageStackPanel">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button x:Name="AddLanguageButton" Content="Add Language" Click="AddLanguageButton_Click"/>
+                        <Button x:Name="RemoveLanguageButton" Content="Remove Language" Click="RemoveLanguageButton_Click"></Button>
                     </StackPanel>
                 </StackPanel>
-        </ScrollViewer>
+            </ScrollViewer>
+        </Border>
 
 
         <ComboBox x:Name="ComboBoxLibrary" FontSize="20" Padding="0" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="6" Background="White" BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Left"  MinWidth="630" MaxWidth="400" Margin="0 5 0 5" Height="30.6">
