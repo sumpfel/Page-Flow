@@ -61,8 +61,10 @@
         <Button x:Name="ButtonAccept" Grid.Row="7" Grid.Column="6" Content="✔" FontSize="18" Foreground="CadetBlue" VerticalContentAlignment="Top" Background="LightBlue" BorderBrush="CadetBlue" BorderThickness="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="4" Height="30.6" Width="70" Click="ButtonAccept_Click" />
         <Button x:Name="ButtonDeny" Grid.Row="7" Grid.Column="5" Content="✖" FontSize="16" Foreground="Goldenrod" Background="Gold" BorderBrush="Goldenrod" BorderThickness="2" VerticalAlignment="Center" Margin="4" Height="30.6" Width="70" Click="ButtonDeny_Click" />
         
-        <Border Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"  Margin="10" BorderThickness="2" BorderBrush="CadetBlue" />
-        <Button x:Name="ButtonThumbnail" Content="Browse Thumbnail" FontSize="20" Grid.Row="2" Grid.Column="0" Background="LightBlue" BorderBrush="CadetBlue" BorderThickness="2" Margin="5" Height="30.6" VerticalAlignment="Top" />
+        <Border Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"  Margin="10" BorderThickness="2" BorderBrush="CadetBlue">
+            <Image x:Name="ImageThumbnail" Stretch="Fill"/>
+        </Border>
+        <Button x:Name="ButtonThumbnail" Content="Browse Thumbnail" FontSize="20" Grid.Row="2" Grid.Column="0" Background="LightBlue" BorderBrush="CadetBlue" BorderThickness="2" Margin="5" Height="30.6" VerticalAlignment="Top" Click="ButtonThumbnail_Click" />
     </Grid>
 </Window>
     

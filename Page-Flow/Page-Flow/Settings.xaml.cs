@@ -55,7 +55,7 @@ namespace Page_Flow
 
             if (ToggleButtonDarkmode.IsChecked == true) { SettingsValues.DoScrollPage=true; }
 
-            ResourceDictionary dict = new ResourceDictionary();
+            /*ResourceDictionary dict = new ResourceDictionary();
             if (ToggleButtonDarkmode.IsChecked == true)
             {
                 dict.Source = new Uri("DarkTheme.xaml", UriKind.Relative);
@@ -67,7 +67,7 @@ namespace Page_Flow
                 dict.Source = new Uri("LightTheme.xaml", UriKind.Relative);
                 Application.Current.Resources.MergedDictionaries.Clear();
                 Application.Current.Resources.MergedDictionaries.Add(dict);
-            }
+            }*/
             
 
         }

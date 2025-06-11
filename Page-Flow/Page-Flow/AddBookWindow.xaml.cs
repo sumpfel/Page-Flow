@@ -1,4 +1,5 @@
 ﻿using BookLib;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,6 +24,7 @@ namespace Page_Flow
     {
         List<string> librarys = new List<string>();
         List<AddLanguageControl1> addLanguageControls = new List<AddLanguageControl1>() {};
+        string ThumbnailPath;
         public AddBookWindow()
         {
             InitializeComponent();
@@ -178,6 +180,12 @@ namespace Page_Flow
                 {
                     sw.WriteLine($"{TextBoxTitle.Text},{TextBoxAuthor.Text},{TextBoxLicense.Text},{TextBoxBlurb.Text},{TextBoxNote.Text},{Languages}");
                 }
+                if (!string.IsNullOrEmpty(ThumbnailPath))
+                {
+
+                    File.Copy(ThumbnailPath, path + "\\thumbnail" + System.IO.Path.GetExtension(ThumbnailPath), true);
+                }
+                DialogResult = true;
             }
         }
 
@@ -189,6 +197,32 @@ namespace Page_Flow
         private void RemoveLanguageButton_Click(object sender, RoutedEventArgs e)
         {
             RemoveLanguageControl();
+        }
+
+        private void ButtonThumbnail_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "Image files (*.png;*.jpg)|*.png;*.jpg|All files (*.*)|*.*",
+                Title = "Select a Text File"
+            };
+
+            bool? result = openFileDialog.ShowDialog();
+
+            if (result == true)
+            {
+                if (File.Exists(openFileDialog.FileName) && (System.IO.Path.GetExtension(openFileDialog.FileName) == ".jpg" || System.IO.Path.GetExtension(openFileDialog.FileName) == ".png"))
+                {
+                    ThumbnailPath = openFileDialog.FileName;
+
+                    BitmapImage bitmap = new BitmapImage();
+                    bitmap.BeginInit();
+                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                    bitmap.UriSource = new Uri(System.IO.Path.GetFullPath(ThumbnailPath), UriKind.Absolute);
+                    bitmap.EndInit();
+                    ImageThumbnail.Source = bitmap;
+                }
+            }
         }
     }
 }
