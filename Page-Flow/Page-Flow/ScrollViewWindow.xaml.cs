@@ -60,9 +60,7 @@ namespace Page_Flow
                 Point relativePosition = Mouse.GetPosition(this);
                 Point screenPosition = PointToScreen(relativePosition);
                 string translation = Translate.TranslateText(clickedRun.Text, SettingsValues.GetFirstLanguage());
-                MessageBox.Show(Book.Path);
                 string path = System.IO.Path.GetDirectoryName(Book.Path) + "\\vocabs.csv";
-                MessageBox.Show(path);
                 Vocab.AddVocab(Array.IndexOf(Translate.Languages_og, Book.Language),clickedRun.Text, Array.IndexOf(Translate.Languages_target, SettingsValues.GetFirstLanguage()), translation, path);
                 TranslationPopUp PopUp = new TranslationPopUp("tranlation:\n"+ translation);
                 PopUp.Left = screenPosition.X/1.75;

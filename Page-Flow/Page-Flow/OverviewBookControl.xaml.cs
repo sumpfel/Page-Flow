@@ -28,6 +28,7 @@ namespace Page_Flow
         public BookCollection BookCollection;
         public HttpControler Client;
         public event EventHandler BookCollectionClicked;
+        public event EventHandler BookCollectionDeleted;
         public OverviewBookControl(BookCollection BookCollection_, HttpControler Client_)
         {
             InitializeComponent();
@@ -45,6 +46,36 @@ namespace Page_Flow
             LabelLanguagesAngabe.Content = "";
             foreach (string language in BookCollection.Languages)
                 LabelLanguagesAngabe.Content += language + " ";
+            LoadThumbnail();
+        }
+
+        private void LoadThumbnail()
+        {
+            BitmapImage bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.CacheOption = BitmapCacheOption.OnLoad;
+            if (BookCollection.ImagePath != null)
+            {
+                if (File.Exists(BookCollection.ImagePath))
+                {
+                    bitmap.UriSource = new Uri(System.IO.Path.GetFullPath(BookCollection.ImagePath), UriKind.RelativeOrAbsolute);
+                    bitmap.EndInit();
+                    ImageThumbnail.Source = bitmap;
+                }
+            }
+            else if (BookCollection.ImagePath == "FALSE")
+            {
+                bitmap.UriSource = new Uri(System.IO.Path.GetFullPath("resources\\default_book.png"), UriKind.RelativeOrAbsolute);
+                bitmap.EndInit();
+                ImageThumbnail.Source = bitmap;
+            }
+            else
+            {
+                bitmap.UriSource = new Uri(System.IO.Path.GetFullPath("resources\\not_found.jpg"), UriKind.RelativeOrAbsolute);
+                bitmap.EndInit();
+                ImageThumbnail.Source = bitmap;
+            }
+
         }
 
         private void UpdateLikes()
@@ -126,6 +157,13 @@ namespace Page_Flow
             }
             
 
+        }
+
+        private void ButtonDelete_Click(object sender, RoutedEventArgs e)
+        {
+            ImageThumbnail.Source = null;
+            Directory.Delete("books\\" + BookCollection.Path, true);
+            BookCollectionDeleted?.Invoke(this, EventArgs.Empty);
         }
     }
 }

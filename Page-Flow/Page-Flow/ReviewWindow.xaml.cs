@@ -30,7 +30,7 @@ namespace Page_Flow
             Client = Client_;
             UpdateLikes();
             UpdateComments();
-            LabelComments.Content = $"{Reviewable.Comments.Count-1} 🗨";
+            LabelComments.Content = $"{Reviewable.Comments.Count} 🗨";
         }
 
         private void UpdateLikes()

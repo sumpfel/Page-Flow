@@ -31,6 +31,7 @@ namespace Page_Flow
     {
         LibraryCollection LibraryCollection = new LibraryCollection();
         HttpControler Client;
+        Library CurrentLibrary;
         public MainWindow()
         {
             InitializeComponent();
@@ -101,15 +102,33 @@ namespace Page_Flow
         {
             if (sender is OverviewControl Control)
             {
+                CurrentLibrary = Control.Library;
                 View.Children.Clear();
                 Control.Library.LoadBooks();
                 foreach (BookCollection bookCollection in Control.Library.bookCollections)
                 {
                     OverviewBookControl overviewBookControl = new OverviewBookControl(bookCollection,Control.Client);
                     overviewBookControl.BookCollectionClicked += Control_BookCollectionClicked;
+                    overviewBookControl.BookCollectionDeleted += OverviewBookControl_BookCollectionDeleted;
                     View.Children.Add(overviewBookControl);
                 }
 
+            }
+        }
+
+        private void OverviewBookControl_BookCollectionDeleted(object? sender, EventArgs e)
+        {
+            if(CurrentLibrary != null)
+            {
+                View.Children.Clear();
+                CurrentLibrary.LoadBooks();
+                foreach (BookCollection bookCollection in CurrentLibrary.bookCollections)
+                {
+                    OverviewBookControl overviewBookControl = new OverviewBookControl(bookCollection, Client);
+                    overviewBookControl.BookCollectionClicked += Control_BookCollectionClicked;
+                    overviewBookControl.BookCollectionDeleted += OverviewBookControl_BookCollectionDeleted;
+                    View.Children.Add(overviewBookControl);
+                }
             }
         }
 

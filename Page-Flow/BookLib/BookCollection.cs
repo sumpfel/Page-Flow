@@ -23,6 +23,7 @@ namespace BookLib
         public string License;
         public string Blurb;
         public string Note;
+        public string ImagePath;
         public List<string> Languages = new List<string> {};
 
 

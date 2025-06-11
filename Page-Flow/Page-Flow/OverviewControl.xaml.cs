@@ -170,26 +170,37 @@ namespace Page_Flow
 
         private void HideDeleteButton()
         {
+            CanDelete = false;
+
             ButtonDelete.Background = Brushes.LightGray;
             ButtonDelete.Foreground = Brushes.DarkGray;
             ButtonDelete.BorderBrush = Brushes.DarkGray;
-            CanDelete = false;
-
+            
             ButtonExport.Background = Brushes.LightGray;
             ButtonExport.Foreground = Brushes.DarkGray;
             ButtonExport.BorderBrush = Brushes.DarkGray;
+
+            ButtonEdit.Background = Brushes.LightGray;
+            ButtonEdit.Foreground = Brushes.DarkGray;
+            ButtonEdit.BorderBrush = Brushes.DarkGray;
+
         }
 
         private void ShowDeleteButton()
         {
+            CanDelete = true;
+
             ButtonDelete.Background = Brushes.LightCoral;
             ButtonDelete.Foreground = Brushes.Crimson;
             ButtonDelete.BorderBrush = Brushes.Crimson;
-            CanDelete = true;
 
             ButtonExport.Background = Brushes.LawnGreen;
             ButtonExport.Foreground = Brushes.ForestGreen;
             ButtonExport.BorderBrush = Brushes.ForestGreen;
+
+            ButtonEdit.Background = Brushes.Gold;
+            ButtonEdit.Foreground = Brushes.Goldenrod;
+            ButtonEdit.BorderBrush = Brushes.Goldenrod;
         }
 
         private async void DownloadLib()

@@ -87,6 +87,17 @@ namespace BookLib
                                 bookCollection.Languages = languages;
                                 bookCollections.Add(bookCollection);
                             }
+
+                            if (File.Exists(dir + "\\thumbnail.jpg"))
+                            {
+                                bookCollection.ImagePath = dir + "\\thumbnail.jpg";
+                            }
+                            else if (File.Exists(dir + "\\thumbnail.png"))
+                            {
+                                bookCollection.ImagePath = dir + "\\thumbnail.png";
+                            }
+                            else { bookCollection.ImagePath = "FALSE"; }
+
                             if (File.Exists(commentsFilePath))
                             {
                                 using (StreamReader sr = new StreamReader(commentsFilePath))
