@@ -29,6 +29,8 @@ namespace Page_Flow
 
             LabelTitle.Content=Book.Title;
 
+            BookText.FontSize = SettingsValues.ReadTextSize;
+
             using(StreamReader sr = new StreamReader(Book.Path +"\\"+ Book.Position[0]+".txt"))
             {
                 AddClickableWords(sr.ReadToEnd());

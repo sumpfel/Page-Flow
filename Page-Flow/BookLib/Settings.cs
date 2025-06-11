@@ -13,6 +13,7 @@ namespace BookLib
         private static string Api_Key { get; set; } = "6ab2d2c4-fffd-4216-a2f4-96f615bcbb53:fx";
         private static string FirstLanguage { get; set; } = "EN-US";
 
+        public static int ReadTextSize { get; set; } = 20;
         public static bool DoScrollPage { get; set; }=true;
 
         public static string GetAPIKey()
