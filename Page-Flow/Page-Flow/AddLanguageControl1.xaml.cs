@@ -43,5 +43,15 @@ namespace Page_Flow
                 TextBoxPath.Text = openFileDialog.FileName;
             }
         }
+
+        private void ButtonGenerate_Checked(object sender, RoutedEventArgs e)
+        {
+            FileSelectRow.Height = new GridLength(0);
+        }
+
+        private void ButtonGenerate_Unchecked(object sender, RoutedEventArgs e)
+        {
+            FileSelectRow.Height = new GridLength(1, GridUnitType.Star);
+        }
     }
 }

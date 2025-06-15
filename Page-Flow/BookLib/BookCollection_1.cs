@@ -19,6 +19,7 @@ namespace BookLib
         public string Blurb;
         public string Note;
         public int SumLikes;
+        public string ImagePath;
         public int Likes { get; set; }
         public int DisLikes { get; set; }
         public int FakeLikes { get; set; } = 0;
@@ -78,8 +79,25 @@ namespace BookLib
                                 bookCollection.License = settings[2];
                                 bookCollection.Blurb = settings[3];
                                 bookCollection.Note = settings[4];
+                                List<string> languages = settings[5].Split("%").ToList();
+                                if (languages.Count > 0)
+                                {
+                                    languages.RemoveAt(languages.Count - 1);
+                                }
+                                bookCollection.Languages = languages;
                                 bookCollections.Add(bookCollection);
                             }
+
+                            if (File.Exists(dir + "\\thumbnail.jpg"))
+                            {
+                                bookCollection.ImagePath = dir + "\\thumbnail.jpg";
+                            }
+                            else if (File.Exists(dir + "\\thumbnail.png"))
+                            {
+                                bookCollection.ImagePath = dir + "\\thumbnail.png";
+                            }
+                            else { bookCollection.ImagePath = "FALSE"; }
+
                             if (File.Exists(commentsFilePath))
                             {
                                 using (StreamReader sr = new StreamReader(commentsFilePath))

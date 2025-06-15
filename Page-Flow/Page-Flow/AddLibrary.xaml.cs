@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BookLib;
+using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -20,6 +22,7 @@ namespace Page_Flow
     /// </summary>
     public partial class AddLibrary : Window
     {
+        string ThumbnailPath;
         public AddLibrary()
         {
             InitializeComponent();
@@ -40,7 +43,13 @@ namespace Page_Flow
                 {
                     sw.WriteLine($"{TextBoxTitle.Text},{TextBoxAuthor.Text},{TextBoxLicense.Text},{TextBoxBlurb.Text},{TextBoxNote.Text},");
                 }
+                if (!string.IsNullOrEmpty(ThumbnailPath))
+                {
+                    
+                    File.Copy(ThumbnailPath, path + "\\thumbnail"+System.IO.Path.GetExtension(ThumbnailPath), true );
+                }
             }
+            DialogResult = true;
         }
 
         private bool IsFilledOut()
@@ -59,6 +68,32 @@ namespace Page_Flow
             }
             else { MessageBox.Show("Title hast to be at least 2 characters without spaces."); }
             return false;
+        }
+
+        private void ButtonThumbnail_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "Image files (*.png;*.jpg)|*.png;*.jpg|All files (*.*)|*.*",
+                Title = "Select a Text File"
+            };
+
+            bool? result = openFileDialog.ShowDialog();
+
+            if (result == true)
+            {
+                if (File.Exists(openFileDialog.FileName) && (System.IO.Path.GetExtension(openFileDialog.FileName) == ".jpg" || System.IO.Path.GetExtension(openFileDialog.FileName) == ".png"))
+                {
+                    ThumbnailPath = openFileDialog.FileName;
+
+                    BitmapImage bitmap = new BitmapImage();
+                    bitmap.BeginInit();
+                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                    bitmap.UriSource = new Uri(System.IO.Path.GetFullPath(ThumbnailPath), UriKind.Absolute);
+                    bitmap.EndInit();
+                    ImageThumbnail.Source = bitmap;
+                }
+            }
         }
     }
 }

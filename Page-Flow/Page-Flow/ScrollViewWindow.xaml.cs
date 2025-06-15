@@ -29,6 +29,8 @@ namespace Page_Flow
 
             LabelTitle.Content=Book.Title;
 
+            BookText.FontSize = SettingsValues.ReadTextSize;
+
             using(StreamReader sr = new StreamReader(Book.Path +"\\"+ Book.Position[0]+".txt"))
             {
                 AddClickableWords(sr.ReadToEnd());
@@ -60,6 +62,8 @@ namespace Page_Flow
                 Point relativePosition = Mouse.GetPosition(this);
                 Point screenPosition = PointToScreen(relativePosition);
                 string translation = Translate.TranslateText(clickedRun.Text, SettingsValues.GetFirstLanguage());
+                string path = System.IO.Path.GetDirectoryName(Book.Path) + "\\vocabs.csv";
+                Vocab.AddVocab(Array.IndexOf(Translate.Languages_og, Book.Language),clickedRun.Text, Array.IndexOf(Translate.Languages_target, SettingsValues.GetFirstLanguage()), translation, path);
                 TranslationPopUp PopUp = new TranslationPopUp("tranlation:\n"+ translation);
                 PopUp.Left = screenPosition.X/1.75;
                 PopUp.Top = screenPosition.Y/1.75;

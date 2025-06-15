@@ -1,7 +1,9 @@
 ﻿using BookLib;
 using HTTPClient;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Text;
@@ -26,6 +28,7 @@ namespace Page_Flow
         public BookCollection BookCollection;
         public HttpControler Client;
         public event EventHandler BookCollectionClicked;
+        public event EventHandler BookCollectionDeleted;
         public OverviewBookControl(BookCollection BookCollection_, HttpControler Client_)
         {
             InitializeComponent();
@@ -43,6 +46,36 @@ namespace Page_Flow
             LabelLanguagesAngabe.Content = "";
             foreach (string language in BookCollection.Languages)
                 LabelLanguagesAngabe.Content += language + " ";
+            LoadThumbnail();
+        }
+
+        private void LoadThumbnail()
+        {
+            BitmapImage bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.CacheOption = BitmapCacheOption.OnLoad;
+            if (BookCollection.ImagePath != null)
+            {
+                if (File.Exists(BookCollection.ImagePath))
+                {
+                    bitmap.UriSource = new Uri(System.IO.Path.GetFullPath(BookCollection.ImagePath), UriKind.RelativeOrAbsolute);
+                    bitmap.EndInit();
+                    ImageThumbnail.Source = bitmap;
+                }
+            }
+            else if (BookCollection.ImagePath == "FALSE")
+            {
+                bitmap.UriSource = new Uri(System.IO.Path.GetFullPath("resources\\default_book.png"), UriKind.RelativeOrAbsolute);
+                bitmap.EndInit();
+                ImageThumbnail.Source = bitmap;
+            }
+            else
+            {
+                bitmap.UriSource = new Uri(System.IO.Path.GetFullPath("resources\\not_found.jpg"), UriKind.RelativeOrAbsolute);
+                bitmap.EndInit();
+                ImageThumbnail.Source = bitmap;
+            }
+
         }
 
         private void UpdateLikes()
@@ -89,14 +122,48 @@ namespace Page_Flow
             }
         }
 
-        private void ButtonEdit_Click(object sender, RoutedEventArgs e)
+        private void ButtonDownload_Click(object sender, RoutedEventArgs e)
         {
-            AddBookWindow addBookWindow = new AddBookWindow();
-            addBookWindow.ShowDialog();
-            if (addBookWindow.DialogResult == true)
+            if (File.Exists("books\\"+BookCollection.Path + "\\vocabs.csv"))
             {
+                string downloadsPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
+                SaveFileDialog saveFileDialog = new SaveFileDialog
+                {
+                    Title = "Save Vocabulary File",
+                    Filter = "CSV Files (*.csv)|*.csv|All Files (*.*)|*.*",
+                    FileName = BookCollection.Titel.Replace(" ","_")+"_vocabulary.csv",
+                    InitialDirectory = downloadsPath
+                };
 
+                if(saveFileDialog.ShowDialog() == true)
+                {
+                    try
+                    {
+                        List<int> indexes = new List<int>();
+                        foreach (string str in BookCollection.Languages)
+                        {
+                            int index = Array.IndexOf(Translate.Languages_og, str.ToUpper());
+                            if (index != -1)
+                            {
+                                indexes.Add(index);
+                            }
+                        }
+                        Vocab.DownloadVocab("books\\" + BookCollection.Path + "\\vocabs.csv", indexes,saveFileDialog.FileName);
+                    }catch (Exception ex)
+                    {
+                        //TODO:log
+                    }
+                }
             }
+            
+
+        }
+
+        private void ButtonDelete_Click(object sender, RoutedEventArgs e)
+        {
+            ImageThumbnail.Source = null;
+            Directory.Delete("books\\" + BookCollection.Path, true);
+            BookCollectionDeleted?.Invoke(this, EventArgs.Empty);
         }
     }
 }

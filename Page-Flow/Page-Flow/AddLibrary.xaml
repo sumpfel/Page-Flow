@@ -5,24 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Page_Flow"
         mc:Ignorable="d"
-        Title="AddLibrary" Height="450" Width="800">
+        Title="AddLibrary" Height="500" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="150" />
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="100" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="100" />
 
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="75" />
-            <RowDefinition Height="75" />
+            <RowDefinition Height="100" />
+            <RowDefinition Height="100" />
             <RowDefinition Height="55" />
-            <RowDefinition Height="0"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="55" />
             <RowDefinition Height="55" />
             <RowDefinition Height="55" />
@@ -44,7 +44,9 @@
         <Button x:Name="ButtonAccept" Grid.Row="7" Grid.Column="6" Content="✔" FontSize="18" Foreground="CadetBlue" VerticalContentAlignment="Top" Background="LightBlue" BorderBrush="CadetBlue" BorderThickness="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="4" Height="30.6" Width="70" Click="ButtonAccept_Click" />
         <Button x:Name="ButtonDeny" Grid.Row="7" Grid.Column="5" Content="✖" FontSize="16" Foreground="Goldenrod" Background="Gold" BorderBrush="Goldenrod" BorderThickness="2" VerticalAlignment="Center" Margin="4" Height="30.6" Width="70" Click="ButtonDeny_Click" />
 
-        <Border Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"  Margin="10" BorderThickness="2" BorderBrush="CadetBlue" />
-        <Button x:Name="ButtonThumbnail" Content="Browse Thumbnail" FontSize="20" Grid.Row="2" Grid.Column="0" Background="LightBlue" BorderBrush="CadetBlue" BorderThickness="2" Margin="5" Height="30.6" VerticalAlignment="Top" />
+        <Border Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"  Margin="10" BorderThickness="2" BorderBrush="CadetBlue">
+            <Image x:Name="ImageThumbnail" Stretch="Fill"/>
+        </Border>
+        <Button x:Name="ButtonThumbnail" Content="Browse Thumbnail" FontSize="20" Grid.Row="2" Grid.Column="0" Background="LightBlue" BorderBrush="CadetBlue" BorderThickness="2" Margin="5" Height="30.6" VerticalAlignment="Top" Click="ButtonThumbnail_Click" />
     </Grid>
 </Window>

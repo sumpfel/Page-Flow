@@ -2,8 +2,13 @@
 using DeepL;
 using DeepL.Model;
 using HTTPClient;
+using Microsoft.Win32;
 using Serilog;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -26,13 +31,14 @@ namespace Page_Flow
     {
         LibraryCollection LibraryCollection = new LibraryCollection();
         HttpControler Client;
+        Library CurrentLibrary;
         public MainWindow()
         {
             InitializeComponent();
 
             Log.Logger = new LoggerConfiguration().MinimumLevel.Verbose().
                 WriteTo.Console().
-                WriteTo.File($".tmp/log.txt", rollingInterval: RollingInterval.Hour).//$".tmp/log_{DateTime.Now.ToString("yyyy-MM-dd_HH")}.txt"
+                WriteTo.File($".tmp/log.txt", rollingInterval: RollingInterval.Day).//$".tmp/log_{DateTime.Now.ToString("yyyy-MM-dd_HH")}.txt"
                 CreateLogger();
 
 
@@ -63,8 +69,10 @@ namespace Page_Flow
 
         private async void ButtonReload_Click(object sender, RoutedEventArgs e)
         {
+            LibraryCollection.libraryList.Clear();
             await Client.DownloadPreviewFile("books/preview.csv");
-            await Client.DownloadAll("books/all.zip");
+            //await Client.DownloadAll("books/all.zip");
+            LibraryCollection.LoadFromLocal();
             LibraryCollection.LoadFromPreview("books/preview.csv");
             LoadToView();
         }
@@ -94,15 +102,33 @@ namespace Page_Flow
         {
             if (sender is OverviewControl Control)
             {
+                CurrentLibrary = Control.Library;
                 View.Children.Clear();
                 Control.Library.LoadBooks();
                 foreach (BookCollection bookCollection in Control.Library.bookCollections)
                 {
                     OverviewBookControl overviewBookControl = new OverviewBookControl(bookCollection,Control.Client);
                     overviewBookControl.BookCollectionClicked += Control_BookCollectionClicked;
+                    overviewBookControl.BookCollectionDeleted += OverviewBookControl_BookCollectionDeleted;
                     View.Children.Add(overviewBookControl);
                 }
 
+            }
+        }
+
+        private void OverviewBookControl_BookCollectionDeleted(object? sender, EventArgs e)
+        {
+            if(CurrentLibrary != null)
+            {
+                View.Children.Clear();
+                CurrentLibrary.LoadBooks();
+                foreach (BookCollection bookCollection in CurrentLibrary.bookCollections)
+                {
+                    OverviewBookControl overviewBookControl = new OverviewBookControl(bookCollection, Client);
+                    overviewBookControl.BookCollectionClicked += Control_BookCollectionClicked;
+                    overviewBookControl.BookCollectionDeleted += OverviewBookControl_BookCollectionDeleted;
+                    View.Children.Add(overviewBookControl);
+                }
             }
         }
 
@@ -157,6 +183,52 @@ namespace Page_Flow
                     {
 
                     }
+                }
+            }
+        }
+
+        private void SearchForLibrary(string libraryTitle)
+        {
+            //Prompt: c# sort a LibraryCollection.libraryList for a search term matching Library.Title keep it simple
+            LibraryCollection.libraryList = LibraryCollection.libraryList.OrderByDescending(library => library.Titel.Contains(libraryTitle, StringComparison.OrdinalIgnoreCase)).ToList();
+            LoadToView();
+        }
+
+        private void TextBoxSearch_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                SearchForLibrary(TextBoxSearch.Text.Trim());
+            }
+        }
+
+        private void Label_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            SearchForLibrary(TextBoxSearch.Text.Trim());
+        }
+
+        private void ButtonImport_Click(object sender, RoutedEventArgs e)
+        {
+            string downloadsPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Documents");
+            OpenFileDialog saveFileDialog = new OpenFileDialog
+            {
+                Title = "Import Library from Page Flow File.",
+                Filter = "PFF Files (*.PFF)|*.PFF|All Files (*.*)|*.*",
+                InitialDirectory = downloadsPath
+            };
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                if (File.Exists(saveFileDialog.FileName))
+                {
+                    string DirName = System.IO.Path.GetFileNameWithoutExtension(saveFileDialog.FileName);
+                    Directory.CreateDirectory("books\\"+DirName);
+
+                    ZipFile.ExtractToDirectory(saveFileDialog.FileName, "books\\" + DirName);
+                    LibraryCollection.libraryList.Clear();
+                    LibraryCollection.LoadFromLocal();
+                    LibraryCollection.LoadFromPreview("books/preview.csv");
+                    LoadToView();
                 }
             }
         }

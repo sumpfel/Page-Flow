@@ -14,7 +14,7 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition x:Name="FileSelectRow" Height="*"/>
         </Grid.RowDefinitions>
 
         <Label x:Name="LabelLanguage" Padding="0" Grid.Row="0" Grid.Column="0" Content="Language: " Background="LightGray" BorderBrush="Gray" BorderThickness="2" FontSize="20" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" HorizontalAlignment="Right" MinWidth="111" MaxWidth="150" Height="30.6"/>
@@ -29,6 +29,6 @@
             <ComboBoxItem>Spanish</ComboBoxItem>
             <ComboBoxItem>Chinese</ComboBoxItem>
         </ComboBox>
-        <ToggleButton x:Name="ButtonGenerate" Grid.Column="3" Grid.Row="0" Content="Generate" FontSize="20" Margin="5" Background="LightBlue" BorderBrush="CadetBlue" BorderThickness="2" Height="30.6"/>
+        <ToggleButton x:Name="ButtonGenerate" Grid.Column="3" Grid.Row="0" Content="Generate" FontSize="20" Margin="5" Background="LightBlue" BorderBrush="CadetBlue" BorderThickness="2" Height="30.6" Checked="ButtonGenerate_Checked" Unchecked="ButtonGenerate_Unchecked"/>
     </Grid>
 </UserControl>

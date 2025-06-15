@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -22,12 +23,19 @@ namespace Page_Flow
     public partial class Settings : Window
     {
         HttpControler Client;
+        bool IsApplying = false;
+        bool PauseAnimation = false;
         public Settings(HttpControler client)
         {
             InitializeComponent();
             Client = client;
             Translate.UpdateCombobox(ComboBoxLanguage);
             ComboBoxLanguage.SelectedIndex = 0;
+
+            if (Client.GetUserName() != null)
+            {
+                LabelUser.Content = "[ " + Client.GetUserName() + " ]";
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -38,38 +46,92 @@ namespace Page_Flow
 
             if (window.DialogResult == true)
             {
+
+            }
+            if (Client.GetUserName() != null)
+            {
                 LabelUser.Content = "[ " + Client.GetUserName() + " ]";
+            }
+            else
+            {
+                LabelUser.Content = "[no user logged in]";
             }
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private async void Button_Click_Apply(object sender, RoutedEventArgs e)
         {
+            if (IsApplying)
+            {
+                return;
+            }
+            IsApplying = true;
+
+            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+            var token = cancellationTokenSource.Token;
+
+            var animation = Button_Animation("please wait...",token);
+
             SettingsValues.SetFirstLanguage(Translate.Languages_target[ComboBoxLanguage.SelectedIndex]);
 
-            Client.Address=TextBoxIP.Text;
-            Client.Port=TextBoxPort.Text;
+            Client.Address = TextBoxIP.Text;
+            Client.Port = TextBoxPort.Text;
+
+            if (await Client.IsConnected()==false)
+            {
+                MessageBox.Show("Debug");
+                PauseAnimation=true;
+                if (MessageBox.Show("Adress and or Port are wrong or server can't be reached. Continue without server?", "can't connect to server", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    DialogResult = true;
+                }
+                bool bruh = await Client.CheckUser("c#user", "1234");
+                MessageBox.Show(bruh.ToString());
+                IsApplying = false;
+                PauseAnimation=false;
+
+                ApplyButton.Content = "apply";
+
+                return;
+
+            }
+            else { MessageBox.Show("bruh"); }
+
             //TODO:Check Client Conection show message if wrong adress and or port
 
             SettingsValues.SetAPIKey(TextBoxAPIKey.Text);
             //TODO:Check if API key is working if not -> messagebox
 
-            if (ToggleButtonDarkmode.IsChecked == true) { SettingsValues.DoScrollPage=true; }
+            SettingsValues.ReadTextSize = Convert.ToInt32(TextSizeSlider.Value);
 
-            ResourceDictionary dict = new ResourceDictionary();
-            if (ToggleButtonDarkmode.IsChecked == true)
-            {
-                dict.Source = new Uri("DarkTheme.xaml", UriKind.Relative);
-                Application.Current.Resources.MergedDictionaries.Clear();
-                Application.Current.Resources.MergedDictionaries.Add(dict);
-            }
-            else if(ToggleButtonDarkmode.IsChecked == false)
-            {
-                dict.Source = new Uri("LightTheme.xaml", UriKind.Relative);
-                Application.Current.Resources.MergedDictionaries.Clear();
-                Application.Current.Resources.MergedDictionaries.Add(dict);
-            }
-            
+            DialogResult = true;
+        }
 
+        private async Task Button_Animation(string text, CancellationToken token)
+        {
+            while (true)
+            {
+                for (int i = 1; i <= text.Length; i++)
+                {
+                    ApplyButton.Content = text.Substring(0, i);
+                    await Task.Delay(400);
+                    while (PauseAnimation)
+                    {
+                        await Task.Delay(500);
+                    }
+                    if (!IsApplying) { return; }
+                }
+
+                for (int i = text.Length - 1; i >= 0; i--)
+                {
+                    ApplyButton.Content = text.Substring(0, i);
+                    await Task.Delay(400);
+                    while (PauseAnimation)
+                    {
+                        await Task.Delay(500);
+                    }
+                    if (!IsApplying) { return; }
+                }
+            }
         }
     }
 }
