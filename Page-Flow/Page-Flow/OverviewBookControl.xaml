@@ -43,7 +43,7 @@
             <Label x:Name="LabelComments" MouseLeftButtonDown="Review_MouseLeftButtonDown" FontSize="15" Grid.Column="6" Grid.Row="2" Background="Transparent" Foreground="Goldenrod" Margin="5" Content="0 🗨" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
             <Border Grid.Row="2" Grid.Column="6" BorderBrush="Goldenrod" BorderThickness="2" Margin="2" CornerRadius="3"/>
             
-            <Button x:Name="ButtonEdit" FontSize="16" Content="✎" VerticalContentAlignment="top" Foreground="Goldenrod" Grid.Column="5" Grid.Row="3" Height="30.6" Width="50" Background="Gold" BorderBrush="Goldenrod" BorderThickness="2"/>
+            <Button x:Name="ButtonEdit" FontSize="16" Content="✎" VerticalContentAlignment="top" Foreground="Goldenrod" Grid.Column="5" Grid.Row="3" Height="30.6" Width="50" Background="Gold" BorderBrush="Goldenrod" BorderThickness="2" Click="ButtonEdit_Click"/>
             <Button x:Name="ButtonDelete" FontSize="16" Content="?" Foreground="Crimson" Grid.Column="6" Grid.Row="3" Height="30.6" Width="50" Background="LightCoral" BorderBrush="Crimson" BorderThickness="2"/>
         </Grid>
     </Border>

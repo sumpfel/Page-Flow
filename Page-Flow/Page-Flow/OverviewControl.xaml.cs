@@ -187,5 +187,15 @@ namespace Page_Flow
                 LibraryDeleted?.Invoke(this, EventArgs.Empty);
             }
         }
+
+        private void ButtonEdit_Click(object sender, RoutedEventArgs e)
+        {
+            AddLibrary addLibrary = new AddLibrary();
+            addLibrary.ShowDialog();
+            if (addLibrary.DialogResult == true)
+            {
+
+            }
+        }
     }
 }

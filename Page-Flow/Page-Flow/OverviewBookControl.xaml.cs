@@ -89,5 +89,14 @@ namespace Page_Flow
             }
         }
 
+        private void ButtonEdit_Click(object sender, RoutedEventArgs e)
+        {
+            AddBookWindow addBookWindow = new AddBookWindow();
+            addBookWindow.ShowDialog();
+            if (addBookWindow.DialogResult == true)
+            {
+
+            }
+        }
     }
 }
