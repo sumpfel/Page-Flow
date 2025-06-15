@@ -38,7 +38,7 @@ namespace Page_Flow
 
             Log.Logger = new LoggerConfiguration().MinimumLevel.Verbose().
                 WriteTo.Console().
-                WriteTo.File($".tmp/log.txt", rollingInterval: RollingInterval.Hour).//$".tmp/log_{DateTime.Now.ToString("yyyy-MM-dd_HH")}.txt"
+                WriteTo.File($".tmp/log.txt", rollingInterval: RollingInterval.Day).//$".tmp/log_{DateTime.Now.ToString("yyyy-MM-dd_HH")}.txt"
                 CreateLogger();
 
 

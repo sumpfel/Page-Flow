@@ -7,15 +7,22 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Serilog;
+using System.Windows;
 
 namespace HTTPClient
 {
+    
     public class HttpControler
     {
-        public string Address = "192.168.66.18";
-        public string Port = "5000";
+        public string Address;
+        public string Port;
         private string Username;
         private string Password;
+
+        
+
+        
 
         public string GetUserName() { if (Username != null) { return Username; } else { return ""; } }
         public void LogOut() { Username = null;Password = null; }
@@ -24,7 +31,41 @@ namespace HTTPClient
             return $"http://{Address}:{Port}";
         }
 
-        public HttpControler(string address, string port) { Address = address;Port = port; }
+        public HttpControler(string address, string port) { Address = address;Port = port;
+        
+            Log.Logger = new LoggerConfiguration().MinimumLevel.Verbose().
+                    WriteTo.Console().
+                    WriteTo.File($".tmp/HTTP_Client_.log", rollingInterval: RollingInterval.Day).//$".tmp/log_{DateTime.Now.ToString("yyyy-MM-dd_HH")}.txt"
+                    CreateLogger();
+
+        }
+
+        public bool IsLoggedIn()
+        {
+            if(Username!=null && Password != null)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<bool> IsConnected()
+        {
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    throw (new Exception(GetUrl() + "/is_page_flow_server"));
+                    HttpResponseMessage response = await client.GetAsync(GetUrl()+ "/is_page_flow_server");
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+                
+            }catch(Exception ex) {throw(ex); return false;}
+        }
 
         private async Task<bool> UserComands(string username, string password, string url)
         {
@@ -41,8 +82,7 @@ namespace HTTPClient
                 }
                 catch (Exception ex)
                 {
-                    //TODO: LOG ex
-                    throw(ex);
+                    Log.Logger.Error($"error while creating user or logging in: {ex}");
                 }
             }
             return true;
@@ -54,6 +94,7 @@ namespace HTTPClient
             {
                 Username = username;
                 Password = password;
+                Log.Logger.Information($"user created name: {username}");
             }
             return result;
         }
@@ -66,6 +107,7 @@ namespace HTTPClient
             {
                 Username = username;
                 Password = password;
+                Log.Logger.Information($"Loged in as: {username}");
             }
             return result;
         }
@@ -91,7 +133,7 @@ namespace HTTPClient
             }
             catch (Exception ex)
             {
-                //TODO Log
+                Log.Logger.Error($"error while downloading url: '{url}'  path: '{download_path}'  error:{ex}");
             }
             return false;
         }
@@ -127,8 +169,8 @@ namespace HTTPClient
             }
             catch (Exception ex)
             {
-                //TODO: LOG ex
-                throw (ex);
+                Log.Logger.Error($"error while sending feedback: {ex}");
+                return false;
             }
             
         }
