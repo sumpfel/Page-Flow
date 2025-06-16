@@ -96,7 +96,9 @@ namespace Page_Flow
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(Reviewable.Path);
+
+            if (!Client.IsLoggedIn()) { MessageBox.Show("not logged in"); return; }
+
             if (CommentTextBox.Text != "")
             {
                 bool succes=await Client.sendComment(Reviewable.Path, CommentTextBox.Text);
@@ -105,6 +107,10 @@ namespace Page_Flow
                     Reviewable.Comments.Add($"{Client.GetUserName()}@@{CommentTextBox.Text}");
                     LabelComments.Content = $"{Reviewable.Comments.Count - 1} 🗨";
                     UpdateComments();
+                }
+                else if (!Client.Connected)
+                {
+                    MessageBox.Show("Error: Couldn't reach server check Internetconnection, Firewall or try again later.");
                 }
                 else { MessageBox.Show("Error: Comment couldn't be sent try again later"); }
             }
@@ -115,6 +121,7 @@ namespace Page_Flow
         {
             if (sender is Button button)
             {
+                if (!Client.IsLoggedIn()) { MessageBox.Show("not logged in"); return; }
                 bool succes;
                 int likes;
                 switch (button.Name)
@@ -144,6 +151,9 @@ namespace Page_Flow
                 {
                     Reviewable.FakeLikes = likes;
                     UpdateLikes();
+                }else if (!Client.Connected)
+                {
+                    MessageBox.Show("Error: Couldn't reach server check Internetconnection, Firewall or try again later.");
                 }
                 else
                 {
