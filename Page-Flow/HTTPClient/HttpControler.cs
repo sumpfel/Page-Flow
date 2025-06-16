@@ -20,12 +20,12 @@ namespace HTTPClient
         private string Username;
         private string Password;
 
-        
 
-        
 
+
+        public bool Connected = false;
         public string GetUserName() { if (Username != null) { return Username; } else { return ""; } }
-        public void LogOut() { Username = null;Password = null; }
+        public void LogOut() {  Log.Logger.Information($"{Username} logged out"); Username = null;Password = null; }
         public string GetUrl()
         {
             return $"http://{Address}:{Port}";
@@ -37,7 +37,6 @@ namespace HTTPClient
                     WriteTo.Console().
                     WriteTo.File($".tmp/HTTP_Client_.log", rollingInterval: RollingInterval.Day).//$".tmp/log_{DateTime.Now.ToString("yyyy-MM-dd_HH")}.txt"
                     CreateLogger();
-
         }
 
         public bool IsLoggedIn()
@@ -48,14 +47,15 @@ namespace HTTPClient
             }
             return false;
         }
+            
 
-        public async Task<bool> IsConnected()
+        public async Task<bool> CheckConnection()
         {
+            Connected = true;
             try
             {
                 using (HttpClient client = new HttpClient())
                 {
-                    throw (new Exception(GetUrl() + "/is_page_flow_server"));
                     HttpResponseMessage response = await client.GetAsync(GetUrl()+ "/is_page_flow_server");
                     if (response.IsSuccessStatusCode)
                     {
@@ -64,11 +64,17 @@ namespace HTTPClient
                     return false;
                 }
                 
-            }catch(Exception ex) {throw(ex); return false;}
+            }catch(Exception ex)
+            {
+                if (ex is HttpRequestException) { Connected = false; Log.Logger.Information($"no connection to server: {GetUrl()}");return false; }
+                Log.Logger.Error($"error while checking connection to server: {GetUrl()} error: {ex}");
+                return false;
+            }
         }
 
         private async Task<bool> UserComands(string username, string password, string url)
         {
+            Connected= true;
             Dictionary<string, string> payload_dict = new Dictionary<string, string>() { { "user_name", username }, { "pwd",password} };
             using (HttpClient client = new HttpClient())
             {
@@ -82,6 +88,7 @@ namespace HTTPClient
                 }
                 catch (Exception ex)
                 {
+                    if (ex is HttpRequestException) { Connected = false; }
                     Log.Logger.Error($"error while creating user or logging in: {ex}");
                 }
             }
@@ -114,6 +121,7 @@ namespace HTTPClient
 
         private async Task<bool> Download(string url, string download_path)
         {
+            Connected = true;
             try
             {
                 using (HttpClient client = new HttpClient())
@@ -133,6 +141,7 @@ namespace HTTPClient
             }
             catch (Exception ex)
             {
+                if (ex is HttpRequestException) { Connected = false; }
                 Log.Logger.Error($"error while downloading url: '{url}'  path: '{download_path}'  error:{ex}");
             }
             return false;
@@ -155,7 +164,7 @@ namespace HTTPClient
 
         private async Task<bool> SendFeedback(Dictionary<string,string> payload_dict)
         {
-            
+            Connected = true;
             try
             {
                 using (HttpClient client = new HttpClient())
@@ -169,6 +178,7 @@ namespace HTTPClient
             }
             catch (Exception ex)
             {
+                if (ex is HttpRequestException) { Connected = false; }
                 Log.Logger.Error($"error while sending feedback: {ex}");
                 return false;
             }

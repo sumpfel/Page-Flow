@@ -43,7 +43,7 @@ namespace Page_Flow
 
 
             Log.Logger.Information("MainWindow started ...");
-            Client = new HttpControler("127.0.0.1", "5000");
+            Client = new HttpControler("christofs-projects.org", "5002");
             //await Client.CheckUser("c#user", "1234");
 
             //string TranslatedBook = Translate.TranslateText("私はchristofだ", "ja", "");
@@ -70,11 +70,23 @@ namespace Page_Flow
         private async void ButtonReload_Click(object sender, RoutedEventArgs e)
         {
             LibraryCollection.libraryList.Clear();
-            await Client.DownloadPreviewFile("books/preview.csv");
-            //await Client.DownloadAll("books/all.zip");
             LibraryCollection.LoadFromLocal();
-            LibraryCollection.LoadFromPreview("books/preview.csv");
             LoadToView();
+            if(await Client.DownloadPreviewFile("books/preview.csv"))
+            {
+                LibraryCollection.LoadFromPreview("books/preview.csv");
+                LoadToView();
+            }else if (!Client.Connected)
+            {
+                MessageBox.Show("server could not be reached but you can continue offline");
+            }
+            else
+            {
+                MessageBox.Show("error: could not fetch files from server try again later");
+            }
+            
+            
+            
         }
 
         private void LoadToView()

@@ -37,13 +37,14 @@
         <Label Grid.Row="7" Content="Port:" FontSize="40" HorizontalAlignment="Right"></Label>
         <Label x:Name="LabelUser" Grid.Row="8" Content="[no user logged in]->" FontSize="40" HorizontalAlignment="Right"></Label>
 
+        <Button x:Name="AboutButton" Grid.Column="1" Padding="10 2" Height="50" HorizontalAlignment="Right" Margin="5 0" Content="About" FontSize="35" Background="LightBlue" BorderBrush="CadetBlue" BorderThickness="2" Click="AboutButton_Click"></Button>
         <Slider x:Name="TextSizeSlider" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="10" Value="20" Minimum="10" Maximum="50" TickFrequency="1"></Slider>
         <ToggleButton x:Name="ToggleButtonScroll" Grid.Column="1" Grid.Row="2" Width="40" Height="40" HorizontalAlignment="Left" Margin="10" Background="LightBlue" BorderBrush="CadetBlue" BorderThickness="2"></ToggleButton>
         <TextBox x:Name="TextBoxAPIKey" TextWrapping="Wrap" Grid.Column="2" Grid.Row="4" Margin="10" FontSize="20" Text="6ab2d2c4-fffd-4216-a2f4-96f615bcbb53:fx"></TextBox>
         <Button Grid.Column="2" Grid.Row="8" Width="100" Height="45" HorizontalAlignment="Left" Margin="10" Content="change" FontSize="30" Click="Button_Click" Background="LightBlue" BorderBrush="CadetBlue" BorderThickness="2"></Button>
         <Button x:Name="ApplyButton" Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="2" Padding="10 0" Height="45" HorizontalAlignment="Center" Margin="10" Content="apply" FontSize="30" Background="LightBlue" BorderBrush="CadetBlue" BorderThickness="2" Click="Button_Click_Apply"></Button>
-        <TextBox x:Name="TextBoxIP" Grid.Column="2" Grid.Row="6" Margin="10" FontSize="35" Text="127.0.0.1"></TextBox>
-        <TextBox x:Name="TextBoxPort" Grid.Column="2" Grid.Row="7" Margin="10" FontSize="35" Text="5000"></TextBox>
+        <TextBox x:Name="TextBoxIP" Grid.Column="2" Grid.Row="6" Margin="10" FontSize="35" Text="christofs-projects.org"></TextBox>
+        <TextBox x:Name="TextBoxPort" Grid.Column="2" Grid.Row="7" Margin="10" FontSize="35" Text="5002"></TextBox>
         <ComboBox x:Name="ComboBoxLanguage" Grid.Row="3" Grid.Column="1" Background="White" BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Left" Width="350" Height="45" Margin="10" FontSize="35">
             
         </ComboBox>

@@ -61,6 +61,12 @@ namespace Page_Flow
                 Grid.SetColumnSpan(LabelNoteAngabe, 3);
                 CanDownload = false;
                 CanDelete = true;
+                LabelDisLikes.Visibility = Visibility.Hidden;
+                LabelLikes.Visibility = Visibility.Hidden;
+                LabelComments.Visibility = Visibility.Hidden;
+                BorderDisLikes.Visibility = Visibility.Hidden;
+                BorderLikes.Visibility = Visibility.Hidden;
+                BorderComments.Visibility = Visibility.Hidden;
             }
             else if (Library.Local == Library.Type.Downloaded)
             {
@@ -131,15 +137,17 @@ namespace Page_Flow
             }
         }
 
-        private void UserControl_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private async void UserControl_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             switch (Library.Local){
                 case Library.Type.Server:
                     if(MessageBox.Show("You haven't downloaded this Library yet. Do you want to download it?", "Download?", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                     {
-                        DownloadLib();
-                        Library.Local = Library.Type.Downloaded;
-                        LibraryClicked?.Invoke(this, EventArgs.Empty);
+                        if (await DownloadLib())
+                        {
+                            Library.Local = Library.Type.Downloaded;
+                            LibraryClicked?.Invoke(this, EventArgs.Empty);
+                        }
                     }                    
                     break;
                 default:
@@ -149,14 +157,16 @@ namespace Page_Flow
                 
         }
 
-        private void ButtonDownload_Click(object sender, RoutedEventArgs e)
+        private async void ButtonDownload_Click(object sender, RoutedEventArgs e)
         {
             if (CanDownload)
             {
-                DownloadLib();
-                Library.Local = Library.Type.Downloaded;
-                HideDownloadButton();
-                ShowDeleteButton();
+                if (await DownloadLib())
+                {
+                    Library.Local = Library.Type.Downloaded;
+                    HideDownloadButton();
+                    ShowDeleteButton();
+                }
             }
             
         }
@@ -204,14 +214,18 @@ namespace Page_Flow
             ButtonEdit.BorderBrush = Brushes.Goldenrod;
         }
 
-        private async void DownloadLib()
+        private async Task<bool> DownloadLib()
         {
             string path = "books/" + Library.Path+ ".zip";
             bool Succes= await Client.DownloadBook(Library.Path, path);
-            if (Succes==false)
+            if (!Client.Connected)
+            {
+                MessageBox.Show("Error: Couldn't reach server check Internetconnection, Firewall or try again later.");
+                return false;
+            }else if(Succes == false)
             {
                 MessageBox.Show("Error 404: Failed downloading book.");
-                return;
+                return false;
             }
             ZipFile.ExtractToDirectory(path, "books");
             File.Delete(path);
@@ -228,7 +242,7 @@ namespace Page_Flow
             else { Library.ImagePath = "FALSE"; }
 
             LoadThumbnail();
-
+            return true;
         }
             
 

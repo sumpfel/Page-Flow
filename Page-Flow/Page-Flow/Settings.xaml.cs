@@ -30,7 +30,6 @@ namespace Page_Flow
             InitializeComponent();
             Client = client;
             Translate.UpdateCombobox(ComboBoxLanguage);
-            ComboBoxLanguage.SelectedIndex = 0;
 
             if (Client.GetUserName() != null)
             {
@@ -76,16 +75,13 @@ namespace Page_Flow
             Client.Address = TextBoxIP.Text;
             Client.Port = TextBoxPort.Text;
 
-            if (await Client.IsConnected()==false)
+            if (await Client.CheckConnection()==false)
             {
-                MessageBox.Show("Debug");
                 PauseAnimation=true;
                 if (MessageBox.Show("Adress and or Port are wrong or server can't be reached. Continue without server?", "can't connect to server", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
                     DialogResult = true;
                 }
-                bool bruh = await Client.CheckUser("c#user", "1234");
-                MessageBox.Show(bruh.ToString());
                 IsApplying = false;
                 PauseAnimation=false;
 
@@ -94,7 +90,6 @@ namespace Page_Flow
                 return;
 
             }
-            else { MessageBox.Show("bruh"); }
 
             //TODO:Check Client Conection show message if wrong adress and or port
 
@@ -102,7 +97,7 @@ namespace Page_Flow
             //TODO:Check if API key is working if not -> messagebox
 
             SettingsValues.ReadTextSize = Convert.ToInt32(TextSizeSlider.Value);
-
+            await Task.Delay(2000);//einfach damit i mine coole animation net umsunsch gmacht hon
             DialogResult = true;
         }
 
@@ -113,7 +108,7 @@ namespace Page_Flow
                 for (int i = 1; i <= text.Length; i++)
                 {
                     ApplyButton.Content = text.Substring(0, i);
-                    await Task.Delay(400);
+                    await Task.Delay(100);
                     while (PauseAnimation)
                     {
                         await Task.Delay(500);
@@ -124,7 +119,7 @@ namespace Page_Flow
                 for (int i = text.Length - 1; i >= 0; i--)
                 {
                     ApplyButton.Content = text.Substring(0, i);
-                    await Task.Delay(400);
+                    await Task.Delay(100);
                     while (PauseAnimation)
                     {
                         await Task.Delay(500);
@@ -132,6 +127,13 @@ namespace Page_Flow
                     if (!IsApplying) { return; }
                 }
             }
+        }
+
+        private void AboutButton_Click(object sender, RoutedEventArgs e)
+        {
+            AboutWindow window = new AboutWindow();
+
+            window.ShowDialog();
         }
     }
 }

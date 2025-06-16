@@ -330,7 +330,6 @@ def make_user():
 
 @app.route("/check_user",methods=['POST'])
 def if_user():
-    print("if user exists")
     data = request.json
     user_name = data.get("user_name")
     pwd = data.get("pwd")
@@ -341,11 +340,10 @@ def if_user():
 
 @app.route("/is_page_flow_server",methods=['GET'])
 def is_page_flow_server():
-    print("is_page_flow_server")
     return jsonify({"status": "success"}),200
 
 if __name__ == '__main__':
     init_files()
     zip_files_thead(300)
-    app.run(host="0.0.0.0", port=5000,debug=True)
-    logging.info("server started")
+    app.run(host="0.0.0.0", port=80)
+    logging.info("server started") 
