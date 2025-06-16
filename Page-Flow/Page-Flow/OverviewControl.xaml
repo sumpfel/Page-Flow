@@ -46,7 +46,7 @@
 
             <Button x:Name="ButtonExport" FontSize="16" Content="📤" Grid.Column="4" Grid.Row="3" Height="30.6" Width="50" Foreground="ForestGreen" Background="LawnGreen" BorderBrush="ForestGreen" BorderThickness="2" Click="ButtonExport_Click" />
             <Button x:Name="ButtonDownload" FontSize="16" Content="⬇" Grid.Column="3" Grid.Row="3" Height="30.6" Width="50" Foreground="CadetBlue" Background="LightBlue" BorderBrush="CadetBlue" BorderThickness="2" Click="ButtonDownload_Click" />
-            <Button x:Name="ButtonEdit" FontSize="16" Content="✎" VerticalContentAlignment="top" Foreground="Goldenrod" Grid.Column="5" Grid.Row="3" Height="30.6" Width="50" Background="Gold" BorderBrush="Goldenrod" BorderThickness="2"/>
+            <Button x:Name="ButtonEdit" FontSize="16" Content="✎" VerticalContentAlignment="top" Foreground="Goldenrod" Grid.Column="5" Grid.Row="3" Height="30.6" Width="50" Background="Gold" BorderBrush="Goldenrod" BorderThickness="2" Click="ButtonEdit_Click"/>
             <Button x:Name="ButtonDelete" FontSize="14" Content="🗑️" Foreground="Crimson" Grid.Column="6" Grid.Row="3" Height="30.6" Width="50" Background="LightCoral" BorderBrush="Crimson" BorderThickness="2" Click="ButtonDelete_Click"/>
         </Grid>
     </Border>

@@ -295,5 +295,40 @@ namespace Page_Flow
                 }
             }
         }
+
+        private void ButtonEdit_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (CanDelete)
+            {
+                var editWindow = new AddLibrary(Library);
+                bool? result = editWindow.ShowDialog();
+
+                if (result == true)
+                {
+                    // Nach dem Bearbeiten kann man hier z.B. die Library-Daten neu laden, falls AddLibrary die Dateien gespeichert hat
+                    Library.Titel = editWindow.TextBoxTitle.Text.Trim();
+                    Library.Author = editWindow.TextBoxAuthor.Text.Trim();
+                    Library.License = editWindow.TextBoxLicense.Text.Trim();
+                    Library.Blurb = editWindow.TextBoxBlurb.Text.Trim();
+                    Library.Note = editWindow.TextBoxNote.Text.Trim();
+
+                    // Wenn du möchtest, hier noch die Änderungen in der UI anzeigen
+                    LabelTitle.Content = Library.Titel;
+                    LabelAuthorAngabe.Content = Library.Author;
+                    LabelLicenseAngabe.Content = Library.License;
+                    LabelNoteAngabe.Content = Library.Note;
+
+                    // Optional: Thumbnail neu laden, falls geändert
+                    if (!string.IsNullOrEmpty(editWindow.ThumbnailPath) && File.Exists(editWindow.ThumbnailPath))
+                    {
+                        Library.ImagePath = editWindow.ThumbnailPath;
+                        LoadThumbnail();
+                    }
+
+                    // Du könntest auch direkt die Daten in die settings.csv schreiben oder AddLibrary das machen lassen.
+                }
+            }
+        }
     }
 }
