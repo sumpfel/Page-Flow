@@ -19,9 +19,24 @@ namespace Page_Flow
     /// </summary>
     public partial class TextInputWindow : Window
     {
-        public TextInputWindow()
+        public TextInputWindow(string question)
         {
             InitializeComponent();
+            QuestionLabel.Content = question;
+        }
+
+        private void Accept_Click(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(InputTextBox.Text))
+            {
+                DialogResult=true;
+            }
+            else { MessageBox.Show("You can't leave it blank"); }
+        }
+
+        private void Deny_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult=false;
         }
     }
 }

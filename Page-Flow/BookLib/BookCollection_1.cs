@@ -53,7 +53,7 @@ namespace BookLib
         public string Serialize()
         {
             // Beispiel: ";" als Trennzeichen, evtl. bei Strings Escape einbauen wenn nötig
-            string serializedBooks = $"{Titel}|{Author}|{License}|{Note}|{Path}";
+            string serializedBooks = $"{Titel}|{Author}|{License}|{Note}|{Path}|";
             return serializedBooks;
         }
 
@@ -91,7 +91,7 @@ namespace BookLib
                             using(StreamReader sr = new StreamReader(settingsFilePath))
                             {
                                 string str = sr.ReadToEnd().Trim();
-                                string[] settings = str.Split(",");
+                                string[] settings = str.Split("|");
                                 bookCollection.Titel = settings[0];
                                 bookCollection.Author = settings[1];
                                 bookCollection.License = settings[2];

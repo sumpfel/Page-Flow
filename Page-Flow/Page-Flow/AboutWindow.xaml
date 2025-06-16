@@ -60,7 +60,7 @@
 
         <Label Grid.Row="6" Background="CadetBlue" Margin="15 0"></Label>
 
-        <ScrollViewer x:Name="MyScrollViewer" Grid.Row="7" Margin="20 5">
+        <ScrollViewer x:Name="MyScrollViewer" Grid.Row="7" Margin="20 5" VerticalScrollBarVisibility="Auto">
             <TextBlock TextWrapping="Wrap" FontSize="17" Margin="5">
                 This project is a collaboration between two developers, it was made as a school project in 1 month of time.
                 It's purpose is to make Reading books written in other languages possible, while giving the option to host servers for people to download books and review them. Also It is great to learn vocabulary, because it gives you the option to click at the words and afterwards download them as a list with the translations.

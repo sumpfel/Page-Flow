@@ -165,5 +165,17 @@ namespace Page_Flow
             Directory.Delete("books\\" + BookCollection.Path, true);
             BookCollectionDeleted?.Invoke(this, EventArgs.Empty);
         }
+
+        private void ButtonEdit_Click(object sender, RoutedEventArgs e)
+        {
+            AddBookWindow addBookWindow = new AddBookWindow(BookCollection);
+
+            addBookWindow.ShowDialog();
+
+            if(addBookWindow.DialogResult == true)
+            {
+
+            }
+        }
     }
 }

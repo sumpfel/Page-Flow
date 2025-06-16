@@ -85,7 +85,7 @@ namespace BookLib
                     Library Library;
                     using (StreamReader sr = new StreamReader(dir + "\\settings.csv"))
                     {
-                        string[] settings = sr.ReadToEnd().Trim().Split(",");
+                        string[] settings = sr.ReadToEnd().Trim().Split("|");
                         string title = settings[0];
                         string author = settings[1];
                         string license = settings[2];

@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Page_Flow"
         mc:Ignorable="d"
-        Title="Page-Flow" Height="800" Width="900" MinHeight="700" MinWidth="800">
+        Title="Page-Flow" Height="800" Width="900" MinHeight="700" MinWidth="800"
+        Icon="/logo.png">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100"/>
@@ -27,7 +28,7 @@
         <TextBox x:Name="TextBoxSearch" Grid.Column="2" Grid.Row="0" Background="LightCyan" BorderBrush="CadetBlue" BorderThickness="2" Margin="19" FontSize="20" KeyDown="TextBoxSearch_KeyDown"/>
         <Label Grid.Column="2" Grid.Row="0" Background="LightCyan" BorderThickness="2" Margin="19" FontSize="20" HorizontalAlignment="Right" Content="🔎" Foreground="CadetBlue" MouseLeftButtonDown="Label_MouseLeftButtonDown"></Label>
         <Label x:Name="LabelPath" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="5" Content="Page Flow > Home " Height="30" VerticalAlignment="Top" Background="WhiteSmoke" Margin="3"/>
-        <ScrollViewer VerticalScrollBarVisibility="Visible" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5">
             <StackPanel x:Name="View" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3"></StackPanel>
         </ScrollViewer>
     </Grid>

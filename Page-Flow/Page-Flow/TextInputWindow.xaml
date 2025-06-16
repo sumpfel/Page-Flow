@@ -20,7 +20,7 @@
 
         <Label x:Name="QuestionLabel" Grid.Row="0" Grid.ColumnSpan="3" Content="Frage" FontSize="20" Background="LightGray" BorderBrush="Gray" BorderThickness="2"/>
         <TextBox x:Name="InputTextBox" Grid.Row="1" BorderBrush="LightGray" BorderThickness="2" Margin="4" FontSize="20"></TextBox>
-        <Button x:Name="Accept" Grid.Row="1" Grid.Column="1" Content="✔" FontSize="18" Foreground="CadetBlue" VerticalContentAlignment="Top" Background="LightBlue" BorderBrush="CadetBlue" BorderThickness="2" Margin="4"/>
-        <Button x:Name="Deny" Grid.Row="1" Grid.Column="2" Content="✖" FontSize="16" Foreground="Goldenrod" Background="Gold" BorderBrush="Goldenrod" BorderThickness="2" Margin="4"/>
+        <Button x:Name="Accept" Grid.Row="1" Grid.Column="1" Content="✔" FontSize="18" Foreground="CadetBlue" VerticalContentAlignment="Top" Background="LightBlue" BorderBrush="CadetBlue" BorderThickness="2" Margin="4" Click="Accept_Click"/>
+        <Button x:Name="Deny" Grid.Row="1" Grid.Column="2" Content="✖" FontSize="16" Foreground="Goldenrod" Background="Gold" BorderBrush="Goldenrod" BorderThickness="2" Margin="4" Click="Deny_Click"/>
     </Grid>
 </Window>

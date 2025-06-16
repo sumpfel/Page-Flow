@@ -61,12 +61,12 @@ namespace Page_Flow
             Client = new HttpControler("christofs-projects.org", "5002");
             if (!Client.Load("settings/client.csv"))
             {
-                MessageBox.Show("error: Could not load Server Settings");
+                //MessageBox.Show("error: Could not load Server Settings");
             }
 
             if (!SettingsValues.Load("settings/general.csv"))
             {
-                MessageBox.Show("error: Could not load General Settings");
+                //MessageBox.Show("error: Could not load General Settings");
             }
 
             LibraryCollection.LoadFromLocal();

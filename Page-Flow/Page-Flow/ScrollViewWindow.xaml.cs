@@ -44,6 +44,9 @@ namespace Page_Flow
                 if (SettingsValues.DoScrollPage)
                 {
                     AddClickableWords(sr.ReadToEnd());
+                    PreviousButton.Visibility = Visibility.Hidden;
+                    NextButton.Visibility = Visibility.Hidden;
+                    PageCountButton.Visibility = Visibility.Hidden;
                 }
                 else
                 {
@@ -115,7 +118,7 @@ namespace Page_Flow
         {
             PageNumber = page_number;
             AddClickableWords(Pages[PageNumber]);
-            PageCountLabel.Content = (PageNumber+1).ToString();
+            PageCountButton.Content = (PageNumber+1).ToString();
             PreviousButton.Visibility = Visibility.Visible;
             NextButton.Visibility = Visibility.Visible;
             if (PageNumber == 0)
@@ -143,6 +146,24 @@ namespace Page_Flow
             DialogResult = false;
         }
 
-        
+        private void PageCountButton_Click(object sender, RoutedEventArgs e)
+        {
+            TextInputWindow textInputWindow = new TextInputWindow("what page do you want to switch to:");
+
+            textInputWindow.ShowDialog();
+            if (textInputWindow.DialogResult==true)
+            {
+                try
+                {
+                    int new_page_number = Convert.ToInt32(textInputWindow.InputTextBox.Text.Trim());
+                    if (new_page_number>0 && new_page_number<= Pages.Count())
+                    {
+                        ChangePage(new_page_number - 1);
+                    }
+                    else { MessageBox.Show("sorry that page does not exist"); }
+                }
+                catch { MessageBox.Show("sorry that isn't a page number"); }
+            }
+        }
     }
 }

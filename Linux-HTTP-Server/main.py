@@ -6,6 +6,7 @@ import threading
 import time
 import sys
 import logging
+import argparse
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.FATAL)
@@ -76,7 +77,7 @@ def create_preview_file():
             try:
                 rows=[]
                 with open(os.path.join(full_path,"settings.csv"), mode="r") as file:
-                    rows = list(csv.reader(file))
+                    rows = list(csv.reader(file,delimiter="|"))
                     settings+=rows[0]
 
                 settings_=""
@@ -280,7 +281,6 @@ app = Flask(__name__)
 def download_books(library):
     file=os.path.join(download_dir_path,f"{library}.zip")
     if os.path.exists(file):
-        print(f"{library}.zip was downloaded")
         logging.info(f"file {file} was downloaded")
         return send_file(file, as_attachment=True)
     return abort(404)
@@ -289,7 +289,6 @@ def download_books(library):
 def preview_books():
     file = os.path.join(download_dir_path, preview_path)
     if os.path.exists(file):
-        print(f"file {file} was downloaded")
         return send_file(file, as_attachment=True)
     return abort(404)
 
@@ -343,7 +342,25 @@ def is_page_flow_server():
     return jsonify({"status": "success"}),200
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description="Run the web server.")
+    parser.add_argument(
+        '--port',
+        type=int,
+        default=5000,
+        help="Port to run the server on (default: 5000)"
+    )
+    parser.add_argument(
+        '--update_frequency',
+        type=int,
+        default=300,
+        help="Seconds time interval to check for likes etc and create zip files (default: 300 (5min))"
+    )
+
+    args = parser.parse_args()
+    port = args.port
+    time_interval = args.update_frequency
+
     init_files()
-    zip_files_thead(300)
-    app.run(host="0.0.0.0", port=80)
-    logging.info("server started") 
+    zip_files_thead(time_interval)
+    app.run(host="0.0.0.0", port=port)
+    logging.info("server started")

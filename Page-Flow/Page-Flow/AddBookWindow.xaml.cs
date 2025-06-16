@@ -33,6 +33,41 @@ namespace Page_Flow
             
         }
 
+        public AddBookWindow(BookCollection bookCollection)
+        {
+            InitializeComponent();
+            ComboboxLibrarysUpdateSelected(bookCollection.Path.Split(new char[] {'/','\\' })[0]);
+
+            TextBoxTitle.Text = bookCollection.Titel;
+            TextBoxAuthor.Text = bookCollection.Author;
+            TextBoxLicense.Text = bookCollection.License;
+            TextBoxBlurb.Text = bookCollection.Blurb;
+            TextBoxNote.Text = bookCollection.Note;
+
+            if (!string.IsNullOrEmpty(bookCollection.ImagePath) && File.Exists(bookCollection.ImagePath))
+            {
+                ThumbnailPath = bookCollection.ImagePath;
+                BitmapImage bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                bitmap.UriSource = new Uri(System.IO.Path.GetFullPath(ThumbnailPath), UriKind.Absolute);
+                bitmap.EndInit();
+                ImageThumbnail.Source = bitmap;
+
+                foreach(string language in bookCollection.Languages)
+                {
+                    AddLanguageControl1 addLanguageControl = new AddLanguageControl1();
+                    addLanguageControls.Add(addLanguageControl);
+                    LanguageStackPanel.Children.Insert(LanguageStackPanel.Children.Count - 1, addLanguageControl);
+
+                    addLanguageControl.ComboBoxLanguage.SelectedIndex = Array.IndexOf(Translate.Languages_og, language);
+                    addLanguageControl.TextBoxPath.Text = $"books\\{bookCollection.Path}\\{bookCollection.Path.Split(new char[] { '/', '\\' })[1]}{language}\\1.txt";
+                }
+
+            }
+
+        }
+
         private void AddLanguageControl()
         {
             AddLanguageControl1 addLanguageControl = new AddLanguageControl1();
@@ -64,6 +99,29 @@ namespace Page_Flow
                     ComboBoxLibrary.Items.Add(item);
                     librarys.Add(dir);
                     if (!File.Exists(dir + "\\downloaded.txt")){
+                        ComboBoxLibrary.SelectedIndex = x;
+                    }
+                    x += 1;
+                }
+            }
+        }
+
+        private void ComboboxLibrarysUpdateSelected(string selected_library)
+        {
+            string[] SubDirs = Directory.GetDirectories("books");
+            int x = 0;
+            foreach (string dir in SubDirs)
+            {
+                if (File.Exists(dir + "\\settings.csv"))
+                {
+                    ComboBoxItem item = new ComboBoxItem();
+                    item.Content = dir.Replace("books\\", "");
+                    item.Tag = dir.Replace("books\\", "");
+
+                    ComboBoxLibrary.Items.Add(item);
+                    librarys.Add(dir);
+                    if (dir.Replace("books\\", "")==selected_library)
+                    {
                         ComboBoxLibrary.SelectedIndex = x;
                     }
                     x += 1;

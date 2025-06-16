@@ -32,7 +32,7 @@
 
         <StackPanel HorizontalAlignment="Center" Grid.Row="3" Orientation="Horizontal">
             <Button x:Name="PreviousButton" Padding="10 2" Height="40" Margin="5 0" Content="&lt;-" FontSize="20" Background="LightBlue" BorderBrush="CadetBlue" BorderThickness="2" Click="PreviousButton_Click"></Button>
-            <Label x:Name="PageCountLabel" Padding="10 2" Height="40" Margin="5 0" Content="1" FontSize="20" Background="LightBlue" BorderBrush="CadetBlue" BorderThickness="2"></Label>
+            <Button x:Name="PageCountButton" Padding="10 2" Height="40" Margin="5 0" Content="1" FontSize="20" Background="LightBlue" BorderBrush="CadetBlue" BorderThickness="2" Click="PageCountButton_Click"></Button>
             <Button x:Name="NextButton" Padding="10 2" Height="40" Margin="5 0" Content="-&gt;" FontSize="20" Background="LightBlue" BorderBrush="CadetBlue" BorderThickness="2" Click="NextButton_Click"></Button>
         </StackPanel>
     </Grid>

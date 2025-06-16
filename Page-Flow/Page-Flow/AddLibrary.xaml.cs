@@ -62,7 +62,7 @@ namespace Page_Flow
                 Directory.CreateDirectory(path);
                 using (StreamWriter sw = new StreamWriter(path + "\\settings.csv"))
                 {
-                    sw.WriteLine($"{TextBoxTitle.Text},{TextBoxAuthor.Text},{TextBoxLicense.Text},{TextBoxBlurb.Text},{TextBoxNote.Text},");
+                    sw.WriteLine($"{TextBoxTitle.Text}|{TextBoxAuthor.Text}|{TextBoxLicense.Text}|{TextBoxBlurb.Text}|{TextBoxNote.Text}|");
                 }
                 if (!string.IsNullOrEmpty(ThumbnailPath))
                 {
