@@ -19,6 +19,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static BookLib.Library;
 
 namespace Page_Flow
 {
@@ -315,6 +316,12 @@ namespace Page_Flow
                     // Du könntest auch direkt die Daten in die settings.csv schreiben oder AddLibrary das machen lassen.
                 }
             }
+
+            // Speicherort definieren, z.B. settings.csv im Verzeichnis der Library
+            string libraryPath = System.IO.Path.Combine("books", Library.Path, "settings.csv");
+
+            // Speichern
+            LibrarySaver.Save(Library, libraryPath);
         }
     }
 }

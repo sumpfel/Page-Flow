@@ -50,6 +50,24 @@ namespace BookLib
             Languages= languages;
         }
 
+        public string Serialize()
+        {
+            // Beispiel: ";" als Trennzeichen, evtl. bei Strings Escape einbauen wenn nötig
+            string serializedBooks = $"{Titel}|{Author}|{License}|{Note}|{Path}";
+            return serializedBooks;
+        }
+
+        public static class LibrarySaver
+        {
+            public static void Save(Library library, string path)
+            {
+                using (StreamWriter writer = new StreamWriter(path, append: false))
+                {
+                    writer.WriteLine(library.Serialize());
+                }
+            }
+        }
+
         public void LoadBooks()
         {
             bookCollections.Clear();
