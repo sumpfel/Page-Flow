@@ -22,10 +22,31 @@ namespace Page_Flow
     /// </summary>
     public partial class AddLibrary : Window
     {
-        string ThumbnailPath;
+        public string ThumbnailPath;
         public AddLibrary()
         {
             InitializeComponent();
+        }
+
+        public AddLibrary(Library lib) : this()
+        {
+            TextBoxTitle.Text = lib.Titel;
+            TextBoxAuthor.Text = lib.Author;
+            TextBoxLicense.Text = lib.License;
+            TextBoxBlurb.Text = lib.Blurb;
+            TextBoxNote.Text = lib.Note;
+
+            // Thumbnail laden (falls vorhanden)
+            if (!string.IsNullOrEmpty(lib.ImagePath) && File.Exists(lib.ImagePath))
+            {
+                ThumbnailPath = lib.ImagePath;
+                BitmapImage bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                bitmap.UriSource = new Uri(System.IO.Path.GetFullPath(ThumbnailPath), UriKind.Absolute);
+                bitmap.EndInit();
+                ImageThumbnail.Source = bitmap;
+            }
         }
 
         private void ButtonDeny_Click(object sender, RoutedEventArgs e)
@@ -39,17 +60,22 @@ namespace Page_Flow
             {
                 string path = "books\\" + TextBoxTitle.Text.Trim().Replace(" ", "_");
                 Directory.CreateDirectory(path);
-                using(StreamWriter sw = new StreamWriter(path + "\\settings.csv"))
+                using (StreamWriter sw = new StreamWriter(path + "\\settings.csv"))
                 {
                     sw.WriteLine($"{TextBoxTitle.Text},{TextBoxAuthor.Text},{TextBoxLicense.Text},{TextBoxBlurb.Text},{TextBoxNote.Text},");
                 }
                 if (!string.IsNullOrEmpty(ThumbnailPath))
                 {
-                    
-                    File.Copy(ThumbnailPath, path + "\\thumbnail"+System.IO.Path.GetExtension(ThumbnailPath), true );
+                    File.Copy(ThumbnailPath, path + "\\thumbnail" + System.IO.Path.GetExtension(ThumbnailPath), true);
                 }
+
+                DialogResult = true;
+                Close();
             }
-            DialogResult = true;
+            else
+            {
+                // Bei ungültigen Eingaben passiert nichts, Meldungen kommen von IsFilledOut()
+            }
         }
 
         private bool IsFilledOut()
