@@ -31,10 +31,22 @@ namespace Page_Flow
             Client = client;
             Translate.UpdateCombobox(ComboBoxLanguage);
 
+            int language = Array.IndexOf(Translate.Languages_target, SettingsValues.GetFirstLanguage());
+
+            if (language >=0)
+            {
+                ComboBoxLanguage.SelectedIndex = language;
+            }
+
             if (Client.GetUserName() != null)
             {
                 LabelUser.Content = "[ " + Client.GetUserName() + " ]";
             }
+            TextBoxIP.Text = Client.Address;
+            TextBoxPort.Text = Client.Port;
+
+            TextSizeSlider.Value = SettingsValues.ReadTextSize;
+            ToggleButtonScroll.IsChecked = !SettingsValues.DoScrollPage;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -91,13 +103,25 @@ namespace Page_Flow
 
             }
 
-            //TODO:Check Client Conection show message if wrong adress and or port
-
             SettingsValues.SetAPIKey(TextBoxAPIKey.Text);
             //TODO:Check if API key is working if not -> messagebox
 
             SettingsValues.ReadTextSize = Convert.ToInt32(TextSizeSlider.Value);
+            
+            SettingsValues.DoScrollPage = !(ToggleButtonScroll.IsChecked.Value);
+
             await Task.Delay(2000);//einfach damit i mine coole animation net umsunsch gmacht hon
+
+            if (!SettingsValues.Save("settings/general.csv"))
+            {
+                MessageBox.Show("error: Could not save General settings to file. You may enter the settings again after restart.");
+            }
+
+            if (!Client.Save("settings/client.csv"))
+            {
+                MessageBox.Show("error: Could not save Server settings. You may enter the settings again after restart.");
+            }
+
             DialogResult = true;
         }
 

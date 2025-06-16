@@ -6,6 +6,7 @@ using Microsoft.Win32;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -36,19 +37,37 @@ namespace Page_Flow
         {
             InitializeComponent();
 
-            Log.Logger = new LoggerConfiguration().MinimumLevel.Verbose().
+            /*Log.Logger = new LoggerConfiguration().MinimumLevel.Verbose().
                 WriteTo.Console().
                 WriteTo.File($".tmp/log.txt", rollingInterval: RollingInterval.Day).//$".tmp/log_{DateTime.Now.ToString("yyyy-MM-dd_HH")}.txt"
                 CreateLogger();
 
 
-            Log.Logger.Information("MainWindow started ...");
+            Log.Logger.Information("MainWindow started ...");*/
+
+            if (!Directory.Exists("books"))
+            {
+                Directory.CreateDirectory("books");
+            }
+            if (!Directory.Exists(".tmp"))
+            {
+                Directory.CreateDirectory(".tmp");
+            }
+            if (!Directory.Exists("settings"))
+            {
+                Directory.CreateDirectory("settings");
+            }
+
             Client = new HttpControler("christofs-projects.org", "5002");
-            //await Client.CheckUser("c#user", "1234");
+            if (!Client.Load("settings/client.csv"))
+            {
+                MessageBox.Show("error: Could not load Server Settings");
+            }
 
-            //string TranslatedBook = Translate.TranslateText("私はchristofだ", "ja", "");
-
-            //MessageBox.Show($"translation: {TranslatedBook}");
+            if (!SettingsValues.Load("settings/general.csv"))
+            {
+                MessageBox.Show("error: Could not load General Settings");
+            }
 
             LibraryCollection.LoadFromLocal();
             LoadToView();
@@ -69,6 +88,7 @@ namespace Page_Flow
 
         private async void ButtonReload_Click(object sender, RoutedEventArgs e)
         {
+            LabelPath.Content = "Page Flow > Home ";
             LibraryCollection.libraryList.Clear();
             LibraryCollection.LoadFromLocal();
             LoadToView();
@@ -114,6 +134,7 @@ namespace Page_Flow
         {
             if (sender is OverviewControl Control)
             {
+                LabelPath.Content += "> "+Control.Library.Titel+" ";
                 CurrentLibrary = Control.Library;
                 View.Children.Clear();
                 Control.Library.LoadBooks();

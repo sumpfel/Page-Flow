@@ -56,18 +56,18 @@ namespace Page_Flow
             bitmap.CacheOption = BitmapCacheOption.OnLoad;
             if (BookCollection.ImagePath != null)
             {
-                if (File.Exists(BookCollection.ImagePath))
+                if (BookCollection.ImagePath == "FALSE")
+                {
+                    bitmap.UriSource = new Uri(System.IO.Path.GetFullPath("resources\\default_book.png"), UriKind.RelativeOrAbsolute);
+                    bitmap.EndInit();
+                    ImageThumbnail.Source = bitmap;
+                }
+                else if (File.Exists(BookCollection.ImagePath))
                 {
                     bitmap.UriSource = new Uri(System.IO.Path.GetFullPath(BookCollection.ImagePath), UriKind.RelativeOrAbsolute);
                     bitmap.EndInit();
                     ImageThumbnail.Source = bitmap;
                 }
-            }
-            else if (BookCollection.ImagePath == "FALSE")
-            {
-                bitmap.UriSource = new Uri(System.IO.Path.GetFullPath("resources\\default_book.png"), UriKind.RelativeOrAbsolute);
-                bitmap.EndInit();
-                ImageThumbnail.Source = bitmap;
             }
             else
             {

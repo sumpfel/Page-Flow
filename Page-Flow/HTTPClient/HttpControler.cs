@@ -195,5 +195,42 @@ namespace HTTPClient
             Dictionary<string, string> payload_dict = new Dictionary<string, string>() { { "user_name", Username }, { "pwd", Password }, { "book_path", book_path }, { "comment", comment } };
             return await SendFeedback(payload_dict);
         }
+
+
+        public bool Save(string path)
+        {
+            try
+            {
+                using (StreamWriter sw = new StreamWriter(path))
+                {
+                    sw.Write($"{Address}|{Port}|{Username}|{Password}");
+                }
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public bool Load(string path)
+        {
+            try
+            {
+                using (StreamReader sr = new StreamReader(path))
+                {
+                    string[] settings = sr.ReadToEnd().Split('|');
+                    Address = settings[0];
+                    Port = settings[1];
+                    Username = settings[2];
+                    Password = settings[3];
+                }
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }

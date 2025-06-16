@@ -26,6 +26,9 @@ namespace Page_Flow
         {
             InitializeComponent();
             BookCollection = BookCollection_;
+
+            LabelPath.Content = $"Page Flow > Home > {BookCollection.Path.Split(new char[]{ '/', '\\' })[0]} > {BookCollection.Titel} > Language Select";
+
             UpdateLanguages();
         }
 
